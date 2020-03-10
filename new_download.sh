@@ -106,4 +106,3 @@ download_QC $SPECIES $SRR $SEX $LAYOUT
 
 
 
-Tenikwa18!

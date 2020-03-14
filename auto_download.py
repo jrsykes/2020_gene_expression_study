@@ -16,7 +16,7 @@ for index, row in dat.iterrows():
 			layout = row[3]
 
 			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
-			subprocess.Popen([command], shell=True)
+			#subprocess.Popen([command], shell=True)
 			time.sleep(20)
 			check = str(subprocess.check_output('squeue', shell=True))
 			
@@ -25,14 +25,16 @@ for index, row in dat.iterrows():
 				check = str(subprocess.check_output('squeue', shell=True))
 	except:
 		pass
-exit()
+
 
 command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' ' + layout
 subprocess.Popen([command], shell=True)
 
 time.sleep(20)
 check = str(subprocess.check_output('squeue', shell=True))
-			
+
+exit()
+		
 while 'sykesj' in check:
 	time.sleep(60)
 	check = str(subprocess.check_output('squeue', shell=True))

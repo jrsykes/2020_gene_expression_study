@@ -90,7 +90,7 @@ trim_QC () {
 
 clear_SPECIES_dat () {
 	
-	#rm -rf /projects/sykesj/raw/$SPECIES
+	rm -rf /projects/sykesj/raw/$SPECIES
 		
 	rm -rf /projects/sykesj/analyses/$SPECIES
 
@@ -102,7 +102,7 @@ clear_SPECIES_dat () {
 
 clear_SPECIES_dat $SPECIES
 make_dirs $SPECIES
-#download_QC $SPECIES $SRR $SEX $LAYOUT
+download_QC $SPECIES $SRR $SEX $LAYOUT
 trim_QC $SPECIES $SRR $SEX $LAYOUT
 
 

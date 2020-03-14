@@ -15,15 +15,10 @@ LAYOUT=$4
 
 download_QC () {
 	fastq-dump.2.10.3 --outdir /projects/sykesj/raw/$SPECIES/$SEX --defline-seq '@$sn[_$rn]/$ri' --split-files $SRR
-
 	
 	/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc /projects/sykesj/raw/$SPECIES/$SEX/$SRR\_1.fastq
 	/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc /projects/sykesj/raw/$SPECIES/$SEX/$SRR\_2.fastq
 	
-
-	multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/
-
-	rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR*
 
 }
 
@@ -83,24 +78,14 @@ trim_QC () {
 	else echo 'Error in mode selection at command line'
 	fi
 
-	multiqc /projects/sykesj/analyses/$SPECIES/fastqc2/ -o /projects/sykesj/analyses/$SPECIES/fastqc2/
-	rm -f /projects/sykesj/analyses/$SPECIES/fastqc2/SRR*
-}
-
-
-clear_SPECIES_dat () {
 	
-	rm -rf /projects/sykesj/raw/$SPECIES
-		
-	rm -rf /projects/sykesj/analyses/$SPECIES
-
-	rm -rf /scratch/projects/sykesj/*$SPECIES*
-
 }
+
+
+
 
 ## one = SPECIES, two = SRR, three = SEX, four = paired or single LAYOUT
 
-clear_SPECIES_dat $SPECIES
 make_dirs $SPECIES
 download_QC $SPECIES $SRR $SEX $LAYOUT
 #trim_QC $SPECIES $SRR $SEX $LAYOUT

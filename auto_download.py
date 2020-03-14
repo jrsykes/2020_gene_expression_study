@@ -12,8 +12,8 @@ dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
 ###################
 #Clear species data
 ###################
-command = 'rm -rf /projects/sykesj/raw/' + species + '; rm -rf /projects/sykesj/analyses/' + species + '; rm -rf /scratch/projects/sykesj/*' + species + '*'
-subprocess.Popen([command], shell=True)
+#command = 'rm -rf /projects/sykesj/raw/' + species + '; rm -rf /projects/sykesj/analyses/' + species + '; rm -rf /scratch/projects/sykesj/*' + species + '*'
+#subprocess.Popen([command], shell=True)
 ####################
 
 for index, row in dat.iterrows():
@@ -25,7 +25,7 @@ for index, row in dat.iterrows():
 			layout = row[3]
 
 			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
-			subprocess.Popen([command], shell=True)
+			#subprocess.Popen([command], shell=True)
 
 			time.sleep(20)
 			check = str(subprocess.check_output('squeue', shell=True))

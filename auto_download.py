@@ -3,18 +3,25 @@ import os
 import time
 import subprocess
 
+class bcolors:
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+
+print(f"{bcolors.OKBLUE}######################")
+print(f"{bcolors.OKGREEN}Clearing species data")
+print(f"{bcolors.OKBLUE}######################")
+
+command = 'rm -rf /projects/sykesj/raw/' + species + '; rm -rf /projects/sykesj/analyses/' + species + '; rm -rf /scratch/projects/sykesj/*' + species + '*'
+subprocess.Popen([command], shell=True)
+
 species = input("species_name: ")
-#species = 'amblyomma_americanum'
 dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
-#dat = pd.read_csv("/home/jamie/Documents/2020_gene_expression_study/SRA_list_refined.csv", header=None)
 
 
-###################
-#Clear species data
-###################
-#command = 'rm -rf /projects/sykesj/raw/' + species + '; rm -rf /projects/sykesj/analyses/' + species + '; rm -rf /scratch/projects/sykesj/*' + species + '*'
-#subprocess.Popen([command], shell=True)
-####################
+print(f"{bcolors.OKBLUE}################################")
+print(f"{bcolors.OKGREEN}Download SRR files, QC and trim")
+print(f"{bcolors.OKBLUE}################################")
+
 
 for index, row in dat.iterrows():
 	try:
@@ -25,9 +32,9 @@ for index, row in dat.iterrows():
 			layout = row[3]
 
 			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
-			#subprocess.Popen([command], shell=True)
+			subprocess.Popen([command], shell=True)
 
-			#time.sleep(20)
+			time.sleep(20)
 			check = str(subprocess.check_output('squeue', shell=True))
 			
 			while 'sykesj' in check:
@@ -36,8 +43,10 @@ for index, row in dat.iterrows():
 	except:
 		pass
 
-#########################################################################################################
 
+print(f"{bcolors.OKBLUE}################################")
+print(f"{bcolors.OKGREEN}Runing Trinity, BUSCO and Blast")
+print(f"{bcolors.OKBLUE}################################")
 
 df_paired = pd.DataFrame()
 df_single = pd.DataFrame()
@@ -63,11 +72,15 @@ if df_single.empty == False:
 time.sleep(20)
 check = str(subprocess.check_output('squeue', shell=True))
 
-exit()
 		
 while 'sykesj' in check:
 	time.sleep(60)
 	check = str(subprocess.check_output('squeue', shell=True))
+
+
+print(f"{bcolors.OKBLUE}##############################################")
+print(f"{bcolors.OKGREEN}Maping SRA libraries to de novo transcriptome")
+print(f"{bcolors.OKBLUE}##############################################")
 
 
 for index, row in dat.iterrows():
@@ -82,3 +95,8 @@ for index, row in dat.iterrows():
 			subprocess.Popen([command], shell=True)
 	except:
 		pass
+
+
+print(f"{bcolors.OKBLUE}##################")
+print(f"{bcolors.OKGREEN}Pipeline complete")
+print(f"{bcolors.OKBLUE}##################")

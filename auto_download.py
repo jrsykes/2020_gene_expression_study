@@ -26,7 +26,22 @@ for index, row in dat.iterrows():
 	except:
 		pass
 
-print (layout)
+df_paired = pd.DataFrame()
+df_single = pd.DataFrame()
+
+for index, row in dat.iterrows():
+	try:
+		if row[0] == species:
+			if row[3] == PAIRED:
+				df_paired.append(row)
+			if row[3] == SINGLE:
+				df_single.append(row)
+
+print (df_paired)
+print (df_single)
+
+
+
 
 exit()
 

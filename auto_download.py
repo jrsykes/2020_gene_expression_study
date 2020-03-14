@@ -9,7 +9,6 @@ dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
 #dat = pd.read_csv("/home/jamie/Documents/2020_gene_expression_study/SRA_list_refined.csv", header=None)
 
 
-
 for index, row in dat.iterrows():
 	try:
 		if row[0] == species:
@@ -30,6 +29,7 @@ for index, row in dat.iterrows():
 		pass
 
 #########################################################################################################
+exit()
 
 df_paired = pd.DataFrame()
 df_single = pd.DataFrame()

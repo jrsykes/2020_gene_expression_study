@@ -2,7 +2,8 @@
 #SBATCH --nodes=1
 #SBATCH --mem=10gb
 #SBATCH --ntasks=6
-#SBATCH -o StdOut-%
+#SBATCH --output=R-%x.%j.out
+#SBATCH --error=R-%x.%j.err
 
 
 SPECIES=$1

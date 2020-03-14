@@ -2,11 +2,12 @@
 #SBATCH --nodes=1
 #SBATCH --mem=100gb
 #SBATCH --ntasks=20
-#SBATCH -o StdOut-%
+#SBATCH --output=R-%x.%j.out
+#SBATCH --error=R-%x.%j.err
 
 
-species=$1
-layout=$2
+SPECIES=$1
+LAYOUT=$2
 
 trinity_busco_blast () {
 
@@ -15,7 +16,7 @@ trinity_busco_blast () {
 	mkdir /scratch/projects/sykesj/trinity_$SPECIES
 
 
-	if [ $layout == 'PAIRED' ]
+	if [ $LAYOUT == 'PAIRED' ]
 	then
 
 ########### paired ###########
@@ -58,7 +59,7 @@ trinity_busco_blast () {
 		kallisto index -i paired_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa \
 			&& mv /projects/sykesj/analyses/temp_out/trinity/paired_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/kallisto/
 
-	elif [ $layout == 'SINGLE' ]
+	elif [ $LAYOUT == 'SINGLE' ]
 	then
 
 ########### single ############
@@ -111,7 +112,7 @@ trinity_busco_blast () {
 
 
 
-trinity_busco_blast $species $layout
+trinity_busco_blast $SPECIES $LAYOUT
 
 
 

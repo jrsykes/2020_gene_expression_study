@@ -41,18 +41,19 @@ trinity_busco_blast () {
 		&& mv /projects/sykesj/analyses/temp_out/trinity/run_busco_paired_$SPECIES /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries \
 		&& python /home/sykesj/software/busco-master/scripts/generate_plot.py -wd /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries/run_busco_paired_$SPECIES \
 		&& mv /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries/run_busco_paired_$SPECIES/busco_figure.png /projects/sykesj/analyses/$SPECIES/busco/busco_paired_$SPECIES.png \
-		&& rm -rf /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries
+		&& rm -rf /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries \
+		&& mv /home/sykesj/software/busco*.log /projects/sykesj/analyses/$SPECIES/busco/
 
 ########## blast ##########
 
 		mkdir /projects/sykesj/analyses/$SPECIES/blast 
 
 
-		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -db /exports/blast_db/nt -outfmt '6 qseqid staxids bitscore std' \
-			-culling_limit 5 -num_threads 64 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_paired_$SPECIES.out \
+		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -db /projects/sykesj/blast_db -outfmt '6 qseqid staxids bitscore std' \
+			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_paired_$SPECIES.out \
 			&& mv /scratch/projects/sykesj/blastn_paired_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \
 			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_paired_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_paired_sorted.out \
-			&& rm -f /projects/sykesj/analyses/$SPECIES/blast/blastn_paired_$SPECIES.out && touch paired_blast_$SPECIES.done
+			&& rm -f /projects/sykesj/analyses/$SPECIES/blast/blastn_paired_$SPECIES.out && touch /projects/sykesj/analyses/$SPECIES/blast/paired_blast_$SPECIES.done
 
 ######### indexing #########
 
@@ -64,7 +65,7 @@ trinity_busco_blast () {
 
 ########### single ############
 
-		INPUT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*\_s.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd "," - )
+		INPUT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*\_s.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*\_.fq); do readlink -f $file; done | paste -sd "," - )
 		echo $INPUT > /projects/sykesj/analyses/$SPECIES/trinity/path.txt
 
 	
@@ -85,7 +86,8 @@ trinity_busco_blast () {
 			&& mv /projects/sykesj/analyses/temp_out/trinity/run_busco_single_$SPECIES /projects/sykesj/analyses/$SPECIES/busco/busco_single_summaries \
 			&& python /home/sykesj/software/busco-master/scripts/generate_plot.py -wd /projects/sykesj/analyses/$SPECIES/busco/busco_single_summaries/run_busco_single_$SPECIES \
 			&& mv /projects/sykesj/analyses/$SPECIES/busco/busco_single_summaries/run_busco_single_$SPECIES/busco_figure.png /projects/sykesj/analyses/$SPECIES/busco/busco_single_$SPECIES.png \
-			&& rm -rf /projects/sykesj/analyses/$SPECIES/busco/busco_single_summaries
+			&& rm -rf /projects/sykesj/analyses/$SPECIES/busco/busco_single_summaries \
+			&& mv /home/sykesj/software/busco*.log /projects/sykesj/analyses/$SPECIES/busco/
 
 
 ########## blast ##########
@@ -93,11 +95,11 @@ trinity_busco_blast () {
 		mkdir /projects/sykesj/analyses/$SPECIES/blast
 
 	
-		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -db /exports/blast_db/nt -outfmt '6 qseqid staxids bitscore std' \
-			-culling_limit 5 -num_threads 64 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_single_$SPECIES.out \
+		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -db /projects/sykesj/blast_db -outfmt '6 qseqid staxids bitscore std' \
+			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_single_$SPECIES.out \
 			&& mv /scratch/projects/sykesj/blastn_single_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \
 			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_single_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_single_sorted.out \
-			&& rm -f /projects/sykesj/analyses/$SPECIES/blast/blastn_single_$SPECIES.out && touch single_blast_$SPECIES.done
+			&& rm -f /projects/sykesj/analyses/$SPECIES/blast/blastn_single_$SPECIES.out && touch /projects/sykesj/analyses/$SPECIES/blast/single_blast_$SPECIES.done
 
 ######### indexing #########
 

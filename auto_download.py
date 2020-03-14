@@ -4,23 +4,10 @@ import time
 import subprocess
 
 species = input("species_name: ")
-
+#species = 'amblyomma_americanum'
 dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
+#dat = pd.read_csv("/home/jamie/Documents/2020_gene_expression_study/SRA_list_refined.csv", header=None)
 
-df_paired = pd.DataFrame()
-df_single = pd.DataFrame()
-
-for index, row in dat.iterrows():
-	if row[0] == species:
-		if row[3] == PAIRED:
-			df_paired.append(row)
-		if row[3] == SINGLE:
-			df_single.append(row)
-
-print (df_paired)
-print (df_single)
-
-exit()
 
 
 for index, row in dat.iterrows():
@@ -42,10 +29,28 @@ for index, row in dat.iterrows():
 	except:
 		pass
 
+#########################################################################################################
+
+df_paired = pd.DataFrame()
+df_single = pd.DataFrame()
 
 
-command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' ' + layout
-subprocess.Popen([command], shell=True)
+for index, row in dat.iterrows():
+	if row[0] == species:
+		if row[3] == 'PAIRED':
+			df_paired = df_paired.append(row[0:4], ignore_index=True)
+		if row[3] == 'SINGLE':
+			df_single = df_single.append(row[0:4], ignore_index=True)
+
+
+if df_paired.empty == False:
+	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' PAIRED'
+	subprocess.Popen([command], shell=True)
+
+if df_single.empty == False:
+	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' SINGLE'
+	subprocess.Popen([command], shell=True)
+
 
 time.sleep(20)
 check = str(subprocess.check_output('squeue', shell=True))

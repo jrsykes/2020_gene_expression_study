@@ -3,6 +3,8 @@ import os
 import time
 import subprocess
 
+species = input("species_name: ")
+
 class bcolors:
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -14,7 +16,7 @@ print(f"{bcolors.OKBLUE}######################")
 command = 'rm -rf /projects/sykesj/raw/' + species + '; rm -rf /projects/sykesj/analyses/' + species + '; rm -rf /scratch/projects/sykesj/*' + species + '*'
 subprocess.Popen([command], shell=True)
 
-species = input("species_name: ")
+
 dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
 
 

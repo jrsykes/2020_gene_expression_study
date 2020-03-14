@@ -15,7 +15,7 @@ for index, row in dat.iterrows():
 			sex = row[2]
 			layout = row[3]
 
-			command = 'sbatch /home/sykesj/scripts/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
 			subprocess.Popen([command], shell=True)
 			time.sleep(20)
 			check = str(subprocess.check_output('squeue', shell=True))
@@ -27,7 +27,7 @@ for index, row in dat.iterrows():
 		pass
 exit()
 
-command = 'sbatch /home/sykesj/scripts/trinity_busco_blast.sh ' + species + ' ' + layout
+command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' ' + layout
 subprocess.Popen([command], shell=True)
 
 time.sleep(20)
@@ -46,7 +46,7 @@ for index, row in dat.iterrows():
 			sex = row[2]
 			layout = row[3]
 
-			command = 'sbatch /home/sykesj/scripts/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
 			subprocess.Popen([command], shell=True)
 	except:
 		pass

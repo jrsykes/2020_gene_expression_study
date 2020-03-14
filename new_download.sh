@@ -103,7 +103,7 @@ clear_SPECIES_dat () {
 clear_SPECIES_dat $SPECIES
 make_dirs $SPECIES
 download_QC $SPECIES $SRR $SEX $LAYOUT
-trim_QC $SPECIES $SRR $SEX $LAYOUT
+#trim_QC $SPECIES $SRR $SEX $LAYOUT
 
 
 

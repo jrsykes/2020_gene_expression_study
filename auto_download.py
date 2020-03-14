@@ -15,7 +15,9 @@ for index, row in dat.iterrows():
 			sex = row[2]
 			layout = row[3]
 
-			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+			#command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+			command = 'echo /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+
 			subprocess.Popen([command], shell=True)
 			time.sleep(20)
 			check = str(subprocess.check_output('squeue', shell=True))

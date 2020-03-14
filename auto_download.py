@@ -26,6 +26,9 @@ for index, row in dat.iterrows():
 	except:
 		pass
 
+print (layout)
+
+exit()
 
 command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' ' + layout
 subprocess.Popen([command], shell=True)

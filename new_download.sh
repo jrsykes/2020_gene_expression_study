@@ -2,8 +2,8 @@
 #SBATCH --nodes=1
 #SBATCH --mem=10gb
 #SBATCH --ntasks=6
-#SBATCH --output=R-%x.%j.out
-#SBATCH --error=R-%x.%j.err
+#SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out
+#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j.err
 
 
 SPECIES=$1
@@ -103,7 +103,7 @@ clear_SPECIES_dat () {
 clear_SPECIES_dat $SPECIES
 make_dirs $SPECIES
 download_QC $SPECIES $SRR $SEX $LAYOUT
-#trim_QC $SPECIES $SRR $SEX $LAYOUT
+trim_QC $SPECIES $SRR $SEX $LAYOUT
 
 
 

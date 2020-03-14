@@ -88,7 +88,7 @@ trim_QC () {
 
 make_dirs $SPECIES
 download_QC $SPECIES $SRR $SEX $LAYOUT
-#trim_QC $SPECIES $SRR $SEX $LAYOUT
+trim_QC $SPECIES $SRR $SEX $LAYOUT
 
 
 

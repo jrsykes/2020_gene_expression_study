@@ -37,7 +37,7 @@ for index, row in dat.iterrows():
 		pass
 
 #########################################################################################################
-exit()
+
 
 df_paired = pd.DataFrame()
 df_single = pd.DataFrame()

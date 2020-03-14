@@ -5,7 +5,7 @@ import subprocess
 
 species = input("species_name: ")
 #species = 'amblyomma_americanum'
-dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=True)
+dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv")
 #dat = pd.read_csv("/home/jamie/Documents/2020_gene_expression_study/SRA_list_refined.csv", header=None)
 
 

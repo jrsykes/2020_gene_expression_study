@@ -37,11 +37,11 @@ for index, row in dat.iterrows():
 			subprocess.Popen([command], shell=True)
 
 			time.sleep(20)
-			check = str(subprocess.check_output('squeue', shell=True))
-			
-			while 'sykesj' in check:
-				time.sleep(60)
-				check = str(subprocess.check_output('squeue', shell=True))
+			check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
+
+			while check > 2:
+				time.sleep(20)
+				check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
 	except:
 		pass
 
@@ -72,12 +72,11 @@ if df_single.empty == False:
 
 
 time.sleep(20)
-check = str(subprocess.check_output('squeue', shell=True))
-
-		
-while 'sykesj' in check:
+check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
+			
+while check > 2:
 	time.sleep(60)
-	check = str(subprocess.check_output('squeue', shell=True))
+	check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
 
 
 print(f"{bcolors.OKBLUE}##############################################")

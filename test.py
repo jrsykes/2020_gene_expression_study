@@ -1,9 +1,10 @@
-class bcolors:
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    
-print(f"{bcolors.OKBLUE}###################")
-print(f"{bcolors.OKGREEN}Clear species data")
-print(f"{bcolors.OKBLUE}###################")
+import subprocess
 
+queue = str(subprocess.check_output('squeue', shell=True))
+check = 0
 
+for line in queue:
+	if 'sykesj' in line:
+		check += 1
+
+print (check)

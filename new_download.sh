@@ -51,10 +51,10 @@ trim_QC () {
 	if [ $LAYOUT == "SINGLE" ]
 	then
 	java -jar /home/sykesj/software/Trimmomatic-0.39/trimmomatic-0.39.jar SE -phred33 \
-		/projects/sykesj/raw/$SPECIES/$SEX/$SRR*.fastq /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_s.fq \
+		/projects/sykesj/raw/$SPECIES/$SEX/$SRR\_1.fastq /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_s.fq \
 		ILLUMINACLIP:/home/sykesj/software/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 HEADCROP:12 \
 		&& /home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_s.fq \
-		&& rm -f /projects/sykesj/raw/$SPECIES/$SEX/$SRR*.fastq
+		&& rm -f /projects/sykesj/raw/$SPECIES/$SEX/$SRR\_1.fastq
 
 
 	#### PAIRED END MODE ####

@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --time=13-24:00:00 # days-hh:mm:ss
 #SBATCH --nodes=1
 #SBATCH --mem=100gb
 #SBATCH --ntasks=20

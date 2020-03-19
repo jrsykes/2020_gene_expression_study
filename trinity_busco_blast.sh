@@ -67,7 +67,7 @@ trinity_busco_blast () {
 
 ########### single ############
 
-		INPUT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*\_s.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*\_.fq); do readlink -f $file; done | paste -sd "," - )
+		INPUT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd "," - )
 		echo $INPUT > /projects/sykesj/analyses/$SPECIES/trinity/path.txt
 
 	

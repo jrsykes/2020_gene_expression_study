@@ -29,8 +29,8 @@ trinity_busco_blast () {
 		echo $RIGHT >> /projects/sykesj/analyses/$SPECIES/trinity/path.txt
 
 	
-		#/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left $LEFT --right $RIGHT --CPU 20 --max_memory 100G --output \
-		#	/scratch/projects/sykesj/paired_trinity_$SPECIES && rsync -a /scratch/projects/sykesj/paired_trinity_$SPECIES/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left $LEFT --right $RIGHT --CPU 20 --max_memory 100G --output \
+			/scratch/projects/sykesj/paired_trinity_$SPECIES && rsync -a /scratch/projects/sykesj/paired_trinity_$SPECIES/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
 
 ###### filter out < 1000 bp ##########
 

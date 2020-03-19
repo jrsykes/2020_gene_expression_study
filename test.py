@@ -1,10 +1,15 @@
 import subprocess
+import re
+import pandas as pd
+from io import StringIO
 
-queue = str(subprocess.check_output('squeue', shell=True))
-check = 0
 
-for line in queue:
-	if 'sykesj' in line:
-		check += 1
+check = str(subprocess.check_output('squeue --user=sykesj', shell=True), 'utf-8')
 
-print (check)
+
+data = StringIO(check)
+
+df = pd.read_csv(data)
+
+for row in df.iterrows():
+	print (row)

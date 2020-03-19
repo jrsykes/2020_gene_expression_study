@@ -33,7 +33,7 @@ trinity_busco_blast () {
 
 ###### filter < 1000 bp ##########
 
-		/home/sykesj/software/kentUtils/src/utils/faFilter/faFilter.c -minSize=1000 /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa && rm -f /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
+		python3 /home/sykesj/scripts/2020_gene_expression_study/1k_filter.py /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa && rm -f /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
 
 ###### busco ##########
 

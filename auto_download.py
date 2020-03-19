@@ -38,10 +38,12 @@ for index, row in dat.iterrows():
 
 			time.sleep(20)
 			check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
+			check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
-			while check > 2:
+			while check > 2 or 'new_' in check2:
 				time.sleep(20)
 				check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
+				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 	except:
 		pass
 
@@ -73,10 +75,12 @@ if df_single.empty == False:
 
 time.sleep(20)
 check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
-			
-while check > 2:
-	time.sleep(60)
+check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+
+while check > 2 or 'trinity' in check2:
+	time.sleep(20)
 	check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
+	check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
 print(f"{bcolors.OKBLUE}##############################################")

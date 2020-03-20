@@ -62,9 +62,11 @@ trinity_busco_blast () {
 			&& rm -f /projects/sykesj/analyses/$SPECIES/blast/blastn_paired_$SPECIES.out && touch /projects/sykesj/analyses/$SPECIES/blast/paired_blast_$SPECIES.done
 
 ######### indexing #########
+		
+		cd /projects/sykesj/analyses/$SPECIES/kallisto/
+		kallisto index -i paired_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa
+		cd /home/sykesj
 
-		kallisto index -i paired_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa \
-			&& mv /projects/sykesj/analyses/temp_out/trinity/paired_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/kallisto/
 
 	elif [ $LAYOUT == 'SINGLE' ]
 	then
@@ -111,14 +113,16 @@ trinity_busco_blast () {
 
 ######### indexing #########
 
-		kallisto index -i single_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa \
-			&& mv /projects/sykesj/analyses/temp_out/trinity/single_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/kallisto/
-
+		cd /projects/sykesj/analyses/$SPECIES/kallisto/
+		kallisto index -i paired_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa
+		cd /home/sykesj
 	fi
 
-	rm -rf /scratch/projects/sykesj/*trinity_$SPECIES
+	
 
 }
+
+rm -rf /scratch/projects/sykesj/*trinity_$SPECIES
 
 
 #multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR*

@@ -56,7 +56,7 @@ trinity_busco_blast () {
 		mkdir /projects/sykesj/analyses/$SPECIES/blast 
 
 
-		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -db /projects/sykesj/BlastDB/ -outfmt '6 qseqid staxids bitscore std' \
+		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -db BLASTDB -outfmt '6 qseqid staxids bitscore std' \
 			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_paired_$SPECIES.out \
 			&& rsync -a /scratch/projects/sykesj/blastn_paired_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \
 			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_paired_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_paired_sorted.out \
@@ -107,7 +107,7 @@ trinity_busco_blast () {
 		mkdir /projects/sykesj/analyses/$SPECIES/blast
 
 	
-		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -db /projects/sykesj/BlastDB/ -outfmt '6 qseqid staxids bitscore std' \
+		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -db BLASTDB -outfmt '6 qseqid staxids bitscore std' \
 			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_single_$SPECIES.out \
 			&& rsync -a /scratch/projects/sykesj/blastn_single_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \
 			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_single_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_single_sorted.out \

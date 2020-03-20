@@ -42,7 +42,7 @@ trinity_busco_blast () {
 		python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
 			/projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -o busco_paired_$SPECIES \
 			-l arthropoda_odb10 -m tran -c 16 \
-			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES/short_summary.specific.arthropoda_odb10.busco_paired_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES.txt
+			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES/short_summary.specific.arthropoda_odb10.busco_paired_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES.txt \
 			&& rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES
 			#&& mkdir /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries \
 			#&& mv /projects/sykesj/analyses/temp_out/trinity/run_busco_paired_$SPECIES /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries \
@@ -92,7 +92,7 @@ trinity_busco_blast () {
 		python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
 			/projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -o busco_single_$SPECIES \
 			-l arthropoda_odb10 -m tran -c 16 \
-			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_single_$SPECIES/short_summary.specific.arthropoda_odb10.busco_single_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES.txt
+			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_single_$SPECIES/short_summary.specific.arthropoda_odb10.busco_single_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES.txt \
 			&& rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_single_$SPECIES
 #			&& mkdir /projects/sykesj/analyses/$SPECIES/busco/busco_single_summaries \
 #			&& mv /projects/sykesj/analyses/temp_out/trinity/run_busco_single_$SPECIES /projects/sykesj/analyses/$SPECIES/busco/busco_single_summaries \

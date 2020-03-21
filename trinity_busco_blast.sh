@@ -56,7 +56,7 @@ trinity_busco_blast () {
 
 		mkdir /projects/sykesj/analyses/$SPECIES/blast 
 
-
+		export BLASTDB=:/home/sykesj/software/blastdb/nt/
 		/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
 			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_paired_$SPECIES.out \
 			&& rsync -a /scratch/projects/sykesj/blastn_paired_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \
@@ -107,7 +107,7 @@ trinity_busco_blast () {
 
 		mkdir /projects/sykesj/analyses/$SPECIES/blast
 
-	
+		export BLASTDB=:/home/sykesj/software/blastdb/nt/
 		/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
 			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_single_$SPECIES.out \
 			&& rsync -a /scratch/projects/sykesj/blastn_single_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \

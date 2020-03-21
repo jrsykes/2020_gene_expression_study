@@ -14,7 +14,7 @@ print(f"{bcolors.OKGREEN}Clearing species data")
 print(f"{bcolors.OKBLUE}######################")
 
 command = 'rm -rf /projects/sykesj/raw/*' + species + '*; rm -rf /projects/sykesj/analyses/*' + species + '*; rm -rf /scratch/projects/sykesj/*' + species + '*'
-#subprocess.Popen([command], shell=True)
+subprocess.Popen([command], shell=True)
 
 
 dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
@@ -34,7 +34,7 @@ for index, row in dat.iterrows():
 			layout = row[3]
 
 			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
-			#subprocess.Popen([command], shell=True)
+			subprocess.Popen([command], shell=True)
 
 			time.sleep(20)
 			check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
@@ -70,11 +70,11 @@ for index, row in dat.iterrows():
 
 if df_paired.empty == False:
 	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' PAIRED'
-	#subprocess.Popen([command], shell=True)
+	subprocess.Popen([command], shell=True)
 
 if df_single.empty == False:
 	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' SINGLE'
-	#subprocess.Popen([command], shell=True)
+	subprocess.Popen([command], shell=True)
 
 
 time.sleep(20)

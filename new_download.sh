@@ -94,7 +94,5 @@ download_QC $SPECIES $SRR $SEX $LAYOUT
 trim_QC $SPECIES $SRR $SEX $LAYOUT
 
 TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd "," - )
-		echo $TRIMMED_LIBS > /projects/sykesj/analyses/$SPECIES/trinity/fastQCpath.txt
-
-/home/sykesj/software/FastQC/fastqc --outdir $TRIMMED_LIBS
+/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/agrilus_planipennis/fastqc2 $TRIMMED_LIBS
 

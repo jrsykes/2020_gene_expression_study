@@ -57,8 +57,7 @@ trim_QC () {
 	java -jar /home/sykesj/software/Trimmomatic-0.39/trimmomatic-0.39.jar SE -phred33 \
 		/projects/sykesj/raw/$SPECIES/$SEX/$SRR\_1.fastq /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_s.fq \
 		ILLUMINACLIP:/home/sykesj/software/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 HEADCROP:12 \
-		&& /home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_s.fq \
-		&& rm -f /projects/sykesj/raw/$SPECIES/$SEX/$SRR\_1.fastq
+		&& rm -f /projects/sykesj/raw/$SPECIES/$SEX/$SRR*.fastq
 
 
 	#### PAIRED END MODE ####
@@ -70,9 +69,7 @@ trim_QC () {
 		/projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_1.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_forward_unpaired.fq.gz \
 		/projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_2.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_reverse_unpaired.fq.gz \
 		ILLUMINACLIP:/home/sykesj/software/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 HEADCROP:12 \
-		&& /home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 \
-		/projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_1.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_2.fq \
-		&& rm -f /projects/sykesj/raw/$SPECIES/$SEX/$SRR\_1.fastq && rm -f /projects/sykesj/raw/$SPECIES/$SEX/$SRR\_2.fastq
+		&& rm -f /projects/sykesj/raw/$SPECIES/$SEX/$SRR*.fastq 
 
 	
 
@@ -96,5 +93,8 @@ make_dirs $SPECIES
 download_QC $SPECIES $SRR $SEX $LAYOUT
 trim_QC $SPECIES $SRR $SEX $LAYOUT
 
+TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd "," - )
+		echo $TRIMMED_LIBS > /projects/sykesj/analyses/$SPECIES/trinity/fastQCpath.txt
 
+/home/sykesj/software/FastQC/fastqc --outdir $TRIMMED_LIBS
 

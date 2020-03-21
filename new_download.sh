@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --partition=medium
 #SBATCH --time=0-01:00:00
-#SBATCH --nodes=1
-#SBATCH --mem=10gb
+#SBATCH --nodes=10
+#SBATCH --mem=100gb
 #SBATCH --ntasks=6
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j.err
@@ -94,5 +94,5 @@ download_QC $SPECIES $SRR $SEX $LAYOUT
 trim_QC $SPECIES $SRR $SEX $LAYOUT
 
 TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd " " - )
-/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/agrilus_planipennis/fastqc2 $TRIMMED_LIBS
+/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/agrilus_planipennis/fastqc2 $TRIMMED_LIBS && echo Phase one complete
 

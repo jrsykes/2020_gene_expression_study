@@ -41,6 +41,10 @@ make_dirs () {
 	mkdir /projects/sykesj/analyses/$SPECIES/trimmomatic
 	mkdir /projects/sykesj/analyses/$SPECIES/trimmomatic/male
 	mkdir /projects/sykesj/analyses/$SPECIES/trimmomatic/female
+
+
+	mkdir /scratch/projects/sykesj/BUSCO_tmp
+	mkdir /scratch/projects/sykesj/kalisto_tmp
 }
 
 

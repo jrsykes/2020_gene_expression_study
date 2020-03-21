@@ -20,14 +20,14 @@ kallisto_map () {
 	mkdir /projects/sykesj/analyses/$SPECIES/kallisto/$SRR
 	mkdir /scratch/projects/sykesj/map_$SRR
 
-	if [ $LAYOUT == 'paired' ]
+	if [ $LAYOUT == 'PAIRED' ]
 	then
 
 		/exports/software/kallisto/kallisto_linux-v0.43.1/kallisto quant -t 16 -i /projects/sykesj/analyses/$SPECIES/kallisto/paired_$SPECIES.idx -o /scratch/projects/sykesj/map_$SRR/$SRR \
 			-b 100 /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_1.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_2.fq
 
 
-	elif [ $LAYOUT == 'single' ]
+	elif [ $LAYOUT == 'SINGLE' ]
 	then
 		READ_LENGTH=$(awk 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("%f\n",m);}'  /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_s.fq)
 		SD=$(awk 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("%f\n",sq/n-m*m);}' /projects/sykesj/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_s.fq)

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --partition=medium
 #SBATCH --time=0-01:00:00
-#SBATCH --nodes=10
+#SBATCH --nodes=1
 #SBATCH --mem=100gb
 #SBATCH --ntasks=6
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out

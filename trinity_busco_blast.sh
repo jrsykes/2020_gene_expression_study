@@ -39,11 +39,12 @@ trinity_busco_blast () {
 
 ###### busco ##########
 
-		python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
-			/projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -o busco_paired_$SPECIES \
-			-l arthropoda_odb10 -m tran -c 16 \
-			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES/short_summary.specific.arthropoda_odb10.busco_paired_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES.txt \
-			&& rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES
+#		python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
+#			/projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -o busco_paired_$SPECIES \
+#			-l arthropoda_odb10 -m tran -c 16 \
+#			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES/short_summary.specific.arthropoda_odb10.busco_paired_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES.txt \
+#			&& rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES
+			
 			#&& mkdir /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries \
 			#&& mv /projects/sykesj/analyses/temp_out/trinity/run_busco_paired_$SPECIES /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries \
 			#&& python /home/sykesj/software/busco-master/scripts/generate_plot.py -wd /projects/sykesj/analyses/$SPECIES/busco/busco_paired_summaries/run_busco_paired_$SPECIES \
@@ -56,7 +57,7 @@ trinity_busco_blast () {
 		mkdir /projects/sykesj/analyses/$SPECIES/blast 
 
 
-		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -db BLASTDB -outfmt '6 qseqid staxids bitscore std' \
+		/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
 			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_paired_$SPECIES.out \
 			&& rsync -a /scratch/projects/sykesj/blastn_paired_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \
 			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_paired_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_paired_sorted.out \
@@ -107,11 +108,12 @@ trinity_busco_blast () {
 		mkdir /projects/sykesj/analyses/$SPECIES/blast
 
 	
-		blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -db BLASTDB -outfmt '6 qseqid staxids bitscore std' \
+		/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
 			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_single_$SPECIES.out \
 			&& rsync -a /scratch/projects/sykesj/blastn_single_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \
 			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_single_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_single_sorted.out \
 			&& rm -f /projects/sykesj/analyses/$SPECIES/blast/blastn_single_$SPECIES.out && touch /projects/sykesj/analyses/$SPECIES/blast/single_blast_$SPECIES.done
+
 
 ######### indexing #########
 

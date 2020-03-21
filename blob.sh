@@ -5,12 +5,19 @@
 # Activate blob tools virtenv
 conda activate blobtools
 
+SPECIES=$1
+SRR=$2
+SEX=$3
+LAYOUT=$4
+
+cd /projects/sykesj/analyses/$SPECIES
+
 # extracting coverage from kallisto's abundance TSV
 for dir in kallisto/SRR*; do echo $dir; cut -f1,5 $dir/abundance.tsv | grep -v target > $dir.cov; done
 
 #Ensure that the arguments trinity/*, blast/* and -c *.cov in the following line are correct.
 # Creating a blobDB  
-/exports/software/blobtools/blobtools create -i trinity/paired_assembly_1k.fa -t blast/planococcus_pooled_blastn_paired_sorted.out -o blobplot -c kallisto/SRR1.cov -c kallisto/SRR3.cov -c kallisto/SRR4.cov -c kallisto/SRR2.cov #-c kallisto/SRR1239356.cov -c kallisto/SRR1239354.cov #-c kallisto/SRR4043739.cov -c kallisto/SRR4043738.cov -c kallisto/SRR1582619.cov -c kallisto/SRR1582618.cov -c kallisto/SRR1582616.cov -c kallisto/SRR1582617.cov #-c kallisto/SRR3934330.cov -c kallisto/SRR3934331.cov -c kallisto/SRR3934338.cov -c kallisto/SRR3934339.cov #-c kallisto/SRR1566026.cov -c kallisto/SRR1566025.cov 
+/exports/software/blobtools/blobtools create -i trinity/$LAYOUT_assembly_1k.fa -t blast/$SPECIES_blastn_$LAYOUT_sorted.out -o blobplot -c kallisto/SRR1.cov -c kallisto/SRR3.cov -c kallisto/SRR4.cov -c kallisto/SRR2.cov #-c kallisto/SRR1239356.cov -c kallisto/SRR1239354.cov #-c kallisto/SRR4043739.cov -c kallisto/SRR4043738.cov -c kallisto/SRR1582619.cov -c kallisto/SRR1582618.cov -c kallisto/SRR1582616.cov -c kallisto/SRR1582617.cov #-c kallisto/SRR3934330.cov -c kallisto/SRR3934331.cov -c kallisto/SRR3934338.cov -c kallisto/SRR3934339.cov #-c kallisto/SRR1566026.cov -c kallisto/SRR1566025.cov 
 
 # Extracting a "view" table
 /exports/software/blobtools/blobtools view -i blobplot.blobDB.json --rank all --hits
@@ -35,8 +42,8 @@ grep -v '^#' blobplot.blobDB.table.txt | cut -f9 | sort | uniq -c | less ### sup
 grep -v '^#' blobplot.blobDB.table.txt | cut -f13 | sort | uniq -c | less ### phylum.t.
 
 # Look at those that were annotated as Viruses 
-awk '$18=="Viruses"' blobplot.blobDB.table.txt | less
-awk '$13=="Streptophyta"' blobplot.blobDB.table.txt | less
+#awk '$18=="Viruses"' blobplot.blobDB.table.txt | less
+#awk '$13=="Streptophyta"' blobplot.blobDB.table.txt | less
 
 
 # Filtering abundance before SLEUTH

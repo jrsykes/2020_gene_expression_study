@@ -24,9 +24,9 @@ trinity_busco_blast () {
 ########### paired ###########
 
 		LEFT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*_1.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*_1.fq); do readlink -f $file; done | paste -sd "," - )
-		#echo $LEFT > /projects/sykesj/analyses/$SPECIES/trinity/path.txt
+		echo $LEFT > /projects/sykesj/analyses/$SPECIES/trinity/path.txt
 		RIGHT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*_2.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*_2.fq); do readlink -f $file; done | paste -sd "," - )
-		#echo $RIGHT >> /projects/sykesj/analyses/$SPECIES/trinity/path.txt
+		echo $RIGHT >> /projects/sykesj/analyses/$SPECIES/trinity/path.txt
 
 	
 		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left $LEFT --right $RIGHT --CPU 20 --max_memory 100G --output \

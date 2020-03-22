@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --partition=long
-#SBATCH --time=2-00:00:00
+#SBATCH --partition=medium
+#SBATCH --time=1-00:00:00
 #SBATCH --nodes=1
 #SBATCH --mem=40gb
-#SBATCH --ntasks=2
+#SBATCH --ntasks=6
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j.err
 

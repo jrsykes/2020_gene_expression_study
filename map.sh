@@ -46,7 +46,7 @@ kallisto_map () {
 
 	mkdir /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files
 	ln -s /projects/sykesj/analyses/$SPECIES/kallisto/$SRR /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files/$SRR
-
+	rm -rf /projects/sykesj/analyses/testp/kallisto/SRR*/SRR*
 
 }
 

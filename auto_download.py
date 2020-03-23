@@ -85,6 +85,11 @@ print(f"{bcolors.OKBLUE}##############################################")
 print(f"{bcolors.OKGREEN}Maping SRA libraries to de novo transcriptome")
 print(f"{bcolors.OKBLUE}##############################################")
 
+if df_paired.empty == False and df_single.empty == False:
+	DUEL_LAYOUT = 'YES'
+else:
+	DUEL_LAYOUT = 'NO'
+
 
 for index, row in dat.iterrows():
 	try:
@@ -94,7 +99,7 @@ for index, row in dat.iterrows():
 			sex = row[2]
 			layout = row[3]
 
-			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + DUEL_LAYOUT
 			subprocess.Popen([command], shell=True)
 	except:
 		pass

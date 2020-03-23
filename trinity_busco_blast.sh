@@ -15,7 +15,7 @@ trinity_busco_blast () {
 
 
 
-	mkdir /scratch/projects/sykesj/trinity_$SPECIES
+	mkdir /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT
 
 
 	if [ $LAYOUT == 'PAIRED' ]
@@ -23,14 +23,14 @@ trinity_busco_blast () {
 
 ########### paired ###########
 
-		LEFT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*_1.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*_1.fq); do readlink -f $file; done | paste -sd "," - )
+		LEFT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*_1.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*_1.fq); do readlink -f $file; done | paste -sd "," - )
 		echo $LEFT > /projects/sykesj/analyses/$SPECIES/trinity/path.txt
-		RIGHT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*_2.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*_2.fq); do readlink -f $file; done | paste -sd "," - )
+		RIGHT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*_2.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*_2.fq); do readlink -f $file; done | paste -sd "," - )
 		echo $RIGHT >> /projects/sykesj/analyses/$SPECIES/trinity/path.txt
 
 	
 		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left $LEFT --right $RIGHT --CPU 20 --max_memory 100G --output \
-			/scratch/projects/sykesj/paired_trinity_$SPECIES && rsync -a /scratch/projects/sykesj/paired_trinity_$SPECIES/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
+			/scratch/projects/sykesj/paired_trinity_$SPECIES_$LAYOUT && rsync -a /scratch/projects/sykesj/paired_trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
 
 ###### filter out < 1000 bp ##########
 
@@ -42,7 +42,7 @@ trinity_busco_blast () {
 		python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
 			/projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -o busco_paired_$SPECIES \
 			-l arthropoda_odb10 -m tran -c 16 \
-			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES/short_summary.specific.arthropoda_odb10.busco_paired_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES.txt \
+			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES/short_summary.specific.arthropoda_odb10.busco_paired_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES_$LAYOUT.txt \
 			&& rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES
 			
 			
@@ -69,12 +69,12 @@ trinity_busco_blast () {
 
 ########### single ############
 
-		INPUT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd "," - )
+		INPUT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*.fq); do readlink -f $file; done | paste -sd "," - )
 		echo $INPUT > /projects/sykesj/analyses/$SPECIES/trinity/path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 20 --max_memory 100G --output /scratch/projects/sykesj/single_trinity_$SPECIES \
-			&& rsync -a /scratch/projects/sykesj/single_trinity_$SPECIES/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 20 --max_memory 100G --output /scratch/projects/sykesj/single_trinity_$SPECIES_$LAYOUT \
+			&& rsync -a /scratch/projects/sykesj/single_trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa
 
 
 ###### filter < 1000 bp ##########
@@ -87,7 +87,7 @@ trinity_busco_blast () {
 		python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
 			/projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -o busco_single_$SPECIES \
 			-l arthropoda_odb10 -m tran -c 16 \
-			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_single_$SPECIES/short_summary.specific.arthropoda_odb10.busco_single_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES.txt \
+			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_single_$SPECIES/short_summary.specific.arthropoda_odb10.busco_single_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES_$LAYOUT.txt \
 			&& rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_single_$SPECIES
 
 
@@ -107,7 +107,7 @@ trinity_busco_blast () {
 ######### indexing #########
 
 		cd /projects/sykesj/analyses/$SPECIES/kallisto/
-		kallisto index -i paired_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa
+		kallisto index -i single_$SPECIES.idx /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa
 		cd /home/sykesj
 	fi
 
@@ -117,7 +117,10 @@ trinity_busco_blast () {
 
 
 
-TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd " " - )
+TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/SINGLE/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/SINGLE/female/*.fq \
+	/projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/female/*.fq) ; do readlink -f $file; done | paste -sd " " - )
+
+
 /home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
 	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR* \
 	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc2/ -o /projects/sykesj/analyses/$SPECIES/fastqc2/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc2/SRR* \

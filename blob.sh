@@ -11,14 +11,14 @@ LAYOUT=$2
 cd /projects/sykesj/analyses/$SPECIES
 
 # Getting direcories for SRA libs
-LIBS=$(for dir in $(ls /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files/SRR*); do echo $dir; done | sed 's/\/home/-c \/home/g' | sed 's/:/.cov/g' | paste -sd " " - )
+LIBS=$(for dir in $(ls /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files/); do echo $dir; done | sed -e 's/^/-c /g' | sed 's/:/.cov/g' | paste -sd " " - )
 
 # extracting coverage from kallisto's abundance TSV
 for dir in kallisto/SRR*; do echo $dir; cut -f1,5 $dir/abundance.tsv | grep -v target > $dir.cov; done
 
 #Ensure that the arguments trinity/*, blast/* and -c *.cov in the following line are correct.
 # Creating a blobDB  
-/exports/software/blobtools/blobtools create -i trinity/$LAYOUT_assembly_1k.fa -t blast/$SPECIES_blastn_$LAYOUT_sorted.out -o blobplot $LIBS
+./blobtools create -i trinity/$LAYOUT_assembly_1k.fa -t blast/$SPECIES_blastn_$LAYOUT_sorted.out -o blobplot $LIBS
 
 # Extracting a "view" table
 /exports/software/blobtools/blobtools view -i blobplot.blobDB.json --rank all --hits
@@ -66,3 +66,11 @@ done
 
 
 
+#abundance_files=()
+#mapfile -t abundance_files < <(for file in $(ls /projects/sykesj/analyses/$SPECIES/kallisto/SRR*/*.tsv); do readlink -f $file; done)
+#echo ${abundance_files[0]}
+#for i in "${abundance_files[@]}"
+#do
+#	LIB_SRR=$($i | sed 's/\/projects\/sykesj\/analyses\/testp\/kallisto\///g' | sed 's/\/abundance.tsv//g')
+#	grep -v -wFf viruses.contig_ids.txt $i | grep -v -wFf streptophyta.contig_ids.txt > /projects/sykesj/analyses/$SPECIES/kallisto/$LIB_SRR/abundance.filtered.tsv
+#done

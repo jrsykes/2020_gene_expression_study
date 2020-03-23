@@ -73,7 +73,7 @@ trinity_busco_blast () {
 		echo $INPUT > /projects/sykesj/analyses/$SPECIES/trinity/path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 32 --max_memory 100G --output /scratch/projects/sykesj/single_trinity_$SPECIES \
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 20 --max_memory 100G --output /scratch/projects/sykesj/single_trinity_$SPECIES \
 			&& rsync -a /scratch/projects/sykesj/single_trinity_$SPECIES/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa
 
 
@@ -115,16 +115,15 @@ trinity_busco_blast () {
 
 }
 
-rm -rf /scratch/projects/sykesj/*trinity_$SPECIES
 
 
-TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd " " - )
-/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
-	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR* \
-	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc2/ -o /projects/sykesj/analyses/$SPECIES/fastqc2/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc2/SRR* \
-	&& echo Phase one complete
+#TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd " " - )
+#/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
+#	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR* \
+#	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc2/ -o /projects/sykesj/analyses/$SPECIES/fastqc2/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc2/SRR* \
+#	&& echo Phase one complete
 
 trinity_busco_blast $SPECIES $LAYOUT
 
-
+rm -rf /scratch/projects/sykesj/*$SPECIES*
 

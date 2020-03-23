@@ -117,11 +117,11 @@ trinity_busco_blast () {
 
 
 
-#TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd " " - )
-#/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
-#	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR* \
-#	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc2/ -o /projects/sykesj/analyses/$SPECIES/fastqc2/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc2/SRR* \
-#	&& echo Phase one complete
+TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/female/*.fq); do readlink -f $file; done | paste -sd " " - )
+/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
+	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR* \
+	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc2/ -o /projects/sykesj/analyses/$SPECIES/fastqc2/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc2/SRR* \
+	&& echo Phase one complete
 
 trinity_busco_blast $SPECIES $LAYOUT
 

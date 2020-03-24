@@ -25,6 +25,8 @@ command = 'mkdir -p /projects/sykesj/analyses/' + species + '/kallisto/kal_resul
 	> /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
 subprocess.Popen([command], shell=True)
 
+time.sleep(1)
+
 path = '/projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
 with open(path, 'a') as f:
 	f.write('run_accession condition \n')

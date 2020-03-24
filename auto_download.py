@@ -127,6 +127,12 @@ for index, row in dat.iterrows():
 		pass
 
 
+check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+while 'map' in check2:
+				time.sleep(20)
+				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+
+
 print(f"{bcolors.OKBLUE}################################")
 print(f"{bcolors.OKGREEN}Filtering contaminant sequences")
 print(f"{bcolors.OKBLUE}################################")

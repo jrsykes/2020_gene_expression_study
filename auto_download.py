@@ -14,13 +14,12 @@ print(f"{bcolors.OKGREEN}Clearing species data and preparing files")
 print(f"{bcolors.OKBLUE}######################")
 
 command = 'rm -rf /home/sykesj/busco_*.log ; rm -rf /projects/sykesj/raw/*' + species + '*; rm -rf /projects/sykesj/analyses/*' + species + '*; rm -rf /scratch/projects/sykesj/*' + species + '*'
-subprocess.Popen([command], shell=True)
+#subprocess.Popen([command], shell=True)
 
 
 dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
 
-#######################################################################################################################
-# Files for Sleuth
+#######################################################################################################################33
 
 command = 'mkdir -p /projects/sykesj/analyses/' + species + '/kallisto/kal_results/kal_files ; touch /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt ; \
 	> /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
@@ -51,22 +50,23 @@ print(f"{bcolors.OKBLUE}################################")
 for index, row in dat.iterrows():
 	try:
 		if row[0] == species:
+			#species = row[0]
 			SRR = row[1]
 			sex = row[2]
 			layout = row[3]
 			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
-			subprocess.Popen([command], shell=True)
-			time.sleep(20)
+			#subprocess.Popen([command], shell=True)
+			#time.sleep(20)
 			check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
-			while check > 2:
-				time.sleep(20)
-				check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
+			#while check > 2:
+				#time.sleep(20)
+				#check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
 	except:
 		pass
 check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
-while 'new_' in check2:
-				time.sleep(20)
-				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+#while 'new_' in check2:
+				#time.sleep(20)
+				#check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
 print(f"{bcolors.OKBLUE}################################")
@@ -87,20 +87,20 @@ for index, row in dat.iterrows():
 
 if df_paired.empty == False:
 	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' PAIRED'
-	subprocess.Popen([command], shell=True)
+	#subprocess.Popen([command], shell=True)
 
 if df_single.empty == False:
 	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' SINGLE'
-	subprocess.Popen([command], shell=True)
+	#subprocess.Popen([command], shell=True)
 
 
 
-time.sleep(20)
+#time.sleep(20)
 
 check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
-while 'trinity' in check2:
-				time.sleep(20)
-				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+#while 'trinity' in check2:
+				#time.sleep(20)
+				#check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
 print(f"{bcolors.OKBLUE}##############################################")
@@ -116,20 +116,22 @@ else:
 for index, row in dat.iterrows():
 	try:
 		if row[0] == species:
+			#species = row[0]
 			SRR = row[1]
 			sex = row[2]
 			layout = row[3]
 
 			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + DUEL_LAYOUT
-			subprocess.Popen([command], shell=True)
+			#subprocess.Popen([command], shell=True)
 	except:
 		pass
 
 
-check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
-while 'map' in check2:
-				time.sleep(20)
-				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+#time.sleep(5)
+#check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+#while 'map' in check2:
+#				time.sleep(20)
+#				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
 print(f"{bcolors.OKBLUE}################################")
@@ -141,6 +143,7 @@ print(f"{bcolors.OKBLUE}################################")
 for index, row in dat.iterrows():
 	try:
 		if row[0] == species:
+			#species = row[0]
 			SRR = row[1]
 			sex = row[2]
 			layout = row[3]

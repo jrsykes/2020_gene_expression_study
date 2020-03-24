@@ -18,12 +18,11 @@ if [ $DUEL_LAYOUT == 'YES']
 then
 	PAIRED_BUSCO_SCORE=$(sed '8q;d' /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_testp_PAIRED.txt | awk -F[CS] '{print $2}' | sed 's/[^0-9]*//g')
 	SINGLE_BUSCO_SCORE=$(sed '8q;d' /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_testp_SINGLE.txt | awk -F[CS] '{print $2}' | sed 's/[^0-9]*//g')
-	
 	if $PAIRED_BUSCO_SCORE > $SINGLE_BUSCO_SCORE
 	then
-		BEST_TRANS_IDX=paired_$SPECIES.idx
+			BEST_TRANS_IDX=paired_$SPECIES.idx
 	else
-		BEST_TRANS_IDX=single_$SPECIES.idx
+	fi		BEST_TRANS_IDX=single_$SPECIES.idx
 fi
 
 

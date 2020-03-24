@@ -66,12 +66,10 @@ kallisto_map () {
 
 ####### setting up files for sleuth #########
 
-	mkdir /projects/sykesj/analyses/$SPECIES/kallisto/kal_results
-	touch /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/hiseq_info.txt
-
-	mkdir /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files
-	ln -s /projects/sykesj/analyses/$SPECIES/kallisto/$SRR /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files/$SRR
-	rm -rf /projects/sykesj/analyses/testp/kallisto/SRR*/SRR*
+	#mkdir /projects/sykesj/analyses/$SPECIES/kallisto/kal_results
+	
+	ln -s /projects/sykesj/analyses/$SPECIES/kallisto/$SRR /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files/
+	rm -rf /projects/sykesj/analyses/testp/kallisto/$SRR/$SRR
 
 }
 

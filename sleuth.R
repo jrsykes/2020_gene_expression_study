@@ -1,16 +1,14 @@
-run_accession condition
-SRR4294671 female
-SRR4294670 female
-SRR4294669 male
-SRR4294668 male
-
-
-######## Ensure that you are in the directory, in bash, that contains the kal_files directory and hiseq_info.txt file.
-### Remember to edit hiseq_info.txt as per the example above, beofre running sleuth script
+######## Ensure that you are in the directory that contains the kal_files directory and hiseq_info.txt file.
+### Remember to edit hiseq_info.txt as follows:
+#run_accession condition
+#SRR4294671 female
+#SRR4294670 female
+#SRR4294669 male
+#SRR4294668 male
 
 library("sleuth")
 
-
+quit()
 ### Set directory of Kallisto Results
 
 ########## 		REMEMBER TO EDIT SPECIES NAME.    #########

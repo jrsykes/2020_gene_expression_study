@@ -37,8 +37,8 @@ make_dirs () {
 	mkdir -p /projects/sykesj/analyses/$SPECIES/trinity
 	mkdir -p /projects/sykesj/analyses/$SPECIES/busco
 	#mkdir -p /projects/sykesj/analyses/$SPECIES/kallisto
-	mkdir -p /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files
-	touch /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/hiseq_info.txt
+	#mkdir -p /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files
+	#touch /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/hiseq_info.txt
 
 	mkdir /projects/sykesj/analyses/$SPECIES/trimmomatic
 	#mkdir -p /projects/sykesj/analyses/$SPECIES/trimmomatic/male

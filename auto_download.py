@@ -58,15 +58,15 @@ for index, row in dat.iterrows():
 			#subprocess.Popen([command], shell=True)
 			#time.sleep(20)
 			check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
-			while check > 2:
+			#while check > 2:
 				#time.sleep(20)
-				check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
+				#check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
 	except:
 		pass
 check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
-while 'new_' in check2:
+#while 'new_' in check2:
 				#time.sleep(20)
-				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+				#check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
 print(f"{bcolors.OKBLUE}################################")

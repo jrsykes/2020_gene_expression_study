@@ -13,10 +13,6 @@ SRR=$2
 SEX=$3
 LAYOUT=$4
 
-SPECIES=testp
-SRR=SRR567165
-SEX=female
-LAYOUT=PAIRED
 
 mkdir -p /projects/sykesj/analyses/$SPECIES/blobtools/$SRR
 cd /projects/sykesj/analyses/$SPECIES/blobtools/$SRR

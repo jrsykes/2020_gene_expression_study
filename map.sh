@@ -22,7 +22,8 @@ then
 	then
 			BEST_TRANS_IDX=paired_$SPECIES.idx
 	else
-	fi		BEST_TRANS_IDX=single_$SPECIES.idx
+			BEST_TRANS_IDX=single_$SPECIES.idx
+	fi
 fi
 
 

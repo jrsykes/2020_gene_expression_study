@@ -24,18 +24,18 @@ trinity_busco_blast () {
 ########### paired ###########
 
 		LEFT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*_1.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*_1.fq); do readlink -f $file; done | paste -sd "," - )
-		echo $LEFT > /projects/sykesj/analyses/$SPECIES/trinity/path.txt
+		echo $LEFT > /projects/sykesj/analyses/$SPECIES/trinity/paired_path.txt
 		RIGHT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*_2.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*_2.fq); do readlink -f $file; done | paste -sd "," - )
-		echo $RIGHT >> /projects/sykesj/analyses/$SPECIES/trinity/path.txt
+		echo $RIGHT >> /projects/sykesj/analyses/$SPECIES/trinity/paired_path.txt
 
 	
 		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left $LEFT --right $RIGHT --CPU 20 --max_memory 100G --output \
-			/scratch/projects/sykesj/paired_trinity_$SPECIES_$LAYOUT && rsync -a /scratch/projects/sykesj/paired_trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
+			/scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT && rsync -a /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
 
 ###### filter out < 1000 bp ##########
 
 		python3 /home/sykesj/scripts/2020_gene_expression_study/1k_filter.py /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa \
-			/projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa && rm -f /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
+			/projects/sykesj/analyses/$SPECIES/trinity/$LAYOUT_assembly_1k.fa && rm -f /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
 
 ###### busco ##########
 
@@ -54,7 +54,7 @@ trinity_busco_blast () {
 		/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
 			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_paired_$SPECIES.out \
 			&& rsync -a /scratch/projects/sykesj/blastn_paired_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \
-			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_paired_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_paired_sorted.out \
+			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_paired_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_$LAYOUT_sorted.out \
 			&& rm -f /projects/sykesj/analyses/$SPECIES/blast/blastn_paired_$SPECIES.out && rm -rf /scratch/projects/sykesj/blastn_paired_$SPECIES.out
 
 ######### indexing #########
@@ -70,17 +70,17 @@ trinity_busco_blast () {
 ########### single ############
 
 		INPUT=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*.fq); do readlink -f $file; done | paste -sd "," - )
-		echo $INPUT > /projects/sykesj/analyses/$SPECIES/trinity/path.txt
+		echo $INPUT > /projects/sykesj/analyses/$SPECIES/trinity/single_path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 20 --max_memory 100G --output /scratch/projects/sykesj/single_trinity_$SPECIES_$LAYOUT \
-			&& rsync -a /scratch/projects/sykesj/single_trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 20 --max_memory 100G --output /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT \
+			&& rsync -a /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa
 
 
 ###### filter < 1000 bp ##########
 
 		python3 /home/sykesj/scripts/2020_gene_expression_study/1k_filter.py /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa \
-			/projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa && rm -f /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa
+			/projects/sykesj/analyses/$SPECIES/trinity/$LAYOUT_assembly_1k.fa && rm -f /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa
 
 ###### busco ##########
 
@@ -100,7 +100,7 @@ trinity_busco_blast () {
 		/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query /projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
 			-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_single_$SPECIES.out \
 			&& rsync -a /scratch/projects/sykesj/blastn_single_$SPECIES.out /projects/sykesj/analyses/$SPECIES/blast/ \
-			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_single_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_single_sorted.out \
+			&& sort -k 13,13 -n /projects/sykesj/analyses/$SPECIES/blast/blastn_single_$SPECIES.out > /projects/sykesj/analyses/$SPECIES/blast/$SPECIES\_blastn_$LAYOUT_sorted.out \
 			&& rm -f /projects/sykesj/analyses/$SPECIES/blast/blastn_single_$SPECIES.out && rm -rf /scratch/projects/sykesj/blastn_single_$SPECIES.out
 
 

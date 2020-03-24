@@ -105,6 +105,28 @@ for index, row in dat.iterrows():
 		pass
 
 
+print(f"{bcolors.OKBLUE}################################")
+print(f"{bcolors.OKGREEN}Filtering contaminant sequences")
+print(f"{bcolors.OKBLUE}################################")
+
+
+
+for index, row in dat.iterrows():
+	try:
+		if row[0] == species:
+			species = row[0]
+			SRR = row[1]
+			sex = row[2]
+			layout = row[3]
+
+			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/blob.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+			subprocess.Popen([command], shell=True)
+	except:
+		pass
+
+
+
+
 print(f"{bcolors.OKBLUE}##################")
 print(f"{bcolors.OKGREEN}Pipeline complete")
 print(f"{bcolors.OKBLUE}##################")

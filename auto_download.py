@@ -14,7 +14,7 @@ print(f"{bcolors.OKGREEN}Clearing species data and preparing files")
 print(f"{bcolors.OKBLUE}######################")
 
 command = 'rm -rf /home/sykesj/busco_*.log ; rm -rf /projects/sykesj/raw/*' + species + '*; rm -rf /projects/sykesj/analyses/*' + species + '*; rm -rf /scratch/projects/sykesj/*' + species + '*'
-#subprocess.Popen([command], shell=True)
+subprocess.Popen([command], shell=True)
 
 
 dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
@@ -55,7 +55,7 @@ for index, row in dat.iterrows():
 			sex = row[2]
 			layout = row[3]
 			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
-			#subprocess.Popen([command], shell=True)
+			subprocess.Popen([command], shell=True)
 			time.sleep(20)
 			check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
 			while check > 2:
@@ -64,9 +64,9 @@ for index, row in dat.iterrows():
 	except:
 		pass
 check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
-#while 'new_' in check2:
-#				time.sleep(20)
-#				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+while 'new_' in check2:
+				time.sleep(20)
+				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
 print(f"{bcolors.OKBLUE}################################")
@@ -91,7 +91,7 @@ if df_paired.empty == False:
 
 if df_single.empty == False:
 	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' SINGLE'
-	#subprocess.Popen([command], shell=True)
+	subprocess.Popen([command], shell=True)
 
 
 

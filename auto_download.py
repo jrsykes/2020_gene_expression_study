@@ -24,8 +24,10 @@ dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
 
 command = 'mkdir -p /projects/sykesj/analyses/' + species + '/kallisto/kal_results/kal_files'
 subprocess.Popen([command], shell=True)
+time.sleep(1)
 command = 'touch /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
 subprocess.Popen([command], shell=True)
+time.sleep(1)
 command = '> /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
 subprocess.Popen([command], shell=True)
 

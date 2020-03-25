@@ -61,16 +61,16 @@ for index, row in dat.iterrows():
 			layout = row[3]
 			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
 			subprocess.Popen([command], shell=True)
-			time.sleep(20)
-			check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
-			while check > 2:
-				time.sleep(20)
-				check = int(subprocess.check_output('squeue --user=sykesj | wc -l', shell=True))
+			time.sleep(5)
+			check = int(subprocess.check_output('squeue --user=sykesj | grep new_ | wc -l', shell=True))
+			while check > 1:
+				time.sleep(5)
+				check = int(subprocess.check_output('squeue --user=sykesj | grep new_ | wc -l', shell=True))
 	except:
 		pass
 check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 while 'new_' in check2:
-				time.sleep(20)
+				time.sleep(5)
 				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
@@ -100,11 +100,11 @@ if df_single.empty == False:
 
 
 
-time.sleep(20)
+time.sleep(10)
 
 check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 while 'trinity' in check2:
-				time.sleep(20)
+				time.sleep(10)
 				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
@@ -134,7 +134,7 @@ time.sleep(5)
 
 check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 while 'map' in check2:
-				time.sleep(20)
+				time.sleep(10)
 				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 

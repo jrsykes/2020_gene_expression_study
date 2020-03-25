@@ -22,8 +22,11 @@ dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
 #######################################################################################################################33
 # Creating files for Sleuth
 
-command = 'mkdir -p /projects/sykesj/analyses/' + species + '/kallisto/kal_results/kal_files ; touch /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt ; \
-	> /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
+command = 'mkdir -p /projects/sykesj/analyses/' + species + '/kallisto/kal_results/kal_files'
+subprocess.Popen([command], shell=True)
+command = 'touch /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
+subprocess.Popen([command], shell=True)
+command = '> /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
 subprocess.Popen([command], shell=True)
 
 time.sleep(1)

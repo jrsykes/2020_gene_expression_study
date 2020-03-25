@@ -37,11 +37,31 @@ for dir in /projects/sykesj/analyses/$SPECIES/kallisto/$SRR; do echo $dir; cut -
 #Open blobplot.blobDB.table.txt useing less and find the numbers next to superkingdom.t and phylum.t
 #Use these numbers to edit the following six lines of code accordingly.
 
+STRING=$(grep superkingdom.t. blobplot.blobDB.table.txt)
+SUB='superkingdom.t.'
+
+for word in $STRING; do
+	if [[ "$word" == *"$SUB"* ]];
+	then
+	KINGDOM=$(sed 's/[^0-9]*//g' <<< $word)
+	fi
+done
+
+STRING=$(grep phylum.t. blobplot.blobDB.table.txt)
+SUB='phylum.t.'
+
+for word in $STRING; do
+	if [[ "$word" == *"$SUB"* ]];
+	then
+	PHYLUM=$(sed 's/[^0-9]*//g' <<< $word)
+	fi
+done
+
 # Getting a distribution of kingdoms/phyla
 # Kingdom
-#grep -v '^#' blobplot.blobDB.table.txt | cut -f9 | sort | uniq -c | less ### superkingdom.t.
+grep -v '^#' blobplot.blobDB.table.txt | cut -f$KINGDOM | sort | uniq -c | less ### superkingdom.t.
 # Phylum
-#grep -v '^#' blobplot.blobDB.table.txt | cut -f13 | sort | uniq -c | less ### phylum.t.
+grep -v '^#' blobplot.blobDB.table.txt | cut -f$PHYLUM | sort | uniq -c | less ### phylum.t.
 
 # Look at those that were annotated as Viruses 
 #awk '$18=="Viruses"' blobplot.blobDB.table.txt | less

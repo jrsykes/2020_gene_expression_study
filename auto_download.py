@@ -22,29 +22,26 @@ dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
 #######################################################################################################################33
 # Creating files for Sleuth
 
-command = 'mkdir -p /projects/sykesj/analyses/' + species + '/kallisto/kal_results/kal_files'
-subprocess.Popen([command], shell=True)
-time.sleep(1)
-command = 'touch /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
-subprocess.Popen([command], shell=True)
-time.sleep(1)
-command = '> /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
-subprocess.Popen([command], shell=True)
-
-time.sleep(1)
-
-path = '/projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
-with open(path, 'a') as f:
-	f.write('run_accession condition \n')
-	for index, row in dat.iterrows():
-		try:
-			if row[0] == species:
-				SRR = row[1]
-				sex = row[2]
-				f.write(SRR + ' ' + sex + '\n')
-
-		except:
-			pass
+#command = 'mkdir -p /projects/sykesj/analyses/' + species + '/kallisto/kal_results/kal_files'
+#subprocess.Popen([command], shell=True)
+#time.sleep(1)
+#command = 'touch /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
+#subprocess.Popen([command], shell=True)
+#time.sleep(1)
+#command = '> /projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
+#subprocess.Popen([command], shell=True)
+#time.sleep(1)
+#path = '/projects/sykesj/analyses/' + species + '/kallisto/kal_results/hiseq_info.txt'
+#with open(path, 'a') as f:
+#	f.write('run_accession condition \n')
+#	for index, row in dat.iterrows():
+#		try:
+#			if row[0] == species:
+#				SRR = row[1]
+#				sex = row[2]
+#				f.write(SRR + ' ' + sex + '\n')
+#		except:
+#			pass
 
 ###############################################################################################################################################
 

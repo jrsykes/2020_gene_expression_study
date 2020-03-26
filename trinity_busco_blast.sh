@@ -15,7 +15,7 @@ trinity_busco_blast () {
 
 
 
-	mkdir /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT
+	mkdir -p /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT
 
 
 	if [ $LAYOUT == 'PAIRED' ]
@@ -40,7 +40,7 @@ trinity_busco_blast () {
 ###### busco ##########
 
 		python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
-			/projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -o busco_paired_$SPECIES \
+			/projects/sykesj/analyses/$SPECIES/trinity/paired_assembly_1k.fa -o busco_$LAYOUT_$SPECIES \
 			-l arthropoda_odb10 -m tran -c 16 \
 			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES/short_summary.specific.arthropoda_odb10.busco_paired_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES_$LAYOUT.txt \
 			&& rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_paired_$SPECIES
@@ -85,7 +85,7 @@ trinity_busco_blast () {
 ###### busco ##########
 
 		python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
-			/projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -o busco_single_$SPECIES \
+			/projects/sykesj/analyses/$SPECIES/trinity/single_assembly_1k.fa -o busco_$LAYOUT_$SPECIES \
 			-l arthropoda_odb10 -m tran -c 16 \
 			&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_single_$SPECIES/short_summary.specific.arthropoda_odb10.busco_single_$SPECIES.txt /projects/sykesj/analyses/$SPECIES/busco/BUSCO_out_$SPECIES_$LAYOUT.txt \
 			&& rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_single_$SPECIES
@@ -115,18 +115,32 @@ trinity_busco_blast () {
 
 }
 
+rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_$LAYOUT_$SPECIES
 
 
-TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/SINGLE/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/SINGLE/female/*.fq \
-	/projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/female/*.fq) ; do readlink -f $file; done | paste -sd " " - )
+multi_qc () {
 
-
-/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
-	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR* \
-	&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc2/ -o /projects/sykesj/analyses/$SPECIES/fastqc2/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc2/SRR*
+	if [ $LAYOUT == 'PAIRED' ]
+	then
+		TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/female/*.fq) ; \
+			do readlink -f $file; done | paste -sd " " - )
 	
+	elif [ $LAYOUT == 'SINGLE' ]
+	then
+		TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/SINGLE/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/SINGLE/female/*.fq \
+			/projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/female/*.fq) ; do readlink -f $file; done | paste -sd " " - )
+	fi
+	
+	/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
+		&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR* \
+		&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc2/ -o /projects/sykesj/analyses/$SPECIES/fastqc2/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc2/SRR*
+	
+}
 
+rm -rf /scratch/projects/sykesj/*$SPECIES_$LAYOUT*
+
+multiqc $SPECIES $LAYOUT
 trinity_busco_blast $SPECIES $LAYOUT
 
-rm -rf /scratch/projects/sykesj/*$SPECIES*
+rm -rf /scratch/projects/sykesj/*$SPECIES_$LAYOUT*
 

@@ -14,9 +14,7 @@ print(f"{bcolors.OKGREEN}Clearing species data and preparing files")
 print(f"{bcolors.OKBLUE}######################")
 
 command = 'rm -rf /home/sykesj/busco_*.log ; rm -rf /projects/sykesj/raw/*' + species + '* ; rm -rf /projects/sykesj/analyses/*' + species + '* ; rm -rf /scratch/projects/sykesj/*' + species + '*'
-subprocess.Popen([command], shell=True)
-
-exit()
+#subprocess.Popen([command], shell=True)
 
 
 dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
@@ -52,25 +50,25 @@ print(f"{bcolors.OKGREEN}Download SRR files, QC and trim")
 print(f"{bcolors.OKBLUE}################################")
 
 
-for index, row in dat.iterrows():
-	try:
-		if row[0] == species:
-			SRR = row[1]
-			sex = row[2]
-			layout = row[3]
-			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
-			subprocess.Popen([command], shell=True)
-			time.sleep(5)
-			check = int(subprocess.check_output('squeue --user=sykesj | grep new_ | wc -l', shell=True))
-			while check > 1:
-				time.sleep(5)
-				check = int(subprocess.check_output('squeue --user=sykesj | grep new_ | wc -l', shell=True))
-	except:
-		pass
-check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
-while 'new_' in check2:
-				time.sleep(5)
-				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+#for index, row in dat.iterrows():
+#	try:
+#		if row[0] == species:
+#			SRR = row[1]
+#			sex = row[2]
+#			layout = row[3]
+#			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+#			subprocess.Popen([command], shell=True)
+#			time.sleep(5)
+#			check = int(subprocess.check_output('squeue --user=sykesj | grep new_ | wc -l', shell=True))
+#			while check > 1:
+#				time.sleep(5)
+#				check = int(subprocess.check_output('squeue --user=sykesj | grep new_ | wc -l', shell=True))
+#	except:
+#		pass
+#check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+#while 'new_' in check2:
+#				time.sleep(5)
+#				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
 print(f"{bcolors.OKBLUE}################################")

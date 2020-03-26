@@ -122,8 +122,7 @@ multi_qc () {
 
 	if [ $LAYOUT == 'PAIRED' ]
 	then
-		TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/female/*.fq) ; \
-			do readlink -f $file; done | paste -sd " " - )
+		TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/PAIRED/female/*.fq) ; do readlink -f $file; done | paste -sd " " - )
 	
 	elif [ $LAYOUT == 'SINGLE' ]
 	then

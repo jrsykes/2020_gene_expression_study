@@ -86,23 +86,41 @@ for index, row in dat.iterrows():
 		if row[3] == 'SINGLE':
 			df_single = df_single.append(row[0:4], ignore_index=True)
 
+##############################################################################################################################
+# Trinity paired
+
+check3 = str(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
+while check3 > 1:
+	time.sleep(10)
+	check3 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+
 
 if df_paired.empty == False:
 	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' PAIRED'
 	subprocess.Popen([command], shell=True)
 
+##############################################################################################################################
+# Trinity single 
+
+check4 = str(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
+while check4 > 1:
+	time.sleep(10)
+	check4 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+
+
 if df_single.empty == False:
 	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' SINGLE'
 	subprocess.Popen([command], shell=True)
 
+##############################################################################################################################
 
 
 time.sleep(10)
 
-check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
-while 'trinity' in check2:
+check5 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+while 'trinity' in check5:
 				time.sleep(10)
-				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+				check5 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
 print(f"{bcolors.OKBLUE}##############################################")
@@ -129,10 +147,10 @@ for index, row in dat.iterrows():
 
 time.sleep(5)
 
-check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
-while 'map' in check2:
+check6 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+while 'map' in check6:
 				time.sleep(10)
-				check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+				check6 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
 
 
 print(f"{bcolors.OKBLUE}################################")

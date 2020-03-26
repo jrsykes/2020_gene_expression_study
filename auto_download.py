@@ -13,8 +13,10 @@ print(f"{bcolors.OKBLUE}######################")
 print(f"{bcolors.OKGREEN}Clearing species data and preparing files")
 print(f"{bcolors.OKBLUE}######################")
 
-command = 'rm -rf /home/sykesj/busco_*.log ; rm -rf /projects/sykesj/raw/*' + species + '*; rm -rf /projects/sykesj/analyses/*' + species + '*; rm -rf /scratch/projects/sykesj/*' + species + '*'
+command = 'rm -rf /home/sykesj/busco_*.log ; rm -rf /projects/sykesj/raw/*' + species + '* ; rm -rf /projects/sykesj/analyses/*' + species + '* ; rm -rf /scratch/projects/sykesj/*' + species + '*'
 subprocess.Popen([command], shell=True)
+
+exit()
 
 
 dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)

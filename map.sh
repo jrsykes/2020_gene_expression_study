@@ -66,8 +66,6 @@ kallisto_map () {
 
 ####### setting up files for sleuth #########
 
-	#mkdir /projects/sykesj/analyses/$SPECIES/kallisto/kal_results
-	
 	ln -s /projects/sykesj/analyses/$SPECIES/kallisto/$SRR /projects/sykesj/analyses/$SPECIES/kallisto/kal_results/kal_files/
 	rm -rf /projects/sykesj/analyses/testp/kallisto/$SRR/$SRR
 

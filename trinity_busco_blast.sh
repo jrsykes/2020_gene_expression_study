@@ -137,10 +137,10 @@ multi_qc () {
 	
 }
 
-rm -rf /scratch/projects/sykesj/*"$SPECIES"_"$LAYOUT"*
+rm -rf /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"*
 
 #multiqc $SPECIES $LAYOUT
 trinity_busco_blast $SPECIES $LAYOUT
 
-rm -rf /scratch/projects/sykesj/*"$SPECIES"_"$LAYOUT"*
+rm -rf /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"*
 

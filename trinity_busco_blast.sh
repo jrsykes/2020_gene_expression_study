@@ -115,7 +115,7 @@ trinity_busco_blast () {
 
 }
 
-rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_$LAYOUT_$SPECIES
+rm -rf /scratch/projects/sykesj/BUSCO_tmp/busco_"$LAYOUT"_"$SPECIES"
 
 
 multi_qc () {

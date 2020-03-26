@@ -93,7 +93,7 @@ if df_paired.empty == False:
 
 if df_single.empty == False:
 	command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' SINGLE'
-	subprocess.Popen([command], shell=True)
+	#subprocess.Popen([command], shell=True)
 
 
 

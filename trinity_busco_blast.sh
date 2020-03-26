@@ -15,7 +15,7 @@ trinity_busco_blast () {
 
 
 
-	mkdir -p /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT
+	mkdir -p /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"
 
 
 	if [ $LAYOUT == 'PAIRED' ]
@@ -30,7 +30,7 @@ trinity_busco_blast () {
 
 	
 		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left $LEFT --right $RIGHT --CPU 20 --max_memory 100G --output \
-			/scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT && rsync -a /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
+			/scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT" && rsync -a /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
 
 ###### filter out < 1000 bp ##########
 
@@ -73,7 +73,7 @@ trinity_busco_blast () {
 		echo $INPUT > /projects/sykesj/analyses/$SPECIES/trinity/single_path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 20 --max_memory 100G --output /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT \
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 20 --max_memory 100G --output /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT" \
 			&& rsync -a /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa
 
 

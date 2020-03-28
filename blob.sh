@@ -13,11 +13,6 @@ SRR=$2
 SEX=$3
 LAYOUT=$4
 
-SPECIES=nasonia_giraulti
-SRR=SRR1566032
-SEX=female
-LAYOUT=SINGLE
-
 mkdir -p /projects/sykesj/analyses/$SPECIES/blobtools/$SRR
 cd /projects/sykesj/analyses/$SPECIES/blobtools/$SRR
 
@@ -34,15 +29,10 @@ for dir in /projects/sykesj/analyses/$SPECIES/kallisto/$SRR; do echo $dir; cut -
 # Extracting a "view" table
 /home/sykesj/software/blobtools-blobtools_v1.1.1/./blobtools view -i blobplot.blobDB.json --rank all --hits
 
-# Making blobplots (not really necessary)
-#/exports/software/blobtools/blobtools plot -i blobplot.blobDB.json && rm -f *[0-9].png
-
-
-#Open blobplot.blobDB.table.txt useing less and find the numbers next to superkingdom.t and phylum.t
-#Use these numbers to edit the following six lines of code accordingly.
-
+# Custom Python script to extract virus and streptophyte contigs
 
 python  /home/sykesj/scripts/2020_gene_expression_study/BlobFilter.py blobplot.blobDB.table.txt contig_ids.txt
 
+# Filter out contaminant contigs
 
 grep -v -wFf contig_ids.txt /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.tsv > /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.filtered.tsv

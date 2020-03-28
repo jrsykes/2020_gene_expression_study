@@ -89,7 +89,7 @@ for index, row in dat.iterrows():
 ##############################################################################################################################
 # Trinity paired
 
-check3 = subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True)
+check3 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
 while check3 > 1:
 	time.sleep(10)
 	check3 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
@@ -102,7 +102,7 @@ if df_paired.empty == False:
 ##############################################################################################################################
 # Trinity single 
 
-check4 = subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True)
+check4 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
 while check4 > 1:
 	time.sleep(10)
 	check4 = str(subprocess.check_output('squeue --user=sykesj', shell=True))

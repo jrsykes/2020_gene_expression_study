@@ -106,7 +106,7 @@ filter_busco_blast_index () {
 }
 
 
-multiqc $SPECIES $LAYOUT
+#multiqc $SPECIES $LAYOUT
 trinity_busco_blast $SPECIES $LAYOUT
 filter_busco_blast_index $SPECIES $LAYOUT
 

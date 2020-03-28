@@ -35,11 +35,14 @@ make_dirs () {
 
 	mkdir -p /projects/sykesj/analyses/$SPECIES/trinity
 	mkdir -p /projects/sykesj/analyses/$SPECIES/busco
+	mkdir /projects/sykesj/analyses/"$SPECIES"/blast
 	
 	mkdir /projects/sykesj/analyses/$SPECIES/trimmomatic
 	
 	mkdir /scratch/projects/sykesj/BUSCO_tmp
 	mkdir /scratch/projects/sykesj/kalisto_tmp
+
+
 }
 
 

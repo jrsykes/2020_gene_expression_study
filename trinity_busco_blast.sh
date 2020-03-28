@@ -45,7 +45,7 @@ trinity_busco_blast () {
 	
 		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left "$LEFT" --right "$RIGHT" --CPU 30 --max_memory 100G --output \
 			/scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT" && \
-			rsync -a /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
+			mv /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
 			rm -rf /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"*
 
 
@@ -60,7 +60,7 @@ trinity_busco_blast () {
 
 	
 		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single "$INPUT" --CPU 30 --max_memory 100G --output /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT" && \
-			rsync -a /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
+			mv /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
 			rm -rf /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"*
 
 
@@ -93,7 +93,7 @@ filter_busco_blast_index () {
 	export BLASTDB=:/home/sykesj/software/blastdb/nt/
 	/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
 		-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_"$LAYOUT"_"$SPECIES".out \
-		&& rsync -a /scratch/projects/sykesj/blastn_"$LAYOUT"_"$SPECIES".out /projects/sykesj/analyses/"$SPECIES"/blast/ \
+		&& mv /scratch/projects/sykesj/blastn_"$LAYOUT"_"$SPECIES".out /projects/sykesj/analyses/"$SPECIES"/blast/ \
 		&& sort -k 13,13 -n /projects/sykesj/analyses/"$SPECIES"/blast/blastn_"$LAYOUT"_"$SPECIES".out > /projects/sykesj/analyses/"$SPECIES"/blast/"$SPECIES"_blastn_"$LAYOUT"_sorted.out \
 		&& rm -f /projects/sykesj/analyses/"$SPECIES"/blast/blastn_"$LAYOUT"_"$SPECIES".out
 

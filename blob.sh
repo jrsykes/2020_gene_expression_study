@@ -13,6 +13,10 @@ SRR=$2
 SEX=$3
 LAYOUT=$4
 
+SPECIES=testp
+SRR=SRR567165
+SEX=female
+LAYOUT=PAIRED
 
 mkdir -p /projects/sykesj/analyses/$SPECIES/blobtools/$SRR
 cd /projects/sykesj/analyses/$SPECIES/blobtools/$SRR
@@ -43,7 +47,8 @@ SUB='superkingdom.t.'
 for word in $STRING; do
 	if [[ "$word" == *"$SUB"* ]];
 	then
-	KINGDOM=$(sed 's/[^0-9]*//g' <<< $word)
+	KINGDOM=$word
+	KINGDOM_NUM=$(sed 's/[^0-9]*//g' <<< $word)
 	fi
 done
 
@@ -53,26 +58,43 @@ SUB='phylum.t.'
 for word in $STRING; do
 	if [[ "$word" == *"$SUB"* ]];
 	then
-	PHYLUM=$(sed 's/[^0-9]*//g' <<< $word)
+	PHYLUM=$word
+	PHYLUM_NUM=$(sed 's/[^0-9]*//g' <<< $word)
 	fi
 done
 
 # Getting a distribution of kingdoms/phyla
 # Kingdom
-grep -v '^#' blobplot.blobDB.table.txt | cut -f$KINGDOM | sort | uniq -c | less ### superkingdom.t.
+grep -v '^#' blobplot.blobDB.table.txt | cut -f"$KINGDOM" | sort | uniq -c | less ### superkingdom.t.
 # Phylum
-grep -v '^#' blobplot.blobDB.table.txt | cut -f$PHYLUM | sort | uniq -c | less ### phylum.t.
+grep -v '^#' blobplot.blobDB.table.txt | cut -f"$PHYLUM" | sort | uniq -c | less ### phylum.t.
+
+########################################################################################3
+
+cat t.awk
+NR==1 {
+    for (i=1; i<=NF; i++) {
+        ix[$i] = i
+    }
+}
+NR>1 {
+    print $ix[c1], $ix[c2]
+}
+awk -f t.awk "$KINGDOM" "$PHYLUM"  blobplot.blobDB.table.txt
+
+########################################################################################
 
 # Look at those that were annotated as Viruses 
-#awk '$18=="Viruses"' blobplot.blobDB.table.txt | less
-#awk '$13=="Streptophyta"' blobplot.blobDB.table.txt | less
+awk '$6=="Viruses"' blobplot.blobDB.table.txt | less
+awk '$13=="Streptophyta"' blobplot.blobDB.table.txt | less
 
 
 # Filtering abundance before SLEUTH
-awk '$10=="Viruses"' blobplot.blobDB.table.txt | cut -f1 > viruses.contig_ids.txt
-awk '$14=="Streptophyta"' blobplot.blobDB.table.txt | cut -f1 > streptophyta.contig_ids.txt
+awk '$(ech=="Viruses"' blobplot.blobDB.table.txt | cut -f1 > viruses.contig_ids.txt
+awk '$PHYLUM=="Streptophyta"' blobplot.blobDB.table.txt | cut -f1 > streptophyta.contig_ids.txt
 
 
-grep -v -wFf viruses.contig_ids.txt /projects/sykesj/analyses/$SPECIES/kallisto/$SRR/abundance.tsv | grep -v -wFf streptophyta.contig_ids.txt \
-	> /projects/sykesj/analyses/$SPECIES/kallisto/$SRR/abundance.filtered.tsv
+grep -v -wFf viruses.contig_ids.txt /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.tsv | grep -v -wFf streptophyta.contig_ids.txt \
+	> /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.filtered.tsv
 
+grep -v -wFf viruses.contig_ids.txt /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.tsv > /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.filtered.tsv

@@ -30,7 +30,9 @@ trinity_busco_blast () {
 
 	
 		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left $LEFT --right $RIGHT --CPU 30 --max_memory 100G --output \
-			/scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT" && rsync -a /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa
+			/scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT" && \
+			rsync -a /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/paired_assembly.fa && \
+			rm -rf /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"*
 
 ###### filter out < 1000 bp ##########
 
@@ -73,8 +75,9 @@ trinity_busco_blast () {
 		echo $INPUT > /projects/sykesj/analyses/$SPECIES/trinity/single_path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 30 --max_memory 100G --output /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"q \
-			&& rsync -a /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single $INPUT --CPU 30 --max_memory 100G --output /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"q && \
+			rsync -a /scratch/projects/sykesj/trinity_$SPECIES_$LAYOUT/Trinity.fasta /projects/sykesj/analyses/$SPECIES/trinity/single_assembly.fa && \
+			rm -rf /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"*
 
 
 ###### filter < 1000 bp ##########
@@ -140,5 +143,5 @@ multi_qc () {
 multiqc $SPECIES $LAYOUT
 trinity_busco_blast $SPECIES $LAYOUT
 
-rm -rf /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"*
+
 

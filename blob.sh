@@ -12,6 +12,10 @@ SPECIES=$1
 SRR=$2
 LAYOUT=$3
 
+SPECIES=testp
+SRR=SRR567165
+LAYOUT=PAIRED
+
 mkdir -p /projects/sykesj/analyses/$SPECIES/blobtools/$SRR
 cd /projects/sykesj/analyses/$SPECIES/blobtools/$SRR
 
@@ -31,7 +35,7 @@ for dir in /projects/sykesj/analyses/$SPECIES/kallisto/$SRR; do echo $dir; cut -
 
 # Custom Python script to extract virus and streptophyte contigs
 
-python  /home/sykesj/scripts/2020_gene_expression_study/BlobFilter.py blobplot.blobDB.table.txt contig_ids.txt
+python3  /home/sykesj/scripts/2020_gene_expression_study/BlobFilter.py blobplot.blobDB.table.txt contig_ids.txt
 
 # Filter out contaminant contigs
 

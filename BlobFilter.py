@@ -42,4 +42,4 @@ for index, row in df.iterrows():
 
 with open(outFile, 'a') as f:
 	for i in contaminant_contig_list:
-		f.write(i)
+		f.write(i + '\n')

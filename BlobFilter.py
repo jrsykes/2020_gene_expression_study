@@ -40,6 +40,6 @@ for index, row in df.iterrows():
 	if row['tsuperkingdom.t.6'] == 'Viruses' or row['tphylum.t.10'] == 'Streptophyta':
 		contaminant_contig_list.append(row['name'])	
 
-with open(outFile, 'a') as f:
+with open(outFile, 'a+') as f:
 	for i in contaminant_contig_list:
 		f.write(i + '\n')

@@ -42,7 +42,7 @@ for dir in /projects/sykesj/analyses/$SPECIES/kallisto/$SRR; do echo $dir; cut -
 #Use these numbers to edit the following six lines of code accordingly.
 
 
-python  /home/sykesj/scripts/2020_gene_expression_study/BlobToCSV.py blobplot.blobDB.table.txt contig_ids.txt
+python  /home/sykesj/scripts/2020_gene_expression_study/BlobFilter.py blobplot.blobDB.table.txt contig_ids.txt
 
 
 grep -v -wFf contig_ids.txt /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.tsv > /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.filtered.tsv

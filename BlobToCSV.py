@@ -2,7 +2,6 @@ import pandas as pd
 import re
 import sys
 
-
 inFile = sys.argv[1]
 outFile = sys.argv[2]
 
@@ -36,5 +35,11 @@ for i in body:
 	body_list =[]
 
 
-df.to_csv(outFile, index =False)
+contaminant_contig_list = []
+for index, row in df.iterrows():
+	if row['tsuperkingdom.t.6'] == 'Viruses' or row['tphylum.t.10'] == 'Streptophyta':
+		contaminant_contig_list.append(row['name'])	
 
+with open(outFile, 'a') as f:
+	for i in contaminant_contig_list:
+		f.write(i)

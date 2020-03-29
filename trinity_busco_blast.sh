@@ -3,7 +3,7 @@
 #SBATCH --time=5-00:00:00
 #SBATCH --nodes=1
 #SBATCH --mem=100gb
-#SBATCH --ntasks=30
+#SBATCH --ntasks=20
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j.err
 
@@ -43,7 +43,7 @@ trinity_busco_blast () {
 		echo $RIGHT >> /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left "$LEFT" --right "$RIGHT" --CPU 30 --max_memory 100G --output \
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left "$LEFT" --right "$RIGHT" --CPU 20 --max_memory 100G --output \
 			/scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT" && \
 			mv /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
 			rm -rf /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"*
@@ -59,7 +59,7 @@ trinity_busco_blast () {
 		echo $INPUT > /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single "$INPUT" --CPU 30 --max_memory 100G --output /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT" && \
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single "$INPUT" --CPU 20 --max_memory 100G --output /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT" && \
 			mv /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
 			rm -rf /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"*
 

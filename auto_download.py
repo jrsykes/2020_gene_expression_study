@@ -19,12 +19,12 @@ for i in (list(dict.fromkeys(species_list))):
 	if i not in SpeciesCheck:
 		species = i
 
-		print(f"{bcolors.OKBLUE}######################")
-		print(f"{bcolors.OKGREEN}Clearing species data and preparing files")
-		print(f"{bcolors.OKBLUE}######################")
+#		print(f"{bcolors.OKBLUE}######################")
+#		print(f"{bcolors.OKGREEN}Clearing species data and preparing files")
+#		print(f"{bcolors.OKBLUE}######################")
 
-		command = 'rm -rf /home/sykesj/busco_*.log ; rm -rf /projects/sykesj/raw/*' + species + '* ; rm -rf /projects/sykesj/analyses/*' + species + '* ; rm -rf /scratch/projects/sykesj/*' + species + '*'
-		subprocess.Popen([command], shell=True)
+		#command = 'rm -rf /home/sykesj/busco_*.log ; rm -rf /projects/sykesj/raw/*' + species + '* ; rm -rf /projects/sykesj/analyses/*' + species + '* ; rm -rf /scratch/projects/sykesj/*' + species + '*'
+		#subprocess.Popen([command], shell=True)
 
 
 		print(f"{bcolors.OKBLUE}################################")

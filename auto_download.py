@@ -15,14 +15,9 @@ species_list = []
 for index, row in dat.iterrows():
 	species_list.append(row[0])
 
-
 for i in (list(dict.fromkeys(species_list))):
-	print (i)
-
-	#if i not in SpeciesCheck:
-		#species = input(i)
-		
-exit()
+	if i not in SpeciesCheck:
+		species = input(i)
 
 		print(f"{bcolors.OKBLUE}######################")
 		print(f"{bcolors.OKGREEN}Clearing species data and preparing files")

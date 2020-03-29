@@ -7,7 +7,6 @@ class bcolors:
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
 
-SpeciesCheck = str(subprocess.check_output('ls /projects/sykesj/raw/', shell=True))
 
 dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
 
@@ -16,6 +15,7 @@ for index, row in dat.iterrows():
 	species_list.append(row[0])
 
 for i in (list(dict.fromkeys(species_list))):
+	SpeciesCheck = str(subprocess.check_output('ls /projects/sykesj/raw/', shell=True))
 	if i not in SpeciesCheck:
 		species = input(i)
 

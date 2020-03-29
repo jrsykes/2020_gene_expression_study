@@ -20,7 +20,7 @@ for i in (list(dict.fromkeys(species_list))):
 		#species = input(i)
 		print (i)
 
-exit()
+	exit()
 
 		print(f"{bcolors.OKBLUE}######################")
 		print(f"{bcolors.OKGREEN}Clearing species data and preparing files")

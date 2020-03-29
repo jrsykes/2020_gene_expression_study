@@ -17,7 +17,10 @@ for index, row in dat.iterrows():
 
 for i in (list(dict.fromkeys(species_list))):
 	if i not in SpeciesCheck:
-		species = input(i)
+		#species = input(i)
+		print (i)
+
+exit()
 
 		print(f"{bcolors.OKBLUE}######################")
 		print(f"{bcolors.OKGREEN}Clearing species data and preparing files")

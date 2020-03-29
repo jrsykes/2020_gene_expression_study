@@ -17,7 +17,7 @@ for index, row in dat.iterrows():
 for i in (list(dict.fromkeys(species_list))):
 	SpeciesCheck = str(subprocess.check_output('ls /projects/sykesj/raw/', shell=True))
 	if i not in SpeciesCheck:
-		species = input(i)
+		species = i
 
 		print(f"{bcolors.OKBLUE}######################")
 		print(f"{bcolors.OKGREEN}Clearing species data and preparing files")

@@ -14,17 +14,17 @@ LAYOUT=$2
 
 multi_qc () {
 
-	TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/"$SPECIES"/trimmomatic/"$LAYOUT"/male/*.fq /projects/sykesj/analyses/"$SPECIES"/trimmomatic/"$LAYOUT"/female/*.fq) ; \
-		do readlink -f "$file"; done | paste -sd " " - )
+	TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*.fq) ; \
+		do readlink -f $file; done | paste -sd " " - )
 	
-	/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
-		&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc/ -o /projects/sykesj/analyses/$SPECIES/fastqc/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc/SRR* \
-		&& multiqc /projects/sykesj/analyses/$SPECIES/fastqc2/ -o /projects/sykesj/analyses/$SPECIES/fastqc2/ && rm -f /projects/sykesj/analyses/$SPECIES/fastqc2/SRR*
+	/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/"$SPECIES"/fastqc2 "$TRIMMED_LIBS" \
+		&& multiqc /projects/sykesj/analyses/"$SPECIES"/fastqc/ -o /projects/sykesj/analyses/"$SPECIES"/fastqc/ && rm -f /projects/sykesj/analyses/"$SPECIES"/fastqc/SRR* \
+		&& multiqc /projects/sykesj/analyses/"$SPECIES"/fastqc2/ -o /projects/sykesj/analyses/"$SPECIES"/fastqc2/ && rm -f /projects/sykesj/analyses/"$SPECIES"/fastqc2/SRR*
 	
 }
 
 
-trinity_busco_blast () {
+trinity () {
 
 	mkdir -p /scratch/projects/sykesj/trinity_"$SPECIES"_"$LAYOUT"
 
@@ -98,7 +98,8 @@ filter_busco_blast_index () {
 		&& rm -f /projects/sykesj/analyses/"$SPECIES"/blast/blastn_"$LAYOUT"_"$SPECIES".out
 
 ######### indexing #########
-		
+
+		mkdir -p /projects/sykesj/analyses/"$SPECIES"/kallisto
 		cd /projects/sykesj/analyses/"$SPECIES"/kallisto/
 		kallisto index -i "$LAYOUT"_"$SPECIES".idx /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly_1k.fa
 		cd /home/sykesj
@@ -107,7 +108,7 @@ filter_busco_blast_index () {
 
 
 multiqc $SPECIES $LAYOUT
-trinity_busco_blast $SPECIES $LAYOUT
+trinity $SPECIES $LAYOUT
 filter_busco_blast_index $SPECIES $LAYOUT
 
 

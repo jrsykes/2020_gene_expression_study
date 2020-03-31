@@ -12,9 +12,6 @@ SPECIES=$1
 SRR=$2
 LAYOUT=$3
 
-SPECIES=testp
-SRR=SRR567165
-LAYOUT=PAIRED
 
 mkdir -p /projects/sykesj/analyses/$SPECIES/blobtools/$SRR
 cd /projects/sykesj/analyses/$SPECIES/blobtools/$SRR

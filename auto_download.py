@@ -72,7 +72,7 @@ for i in (list(dict.fromkeys(species_list))):
 # Trinity paired
 
 		check3 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
-		while check3 > 1:
+		while check3 > 2:
 			time.sleep(10)
 			check3 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
 
@@ -85,7 +85,7 @@ for i in (list(dict.fromkeys(species_list))):
 # Trinity single 
 
 		check4 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
-		while check4 > 1:
+		while check4 > 2:
 			time.sleep(10)
 			check4 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
 

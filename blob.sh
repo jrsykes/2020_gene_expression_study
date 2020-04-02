@@ -36,4 +36,4 @@ python3  /home/sykesj/scripts/2020_gene_expression_study/BlobFilter.py blobplot.
 
 # Filter out contaminant contigs
 
-grep -v -wFf contig_ids.txt /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.tsv > /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.filtered.tsv
+grep -v -wFf contig_ids.txt /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/abundance.tsv > /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"_abundance.filtered.tsv

@@ -75,12 +75,12 @@ filter_busco_blast_index () {
 ###### filter out < 1000 bp ##########
 
 	python3 /home/sykesj/scripts/2020_gene_expression_study/1k_filter.py /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa \
-		/projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly_1k.fa && rm -f /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa
+		/projects/sykesj/analyses/"$SPECIES"/trinity/"$SPECIES"_"$LAYOUT"_assembly_1k.fa && rm -f /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa
 
 ###### busco ##########
 
 	python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
-		/projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly_1k.fa -o busco_"$LAYOUT"_"$SPECIES" \
+		/projects/sykesj/analyses/"$SPECIES"/trinity/"$SPECIES"_"$LAYOUT"_assembly_1k.fa -o busco_"$LAYOUT"_"$SPECIES" \
 		-l arthropoda_odb10 -m tran -c 16 \
 		&& mv /scratch/projects/sykesj/BUSCO_tmp/busco_"$LAYOUT"_"$SPECIES"/short_summary.specific.arthropoda_odb10.busco_"$LAYOUT"_"$SPECIES".txt \
 		/projects/sykesj/analyses/"$SPECIES"/busco/BUSCO_out_"$SPECIES"_"$LAYOUT".txt \
@@ -91,7 +91,7 @@ filter_busco_blast_index () {
 ########## blast ##########
 
 	export BLASTDB=:/home/sykesj/software/blastdb/nt/
-	/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
+	/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query /projects/sykesj/analyses/"$SPECIES"/trinity/"$SPECIES"_"$LAYOUT"_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
 		-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/projects/sykesj/blastn_"$LAYOUT"_"$SPECIES".out \
 		&& mv /scratch/projects/sykesj/blastn_"$LAYOUT"_"$SPECIES".out /projects/sykesj/analyses/"$SPECIES"/blast/ \
 		&& sort -k 13,13 -n /projects/sykesj/analyses/"$SPECIES"/blast/blastn_"$LAYOUT"_"$SPECIES".out > /projects/sykesj/analyses/"$SPECIES"/blast/"$SPECIES"_blastn_"$LAYOUT"_sorted.out \
@@ -101,7 +101,7 @@ filter_busco_blast_index () {
 
 		mkdir -p /projects/sykesj/analyses/"$SPECIES"/kallisto
 		cd /projects/sykesj/analyses/"$SPECIES"/kallisto/
-		kallisto index -i "$LAYOUT"_"$SPECIES".idx /projects/sykesj/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly_1k.fa
+		kallisto index -i "$LAYOUT"_"$SPECIES".idx /projects/sykesj/analyses/"$SPECIES"/trinity/"$SPECIES"_"$LAYOUT"_assembly_1k.fa
 		cd /home/sykesj
 
 }

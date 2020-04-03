@@ -24,12 +24,12 @@ then
 	if [ "$PAIRED_BUSCO_SCORE" -ge "$SINGLE_BUSCO_SCORE" ]
 	then
 		BEST_TRANS_IDX=PAIRED_"$SPECIES".idx
-		touch /projects/sykesj/analyses/"$SPECIES"/busco/mapped_to_PAIRED_idx
+		touch /projects/sykesj/analyses/"$SPECIES"/kallisto/mapped_to_PAIRED_idx
 	
 	elif [ "$PAIRED_BUSCO_SCORE" -lt "$SINGLE_BUSCO_SCORE" ]
 	then
 		BEST_TRANS_IDX=SINGLE_"$SPECIES".idx
-		touch /projects/sykesj/analyses/"$SPECIES"/busco/mapped_to_SINGLE_idx
+		touch /projects/sykesj/analyses/"$SPECIES"/kallisto/mapped_to_SINGLE_idx
 	
 	else
 		touch /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"_FailedToMap

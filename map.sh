@@ -28,7 +28,7 @@ then
 	fi
 fi
 
-echo "$BEST_TRANS_IDX"
+touch /home/sykesj/"$BEST_TRANS_IDX"
 exit 1
 
 kallisto_map () {

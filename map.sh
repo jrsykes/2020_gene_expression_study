@@ -14,7 +14,7 @@ SEX=$3
 LAYOUT=$4
 DUEL_LAYOUT=$5
 
-if [ "$DUEL_LAYOUT" == 'YES']
+if ["$DUEL_LAYOUT" == YES]
 then
 	PAIRED_BUSCO_SCORE=$(sed '8q;d' /projects/sykesj/analyses/"$SPECIES"/busco/BUSCO_out_"$SPECIES"_PAIRED.txt | awk -F[CS] '{print $2}' | sed 's/[^0-9]*//g')
 	SINGLE_BUSCO_SCORE=$(sed '8q;d' /projects/sykesj/analyses/"$SPECIES"/busco/BUSCO_out_"$SPECIES"_SINGLE.txt | awk -F[CS] '{print $2}' | sed 's/[^0-9]*//g')

@@ -24,8 +24,8 @@ for dir in /projects/sykesj/analyses/$SPECIES/kallisto/"$SRR"; do echo $dir; cut
 
 #Ensure that the arguments trinity/*, blast/* and -c *.cov in the following line are correct.
 # Creating a blobDB  
-/home/sykesj/software/blobtools-blobtools_v1.1.1/./blobtools create -i /projects/sykesj/analyses/$SPECIES/trinity/"$SPECIES"_"$LAYOUT"_assembly_1k.fa \
-	-t /projects/sykesj/analyses/$SPECIES/blast/$SPECIES"_blastn_"$LAYOUT"_sorted.out" -o blobplot -c /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR".cov
+/home/sykesj/software/blobtools-blobtools_v1.1.1/./blobtools create -i /projects/sykesj/analyses/"$SPECIES"/trinity/"$SPECIES"_"$LAYOUT"_assembly_1k.fa \
+	-t /projects/sykesj/analyses/"$SPECIES"/blast/"$SPECIES"_blastn_"$LAYOUT"_sorted.out -o blobplot -c /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR".cov
 
 # Extracting a "view" table
 /home/sykesj/software/blobtools-blobtools_v1.1.1/./blobtools view -i blobplot.blobDB.json --rank all --hits

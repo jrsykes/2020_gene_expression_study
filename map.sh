@@ -28,7 +28,7 @@ then
 	fi
 fi
 
-touch $HOME/"$BEST_TRANS_IDX"
+touch $HOME/"$DUEL_LAYOUT"
 touch $HOME/fail
 exit 1
 

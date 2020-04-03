@@ -21,12 +21,12 @@ then
 	touch $HOME/"$PAIRED_BUSCO_SCORE"
 	touch $HOME/"$SINGLE_BUSCO_SCORE"
 	
-	if "$PAIRED_BUSCO_SCORE" >= "$SINGLE_BUSCO_SCORE"
+	if ["$PAIRED_BUSCO_SCORE" >= "$SINGLE_BUSCO_SCORE"]
 	then
 		BEST_TRANS_IDX=PAIRED_"$SPECIES".idx
 		touch /projects/sykesj/analyses/"$SPECIES"/busco/mapped_to_PAIRED_idx_"$PAIRED_BUSCO_SCORE"
 	
-	elif "$PAIRED_BUSCO_SCORE" < "$SINGLE_BUSCO_SCORE"
+	elif ["$PAIRED_BUSCO_SCORE" < "$SINGLE_BUSCO_SCORE"]
 	then
 		BEST_TRANS_IDX=SINGLE_"$SPECIES".idx
 		touch /projects/sykesj/analyses/"$SPECIES"/busco/mapped_to_SINGLE_idx_"$SINGLE_BUSCO_SCORE"

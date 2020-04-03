@@ -28,7 +28,8 @@ then
 	fi
 fi
 
-touch /home/sykesj/"$BEST_TRANS_IDX"
+touch $HOME/"$BEST_TRANS_IDX"
+touch $HOME/fail
 exit 1
 
 kallisto_map () {

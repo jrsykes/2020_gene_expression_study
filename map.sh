@@ -20,18 +20,20 @@ then
 	SINGLE_BUSCO_SCORE=$(sed '8q;d' /projects/sykesj/analyses/"$SPECIES"/busco/BUSCO_out_"$SPECIES"_SINGLE.txt | awk -F[CS] '{print $2}' | sed 's/[^0-9]*//g')
 	touch $HOME/"$PAIRED_BUSCO_SCORE"
 	touch $HOME/"$SINGLE_BUSCO_SCORE"
-	if "$PAIRED_BUSCO_SCORE" > "$SINGLE_BUSCO_SCORE"
+	if "$PAIRED_BUSCO_SCORE" >= "$SINGLE_BUSCO_SCORE"
 	then
-			BEST_TRANS_IDX=PAIRED_"$SPECIES".idx
-			touch /projects/sykesj/analyses/"$SPECIES"/busco/mapped_to_PAIRED_idx_"$PAIRED_BUSCO_SCORE"
+		BEST_TRANS_IDX=PAIRED_"$SPECIES".idx
+		touch /projects/sykesj/analyses/"$SPECIES"/busco/mapped_to_PAIRED_idx_"$PAIRED_BUSCO_SCORE"
+	elif "$PAIRED_BUSCO_SCORE" < "$SINGLE_BUSCO_SCORE"
+		BEST_TRANS_IDX=SINGLE_"$SPECIES".idx
+		touch /projects/sykesj/analyses/"$SPECIES"/busco/mapped_to_SINGLE_idx_"$SINGLE_BUSCO_SCORE"
 	else
-			BEST_TRANS_IDX=SINGLE_"$SPECIES".idx
-			touch /projects/sykesj/analyses/"$SPECIES"/busco/mapped_to_SINGLE_idx_"$SINGLE_BUSCO_SCORE"
+		touch /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"_FailedToMap
+		exit 1
 	fi
 fi
 
 
-touch $HOME/fail
 exit 1
 
 kallisto_map () {
@@ -56,9 +58,9 @@ kallisto_map () {
 	then
 		if [ $DUEL_LAYOUT == 'YES']
 		then
-			TRANS_IDX=$BEST_TRANS_IDX
+			TRANS_IDX="$BEST_TRANS_IDX"
 		else
-			TRANS_IDX=single_$SPECIES.idx
+			TRANS_IDX=SINGLE_"$SPECIES".idx
 		fi
 
 		READ_LENGTH=$(awk 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("%f\n",m);}'  /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/$SEX/$SRR\_s.fq)

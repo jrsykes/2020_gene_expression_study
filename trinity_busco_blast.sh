@@ -14,12 +14,14 @@ LAYOUT=$2
 
 multi_qc () {
 
-	TRIMMED_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*.fq /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*.fq) ; \
-		do readlink -f $file; done | paste -sd " " - )
-	
-	/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/"$SPECIES"/fastqc2 "$TRIMMED_LIBS" \
-		&& multiqc /projects/sykesj/analyses/"$SPECIES"/fastqc/ -o /projects/sykesj/analyses/"$SPECIES"/fastqc/ && rm -f /projects/sykesj/analyses/"$SPECIES"/fastqc/SRR* \
-		&& multiqc /projects/sykesj/analyses/"$SPECIES"/fastqc2/ -o /projects/sykesj/analyses/"$SPECIES"/fastqc2/ && rm -f /projects/sykesj/analyses/"$SPECIES"/fastqc2/SRR*
+	FEMALE_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*) ; do readlink -f $file; done | paste -sd " " - )
+	/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/"$SPECIES"/fastqc2 $FEMALE_LIBS
+
+	MALE_LIBS=$(for file in $(ls /projects/sykesj/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*) ; do readlink -f $file; done | paste -sd " " - )
+	/home/sykesj/software/FastQC/fastqc --outdir /projects/sykesj/analyses/"$SPECIES"/fastqc2 $MALE_LIBS
+
+	multiqc /projects/sykesj/analyses/"$SPECIES"/fastqc/ -o /projects/sykesj/analyses/"$SPECIES"/fastqc/ && rm -f /projects/sykesj/analyses/"$SPECIES"/fastqc/SRR*
+	multiqc /projects/sykesj/analyses/"$SPECIES"/fastqc2/ -o /projects/sykesj/analyses/"$SPECIES"/fastqc2/ && rm -f /projects/sykesj/analyses/"$SPECIES"/fastqc2/SRR*
 	
 }
 

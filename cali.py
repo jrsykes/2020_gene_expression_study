@@ -23,7 +23,7 @@ for filename in sys.argv[1:]:
 	elif 'abundance.filtered.tsv' in filename:
 		abundace_list.append(filename)
 
-Outfile = sys.argv[2]
+FinalOutfile = sys.argv[2]
 
 ##################################
 
@@ -129,6 +129,6 @@ for index, row in dat.iterrows():
 	final_df[SRR] = tpm_list
 	
 
-final_df.to_csv(Outfile, index=False)
+final_df.to_csv(FinalOutfile, index=False)
 
 print('Program complete \n')

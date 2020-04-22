@@ -119,7 +119,7 @@ for index, row in dat.iterrows():
 	species = str(row[0])
 	tpm_list = []
 	tpm_list.append(species)
-	tpm_list.append(condition)
+	tpm_list.append(SexDeterm)
 
 	cali_abundance_file = FinalOutfile_dir + SRR + '_CaliOut.csv'
 	cali_abundance_df = pd.read_csv(cali_abundance_file, header=None, dtype={0: str, 1: str, 2: float})

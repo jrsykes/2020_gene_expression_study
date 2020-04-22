@@ -16,7 +16,7 @@ blast_list = []
 abundace_list= []
 
 CaliWDin = str(sys.argv[2]) + '/in/'
-
+CaliWDout = str(sys.argv[2]) + '/out/'
 
 
 for i in os.listdir(CaliWDin):
@@ -48,7 +48,7 @@ blast_id_list = list(dict.fromkeys(blast_id_list))
 
 print('\n Blast ID list built \n')
 
-####################################################################33
+####################################################################
 
 
 # Create a file for each SRA library with trinity ID, blast ID and TPM or each contig
@@ -66,7 +66,8 @@ blast_id_list = []
 
 for index, row in dat.iterrows():
 	SRR = row[1]
-	check = str(subprocess.check_output('ls', shell=True))
+	command = 'ls ' + CaliWDout
+	check = str(subprocess.check_output(command, shell=True))
 	if SRR not in check:
 		try:
 			blast = CaliWDin + row[0] + '_blastn_PAIRED_sorted.out'

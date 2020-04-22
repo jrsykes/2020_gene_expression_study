@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!miniconda3/bin/python3
 #SBATCH --partition=long
 #SBATCH --time=5-00:00:00
 #SBATCH --nodes=1

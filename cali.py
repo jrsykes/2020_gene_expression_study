@@ -7,8 +7,9 @@ import sys
 ####################################
 # Parsing input files
 
+InFile = sys.argv[2:]
 
-dat = pd.read_csv("SRA_list_refined.csv", header=None)
+dat = pd.read_csv(InFile, header=None)
 
 
 
@@ -23,7 +24,7 @@ for filename in sys.argv[1:]:
 	elif 'abundance.filtered.tsv' in filename:
 		abundace_list.append(filename)
 
-FinalOutfile = sys.argv[2]
+FinalOutfile_dir = sys.argv[3:]
 
 ##################################
 
@@ -31,19 +32,19 @@ FinalOutfile = sys.argv[2]
 #######################################################
 # Create list of all contig blast IDs with no duplicates
 
-#print('\n Building list of blast IDs \n')#
+print('\n Building list of blast IDs \n')
 
-#blast_id_list = []#
+blast_id_list = []
 
-#for item in blast_list:
-#	df = pd.read_csv(item, sep='\t')
-#	for index, row in df.iterrows():
-#		if row[4] not in blast_id_list:
-#			blast_id_list.append(row[4])#
+for item in blast_list:
+	df = pd.read_csv(item, sep='\t')
+	for index, row in df.iterrows():
+		if row[4] not in blast_id_list:
+			blast_id_list.append(row[4])
 
-#blast_id_list = list(dict.fromkeys(blast_id_list))#
+blast_id_list = list(dict.fromkeys(blast_id_list))
 
-#print('\n Blast ID list built \n')
+print('\n Blast ID list built \n')
 
 ####################################################################33
 
@@ -72,7 +73,7 @@ for index, row in dat.iterrows():
 			blast = 'dat/' + row[0] + '_blastn_SINGLE_sorted.out'
 			blast_df = pd.read_csv(blast, sep='\t', header=None, low_memory=False)
 		
-		outFile = SRR + '_CaliOut.csv'
+		outFile = FinalOutfile_dir + SRR + '_CaliOut.csv'
 		abundance_file = 'dat/' + SRR + '_abundance.filtered.tsv'
 		abundance_df = pd.read_csv(abundance_file, sep='\t', header=0)
 		
@@ -110,7 +111,8 @@ final_df['Blast_ID'] = blast_id_list
 
 for index, row in dat.iterrows():
 	SRR = row[1]
-	condition = str(row[2]) + str(row[4])
+	sex = str(row[2])
+	SexDeterm = str(row[4])
 	species = str(row[0])
 	tpm_list = []
 	tpm_list.append(species)
@@ -128,7 +130,7 @@ for index, row in dat.iterrows():
 
 	final_df[SRR] = tpm_list
 	
-
-final_df.to_csv(FinalOutfile, index=False)
+out = FinalOutfile_dir + 'CaliOut.csv'
+final_df.to_csv(out, index=False)
 
 print('Program complete \n')

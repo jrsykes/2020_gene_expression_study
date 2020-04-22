@@ -7,9 +7,9 @@ import sys
 ####################################
 # Parsing input files
 
-InFile = sys.argv[2:]
+SRAFile = sys.argv[2:]
 
-dat = pd.read_csv(InFile, header=None)
+dat = pd.read_csv(SRAFile, header=None)
 
 
 
@@ -118,7 +118,7 @@ for index, row in dat.iterrows():
 	tpm_list.append(species)
 	tpm_list.append(condition)
 
-	cali_abundance_file = SRR + '_CaliOut.csv'
+	cali_abundance_file = FinalOutfile_dir + SRR + '_CaliOut.csv'
 	cali_abundance_df = pd.read_csv(cali_abundance_file, header=None)
 
 	for i in blast_id_list:

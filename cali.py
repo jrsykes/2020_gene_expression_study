@@ -2,8 +2,8 @@
 #SBATCH --partition=long
 #SBATCH --time=5-00:00:00
 #SBATCH --nodes=1
-#SBATCH --mem=200gb
-#SBATCH --ntasks=1
+#SBATCH --mem=100gb
+#SBATCH --ntasks=29
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j.err
 
@@ -13,6 +13,7 @@ import pandas as pd
 import subprocess
 import sys
 import os
+import multiprocessing as mp
 ####################################
 # Parsing input files
 
@@ -66,6 +67,7 @@ print('Blast ID list built \n')
 # Create a file for each SRA library with trinity ID, blast ID and TPM or each contig
 ###############################
 
+
 print('Compiling Trinity IDs, Blast IDs & TMP counts \n')
 
 
@@ -74,44 +76,53 @@ print('Compiling Trinity IDs, Blast IDs & TMP counts \n')
 #Merge Trinity IDs, BLAST IDs and Kalisoto TPMs for each contig
 
 
-#blast_id_list = []
 
-for index, row in dat.iterrows():
-	SRR = row[1]
-	command = 'ls ' + CaliWDout
-	check = str(subprocess.check_output(command, shell=True))
-	if SRR not in check:
-		try:
-			blast = CaliWDin + row[0] + '_blastn_PAIRED_sorted.out'
-			blast_df = pd.read_csv(blast, sep='\t', header=None, usecols = [0, 4], dtype=str)
-		except:
-			blast = CaliWDin + row[0] + '_blastn_SINGLE_sorted.out'
-			blast_df = pd.read_csv(blast, sep='\t', header=None,  usecols = [0, 4], dtype=str)
-		
-		outFile = FinalOutfile_dir + SRR + '_CaliOut.csv'
-		abundance_file = CaliWDin + SRR + '_abundance.filtered.tsv'
-		abundance_df = pd.read_csv(abundance_file, sep='\t', usecols = ['target_id', 'tpm'], header=0, dtype={"target_id": str, "tpm": float})
-		
-		for index, row in abundance_df.iterrows():
-				trinity_id = row[0]
-				tpm = row[1]
-				try:
-					search_out = list(blast_df[blast_df[0].str.match(trinity_id)].iloc[0])
-					blast_id = search_out[1]
-					with open(outFile, 'a+') as f:
-						f.write(str(trinity_id) + ',' + str(blast_id) + ',' + str(tpm) + '\n')
-									
-					#if blast_id not in blast_id_list:
-						#blast_id_list.append(blast_id)
-				except:
-					pass
+def compiler(chunk):
+	"""Merge Trinity IDs, BLAST IDs and Kalisoto TPMs for each contig"""
+	for index, row in chunk.iterrows():
+		SRR = row[1]
+		command = 'ls ' + CaliWDout
+		check = str(subprocess.check_output(command, shell=True))
+		if SRR not in check:
+			outFile = FinalOutfile_dir + SRR + '_CaliOut.csv'
+			try:
+				blast = CaliWDin + row[0] + '_blastn_PAIRED_sorted.out'
+				blast_df = pd.read_csv(blast, sep='\t', header=None, usecols = [0, 4], dtype=str)
+			except:
+				blast = CaliWDin + row[0] + '_blastn_SINGLE_sorted.out'
+				blast_df = pd.read_csv(blast, sep='\t', header=None,  usecols = [0, 4], dtype=str)
+			abundance_file = CaliWDin + SRR + '_abundance.filtered.tsv'
+			abundance_df = pd.read_csv(abundance_file, sep='\t', usecols = ['target_id', 'tpm'], header=0, dtype={"target_id": str, "tpm": float})
+			for index, row in abundance_df.iterrows():
+					trinity_id = row[0]
+					tpm = row[1]
+					try:
+						search_out = list(blast_df[blast_df[0].str.match(trinity_id)].iloc[0])
+						blast_id = search_out[1]
+						with open(outFile, 'a+') as f:
+							f.write(str(trinity_id) + ',' + str(blast_id) + ',' + str(tpm) + '\n')
+						#if blast_id not in blast_id_list:
+							#blast_id_list.append(blast_id)
+					except:
+						pass
 
 
+chunk_size = int(dat.shape[0]/29)
+chunks = [dat.iloc[dat.index[i:i + chunk_size]] for i in range(0, dat.shape[0], chunk_size)]
+
+pool = mp.Pool(processes=29)
+
+
+result = pool.map(compiler, chunks)
+
+pool.close()    
 
 
 
 print('Complilation complete \n')
-	
+
+
+
 ###############################################################################################################################################
 
 ###########################################################
@@ -122,14 +133,16 @@ print('Producing final output file \n')
 
 final_df = pd.DataFrame()
 
-PlaceHolderList = ['.', '.', '.']
-blast_id_list.insert(0, PlaceHolderList)
+blast_id_list.insert(0, '.')
+blast_id_list.insert(0, '.')
+blast_id_list.insert(0, '.')
+
 
 final_df['Blast_ID'] = blast_id_list
 
 for index, row in dat.iterrows():
-	SRR = row[1]
 	species = row[0]
+	SRR = row[1]
 	sex = row[2]
 	SexDeterm = row[4]
 	

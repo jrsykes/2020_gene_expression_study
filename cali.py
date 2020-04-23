@@ -3,7 +3,7 @@
 #SBATCH --time=5-00:00:00
 #SBATCH --nodes=1
 #SBATCH --mem=100gb
-#SBATCH --ntasks=29
+#SBATCH --ntasks=20
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j.err
 
@@ -107,10 +107,10 @@ def compiler(chunk):
 						pass
 
 
-chunk_size = int(dat.shape[0]/29)
+chunk_size = int(dat.shape[0]/20)
 chunks = [dat.iloc[dat.index[i:i + chunk_size]] for i in range(0, dat.shape[0], chunk_size)]
 
-pool = mp.Pool(processes=29)
+pool = mp.Pool(processes=20)
 
 
 result = pool.map(compiler, chunks)

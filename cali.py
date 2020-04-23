@@ -45,7 +45,7 @@ FinalOutfile_dir = str(sys.argv[2]) + '/out/'
 #######################################################
 # Create list of all contig blast IDs with no duplicates
 
-print('\n Building list of blast IDs \n')
+print('\nBuilding list of blast IDs \n')
 
 blast_id_list = []
 
@@ -57,7 +57,8 @@ for item in blast_list:
 
 blast_id_list = list(dict.fromkeys(blast_id_list))
 
-print('\n Blast ID list built \n')
+
+print('Blast ID list built \n')
 
 ####################################################################
 
@@ -65,7 +66,7 @@ print('\n Blast ID list built \n')
 # Create a file for each SRA library with trinity ID, blast ID and TPM or each contig
 ###############################
 
-print('\n Compiling Trinity IDs, Blast IDs & TMP counts \n')
+print('Compiling Trinity IDs, Blast IDs & TMP counts \n')
 
 
 ####################################################
@@ -73,7 +74,7 @@ print('\n Compiling Trinity IDs, Blast IDs & TMP counts \n')
 #Merge Trinity IDs, BLAST IDs and Kalisoto TPMs for each contig
 
 
-blast_id_list = []
+#blast_id_list = []
 
 for index, row in dat.iterrows():
 	SRR = row[1]
@@ -100,8 +101,8 @@ for index, row in dat.iterrows():
 					with open(outFile, 'a+') as f:
 						f.write(str(trinity_id) + ',' + str(blast_id) + ',' + str(tpm) + '\n')
 									
-					if blast_id not in blast_id_list:
-						blast_id_list.append(blast_id)
+					#if blast_id not in blast_id_list:
+						#blast_id_list.append(blast_id)
 				except:
 					pass
 
@@ -121,16 +122,21 @@ print('Producing final output file \n')
 
 final_df = pd.DataFrame()
 
+PlaceHolderList = ['.', '.', '.']
+blast_id_list.insert(0, PlaceHolderList)
+
 final_df['Blast_ID'] = blast_id_list
 
 for index, row in dat.iterrows():
 	SRR = row[1]
-	sex = str(row[2])
-	SexDeterm = str(row[4])
-	species = str(row[0])
+	species = row[0]
+	sex = row[2]
+	SexDeterm = row[4]
+	
 	tpm_list = []
 	tpm_list.append(species)
 	tpm_list.append(SexDeterm)
+	tpm_list.append(sex)
 
 	cali_abundance_file = FinalOutfile_dir + SRR + '_CaliOut.csv'
 	cali_abundance_df = pd.read_csv(cali_abundance_file, header=None, dtype={0: str, 1: str, 2: float})

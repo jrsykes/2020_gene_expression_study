@@ -60,9 +60,6 @@ def blast_id_list_builder():
 			if row[0] not in blast_id_list:
 				blast_id_list.append(row[0])
 	blast_id_list = list(dict.fromkeys(blast_id_list))
-	#blast_id_list.insert(0, '.')
-	#blast_id_list.insert(0, '.')
-	#blast_id_list.insert(0, '.')
 	final_df['Blast_ID'] = blast_id_list
 	final_df.to_csv(out, index=False)
 
@@ -120,8 +117,6 @@ def compiler(chunk):
 						blast_id = search_out[1]
 						with open(outFile, 'a+') as f:
 							f.write(str(trinity_id) + ',' + str(blast_id) + ',' + str(tpm) + '\n')
-						#if blast_id not in blast_id_list:
-							#blast_id_list.append(blast_id)
 					except:
 						pass
 
@@ -139,7 +134,7 @@ def compiler(chunk):
 
 
 def ID_tpm_combiner(chunk):
-	for index, row in dat.iterrows():
+	for index, row in chunk.iterrows():
 		species = row[0]
 		SRR = row[1]
 		sex = row[2]
@@ -155,7 +150,11 @@ def ID_tpm_combiner(chunk):
 			tpm = search_out[2].sum()
 			tpm_list.append(tpm)
 		final_df[SRR] = tpm_list
+
+
 	
+
+
 
 chunk_size = int(dat.shape[0]/n_processes)
 chunks = [dat.iloc[dat.index[i:i + chunk_size]] for i in range(0, dat.shape[0], chunk_size)]
@@ -173,7 +172,6 @@ print('Producing final output file \n')
 pool = mp.Pool(processes=n_processes)
 result = pool.map(ID_tpm_combiner, chunks)
 pool.close()  
-
 
 
 out = FinalOutfile_dir + 'CaliOut.csv'

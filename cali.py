@@ -15,7 +15,6 @@ import subprocess
 import sys
 import os
 import multiprocessing as mp
-from random import random
 ####################################
 # Parsing input files
 
@@ -83,7 +82,6 @@ for i in dot_lst:
 	blast_id_list.insert(1, i)
 
 blast_id_df = pd.DataFrame(blast_id_list[1:])
-#blast_id_df.to_csv(out_file, index=False)
 
 
 print('Blast ID list built \n')
@@ -111,7 +109,7 @@ def compiler(chunk):
 		command = 'ls ' + CaliWDout
 		check = str(subprocess.check_output(command, shell=True))
 		if SRR not in check:
-			outFile = FinalOutfile_dir + SRR + '_CaliOut.csv'
+			outFile = CaliWDout + SRR + '_CaliOut.csv'
 			try:
 				blast = CaliWDin + row[0] + '_blastn_PAIRED_sorted.out'
 				blast_df = pd.read_csv(blast, sep='\t', header=None, usecols = [0, 4], dtype=str)

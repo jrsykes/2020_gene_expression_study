@@ -2,12 +2,12 @@
 #SBATCH --partition=long
 #SBATCH --time=5-00:00:00
 #SBATCH --nodes=1
-#SBATCH --mem=200gb
-#SBATCH --ntasks=15
+#SBATCH --mem=300gb
+#SBATCH --ntasks=30
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j.err
 
-n_processes = 15
+n_processes = 30
 
 
 import pandas as pd

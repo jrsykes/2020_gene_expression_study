@@ -78,7 +78,7 @@ kallisto_map () {
 
 ####### setting up files for sleuth #########
 
-	ln -s /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR" /projects/sykesj/analyses/"$SPECIES"/kallisto/kal_results/kal_files/
+	#ln -s /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR" /projects/sykesj/analyses/"$SPECIES"/kallisto/kal_results/kal_files/
 	rm -rf /projects/sykesj/analyses/"$SPECIES"/kallisto/"$SRR"/"$SRR"
 
 }

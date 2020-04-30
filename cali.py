@@ -4,8 +4,8 @@
 #SBATCH --nodes=1
 #SBATCH --mem=200gb
 #SBATCH --ntasks=18
-#SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out
-#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j.err
+#SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-cali.out
+#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err
 
 n_processes = 18
 

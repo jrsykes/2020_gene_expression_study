@@ -1,8 +1,11 @@
 #!/bin/bash
+#SBATCH --partition=medium
+#SBATCH --time=1-00:00:00
 #SBATCH --nodes=1
-#SBATCH --mem=10gb
-#SBATCH --ntasks=4
-#SBATCH -o StdOut-%
+#SBATCH --mem=40gb
+#SBATCH --ntasks=6
+#SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-trim.out
+#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-trim.err
 
 species=$1
 SRR=$2

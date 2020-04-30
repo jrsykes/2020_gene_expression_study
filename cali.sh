@@ -9,4 +9,7 @@
 
 sbatch /home/sykesj/scripts/2020_gene_expression_study/cali.py /home/sykesj/dat/SRA_list_refined.csv /scratch/projects/sykesj/CaliWD
 
+sbatch /home/sykesj/scripts/2020_gene_expression_study/cali.py /home/sykesj/dat/SRA_list_refined_test.csv /scratch/projects/sykesj/CaliWD
+
+
 python3 /home/jamie/Documents/2020_gene_expression_study/scripts/cali.py /home/jamie/Documents/2020_gene_expression_study/cali_test/SRA_list_refined.csv /home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD

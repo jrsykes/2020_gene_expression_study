@@ -4,8 +4,8 @@
 #SBATCH --nodes=1
 #SBATCH --mem=40gb
 #SBATCH --ntasks=6
-#SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j.out
-#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j.err
+#SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-map.out
+#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-map.err
 
 
 SPECIES=$1

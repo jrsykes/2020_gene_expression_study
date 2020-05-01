@@ -8,4 +8,13 @@ dat <- read.csv("/home/jamie/Documents/2020_gene_expression_study/cali_test/Cali
 
 dat <- subset(dat,select=-c(X0))
 
-head(dat)
+gene_dat <- tail(dat, -3)
+
+
+head(mtcars)
+
+quit()
+
+dat.pca <- prcomp(gene_dat, center = TRUE, scale. =TRUE)
+
+summary(dat.pca)

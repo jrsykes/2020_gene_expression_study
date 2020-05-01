@@ -77,7 +77,7 @@ else:
 
 
 blast_id_list = [item for sublist in blast_id_list for item in sublist]
-dot_lst = ['.', '.', '.']
+dot_lst = ['.', '.', '.', '.']
 for i in dot_lst:
 	blast_id_list.insert(1, i)
 
@@ -153,7 +153,7 @@ def ID_tpm_combiner(dat):
 		sex = row[2]
 		SexDeterm = row[4]
 		tpm_list = []
-		#tpm_list.append(SRR)
+		tpm_list.append(SRR)
 		tpm_list.append(species)
 		tpm_list.append(SexDeterm)
 		tpm_list.append(sex)

@@ -14,4 +14,4 @@ sbatch /home/sykesj/scripts/2020_gene_expression_study/cali.py /home/sykesj/dat/
 
 python3 /home/jamie/Documents/2020_gene_expression_study/scripts/cali.py /home/jamie/Documents/2020_gene_expression_study/cali_test/SRA_list_refined.csv /home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD
 
-awk '{sub(/[^,]*/,"");sub(/,/,"")} 1' CaliOut.csv | tail -n +2 > CaliOut_NoBlast.csv
+tail -n +2  CaliOut.csv > CaliOut_2.csv

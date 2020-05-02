@@ -77,7 +77,9 @@ else:
 
 
 blast_id_list = [item for sublist in blast_id_list for item in sublist]
-dot_lst = ['', 'species', 'SexDeterm', 'sex']
+dot_lst = ['sex', 'SexDeterm', 'species', '']
+
+
 for i in dot_lst:
 	blast_id_list.insert(1, i)
 

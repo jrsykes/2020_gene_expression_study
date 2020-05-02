@@ -7,17 +7,14 @@ rm(list=ls())
 #phylo<-read.nexus("/home/jamie/Documents/2020_gene_expression_study/dat/cladogram.nex")
 #print (phylo)
 
-dat <- read.csv(file = "/home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD/out/CaliOut_NoBlast.csv", header = 1)
+dat <- read.csv(file = "/home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD/out/CaliOut_2.csv", header = FALSE)
 
 #names(dat) <- as.matrix(dat[1, ])
 #dat <- dat[-1, ]
 #dat[] <- lapply(dat, function(x) type.convert(as.character(x)))
 
-cars = mtcars
 
-#cars = tail(cars, -2)
-
-print (t(cars))
+head (dat)
 
 quit()
 

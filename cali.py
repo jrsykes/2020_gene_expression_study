@@ -7,7 +7,7 @@
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err
 
-n_processes = 18
+n_processes = 12
 
 
 import pandas as pd
@@ -77,7 +77,7 @@ else:
 
 
 blast_id_list = [item for sublist in blast_id_list for item in sublist]
-dot_lst = ['.', '.', '.', '.']
+dot_lst = ['BlastID', '', '', '']
 for i in dot_lst:
 	blast_id_list.insert(1, i)
 
@@ -159,11 +159,11 @@ def ID_tpm_combiner(dat):
 		tpm_list.append(sex)
 		cali_abundance_file = CaliWDout + SRR + '_CaliOut.csv'
 		cali_abundance_df = pd.read_csv(cali_abundance_file, header=None, dtype={0: str, 1: str, 2: float})
-		for i in blast_id_list[4:]:
+		for i in blast_id_list[5:]:
 			search_out = cali_abundance_df[cali_abundance_df[1].str.match(str(i))]
 			tpm = search_out[2].sum()
 			tpm_list.append(tpm)
-		
+
 		out_df[SRR] = tpm_list
 	
 	return out_df.values.tolist()

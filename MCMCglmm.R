@@ -1,20 +1,27 @@
+rm(list=ls())
+
+
+
 #library(ape)
 #library(MCMCglmm)
 #phylo<-read.nexus("/home/jamie/Documents/2020_gene_expression_study/dat/cladogram.nex")
 #print (phylo)
 
+dat <- read.csv(file = "/home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD/out/CaliOut_NoBlast.csv", header = 1)
 
-dat <- read.csv("/home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD/out/CaliOut.csv")
+#names(dat) <- as.matrix(dat[1, ])
+#dat <- dat[-1, ]
+#dat[] <- lapply(dat, function(x) type.convert(as.character(x)))
 
-dat <- subset(dat,select=-c(X0))
+cars = mtcars
 
-gene_dat <- tail(dat, -3)
+#cars = tail(cars, -2)
 
-
-head(mtcars)
+print (t(cars))
 
 quit()
 
-dat.pca <- prcomp(gene_dat, center = TRUE, scale. =TRUE)
+dat.pca <- prcomp(dat, center = TRUE, scale. =TRUE)
 
 summary(dat.pca)
+

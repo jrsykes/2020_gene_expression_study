@@ -1,20 +1,20 @@
-rm(list=ls())
-
-
-
 #library(ape)
 #library(MCMCglmm)
 #phylo<-read.nexus("/home/jamie/Documents/2020_gene_expression_study/dat/cladogram.nex")
 #print (phylo)
 
-dat <- read.csv(file = "/home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD/out/CaliOut_2.csv", header = FALSE)
+dat <- read.csv(file = "/home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD/out/cali_out.csv", header = FALSE)
+#dat <- t(dat)
 
-#names(dat) <- as.matrix(dat[1, ])
-#dat <- dat[-1, ]
-#dat[] <- lapply(dat, function(x) type.convert(as.character(x)))
+#names <- read.csv(file = "/home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD/out/caliOut_2.csv", header = FALSE)[,1][-1]
 
+
+#column_to_rownames(dat, var='X')
 
 head (dat)
+
+
+
 
 quit()
 

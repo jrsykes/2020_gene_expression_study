@@ -7,7 +7,7 @@
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err
 
-n_processes = 18
+n_processes = 2
 
 
 import pandas as pd
@@ -48,7 +48,7 @@ for i in os.listdir(CaliWDin):
 print('\nBuilding list of blast IDs \n')
 
 blast_out = CaliWDout + 'blast_id_list.csv'
-out_file = CaliWDout + 'CaliOut.csv'
+#out_file = CaliWDout + 'CaliOut.csv'
 
 
 def blast_id_list_builder():
@@ -75,15 +75,13 @@ else:
 	blast_id_list = pd.read_csv(blast_out, header=None, dtype = str).values.tolist()
 
 
-
+blast_id_list.remove(blast_id_list[0])
 blast_id_list = [item for sublist in blast_id_list for item in sublist]
-dot_lst = ['sex', 'SexDeterm', 'species', '']
+dot_lst = ['sex', 'SexDeterm', 'species']
 
 
 for i in dot_lst:
-	blast_id_list.insert(1, i)
-
-blast_id_df = pd.DataFrame(blast_id_list[1:])
+	blast_id_list.insert(0, i)
 
 
 print('Blast ID list built \n')
@@ -105,13 +103,12 @@ print('Blast ID list built \n')
 
 
 def compiler(chunk):
-	"""Merge Trinity IDs, BLAST IDs and Kalisoto TPMs for each contig"""
+	"""Merge Trinity IDs, BLAST IDs and Kalisoto TPMs for each contig in a library"""
 	for index, row in chunk.iterrows():
 		SRR = row[1]
 		command = 'ls ' + CaliWDout
 		check = str(subprocess.check_output(command, shell=True))
 		if SRR not in check:
-			outFile = CaliWDout + SRR + '_CaliOut.csv'
 			try:
 				blast = CaliWDin + row[0] + '_blastn_PAIRED_sorted.out'
 				blast_df = pd.read_csv(blast, sep='\t', header=None, usecols = [0, 4], dtype=str)
@@ -120,16 +117,21 @@ def compiler(chunk):
 				blast_df = pd.read_csv(blast, sep='\t', header=None,  usecols = [0, 4], dtype=str)
 			abundance_file = CaliWDin + SRR + '_abundance.filtered.tsv'
 			abundance_df = pd.read_csv(abundance_file, sep='\t', usecols = ['target_id', 'tpm'], header=0, dtype={"target_id": str, "tpm": float})
+						
+			df_to_write = pd.DataFrame()
 			for index, row in abundance_df.iterrows():
 					trinity_id = row[0]
 					tpm = row[1]
 					try:
 						search_out = list(blast_df[blast_df[0].str.match(trinity_id)].iloc[0])
 						blast_id = search_out[1]
-						with open(outFile, 'a+') as f:
-							f.write(str(trinity_id) + ',' + str(blast_id) + ',' + str(tpm) + '\n')
+						row = pd.Series([str(trinity_id), str(blast_id), str(tpm)])
+						df_append = pd.DataFrame([row])
+						df_to_write = pd.concat([df_to_write, df_append], ignore_index = True)
 					except:
 						pass
+			out_file = CaliWDout + SRR + '_CaliOut.csv'
+			df_to_write.to_csv(out_file, index=False)
 
 
    
@@ -144,37 +146,37 @@ def compiler(chunk):
 # Create data frame with all contigs related to blast IDs and tpm. Then write to CSV
 
 
-def ID_tpm_combiner(dat):
+def ID_tpm_combiner(chunk):
 	
 	out_df = pd.DataFrame()
 
-	for index, row in dat.iterrows():
-	#for index, row in chunk.iterrows():
-		species = row[0]
-		SRR = row[1]
-		sex = row[2]
-		SexDeterm = row[4]
-		tpm_list = []
-		tpm_list.append(SRR)
-		tpm_list.append(species)
-		tpm_list.append(SexDeterm)
-		tpm_list.append(sex)
-		cali_abundance_file = CaliWDout + SRR + '_CaliOut.csv'
-		cali_abundance_df = pd.read_csv(cali_abundance_file, header=None, dtype={0: str, 1: str, 2: float})
-		for i in blast_id_list[5:]:
-			search_out = cali_abundance_df[cali_abundance_df[1].str.match(str(i))]
-			tpm = search_out[2].sum()
-			tpm_list.append(tpm)
+	for index, row in chunk.iterrows():
+		
+		command = 'ls ' + CaliWDout
+		check = str(subprocess.check_output(command, shell=True))
+		search_str = row[1] + '_ID_tpm_combiner'
+		if search_str not in check:
 
-		out_df[SRR] = tpm_list
-	
-	return out_df.values.tolist()
-
-
-def collect_results(result):
-    """Uses apply_async's callback to setup up a separate Queue for each process"""
-    results.extend(result)	
-	
+			species = row[0]
+			SRR = row[1]
+			sex = row[2]
+			SexDeterm = row[4]
+			tpm_list = []
+			#tpm_list.append(SRR)
+			tpm_list.append(species)
+			tpm_list.append(SexDeterm)
+			tpm_list.append(sex)
+			cali_abundance_file = CaliWDout + SRR + '_CaliOut.csv'
+			cali_abundance_df = pd.read_csv(cali_abundance_file, header=None, dtype={0: str, 1: str, 2: float})
+			for i in blast_id_list[3:]:
+				search_out = cali_abundance_df[cali_abundance_df[1].str.match(str(i))]
+				tpm = search_out[2].sum()
+				tpm_list.append(tpm)
+			file = CaliWDout + SRR + '_ID_tpm_combiner'
+			with open(file, 'w') as f:
+				for i in tpm_list:
+					f.write(str(i))
+					f.write('\n')
 
 
 
@@ -194,29 +196,31 @@ print('Complilation complete \n')
 
 print('Producing final output file \n')
 
-#pool = mp.Pool(processes=n_processes)
-#result = pool.map(ID_tpm_combiner, chunks)
-#pool.close()  
-
 ################################################################################################33
 
-results = []
 
-if __name__ == "__main__":
+pool = mp.Pool(processes=n_processes)
+result = pool.map(ID_tpm_combiner, chunks)
+pool.close() 
+
+combiner_file_list = []
+for i in os.listdir(CaliWDout):
+	if 'ID_tpm_combiner' in i:
+		combiner_file_list.append(CaliWDout + i)
 
 
-	# Repeats the compute intensive operation on 10 data frames concurrently
-	pool = mp.Pool(processes=n_processes)
-	for i in range(dat.shape[1]): 
-		pool.apply_async(ID_tpm_combiner, args=(dat, ), callback=collect_results)
-	pool.close()
-	pool.join()
+final_out_df = pd.DataFrame()
+final_out_df['SRR'] = blast_id_list
 
-	# Converts list of lists to a data frame
-	out_df = pd.DataFrame(results)
-	
-	final_df = pd.concat([blast_id_df, out_df], axis = 1, sort = False)
 
-	final_df.to_csv(out_file, index=False)
+
+for i in combiner_file_list:
+	df = pd.read_csv(i, dtype = str, names=['x'])
+	values = df.x.tolist()
+	col_name = i[70:80]
+	final_out_df[col_name] = values
+
+final_out_file = CaliWDout + 'cali_out.csv'
+final_out_df.to_csv(final_out_file, index=False)
 
 print('Program complete \n')

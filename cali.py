@@ -3,11 +3,11 @@
 #SBATCH --time=5-00:00:00
 #SBATCH --nodes=1
 #SBATCH --mem=200gb
-#SBATCH --ntasks=14
+#SBATCH --ntasks=12
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err
 
-n_processes = 14
+n_processes = 12
 
 
 import pandas as pd

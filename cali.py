@@ -7,7 +7,7 @@
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err
 
-n_processes = 2
+n_processes = 18
 
 
 import pandas as pd

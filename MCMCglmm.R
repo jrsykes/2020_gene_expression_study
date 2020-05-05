@@ -3,20 +3,18 @@
 #phylo<-read.nexus("/home/jamie/Documents/2020_gene_expression_study/dat/cladogram.nex")
 #print (phylo)
 
+
 dat <- read.csv(file = "/home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD/out/cali_out.csv", header = FALSE)
-#dat <- t(dat)
 
-#names <- read.csv(file = "/home/jamie/Documents/2020_gene_expression_study/cali_test/CaliWD/out/caliOut_2.csv", header = FALSE)[,1][-1]
+dat1 <- dat[-1]
+row.names(dat1) <- dat$V1
 
-
-#column_to_rownames(dat, var='X')
-
-head (dat)
-
+names(dat1) <- as.matrix(dat1[1, ])
+dat1 <- dat1[-1, ]
+dat1[] <- lapply(dat1, function(x) type.convert(as.character(x)))
 
 
-
-quit()
+dat <- t(dat1)
 
 dat.pca <- prcomp(dat, center = TRUE, scale. =TRUE)
 

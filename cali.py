@@ -3,11 +3,11 @@
 #SBATCH --time=5-00:00:00
 #SBATCH --nodes=1
 #SBATCH --mem=200gb
-#SBATCH --ntasks=12
+#SBATCH --ntasks=2
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err
 
-n_processes = 12
+n_processes = 2
 
 
 import pandas as pd
@@ -214,10 +214,11 @@ final_out_df['SRR'] = blast_id_list
 
 
 
-for i in combiner_file_list:
-	df = pd.read_csv(i, dtype = str, names=['x'])
+for index, row in dat.iterrows():
+	file = CaliWDout + row[1] + '_ID_tpm_combiner'
+	df = pd.read_csv(file, dtype = str, names=['x'])
 	values = df.x.tolist()
-	col_name = i[70:80]
+	col_name = row[1]
 	final_out_df[col_name] = values
 
 final_out_file = CaliWDout + 'cali_out.csv'

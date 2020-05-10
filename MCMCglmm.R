@@ -87,16 +87,16 @@ inv.phylo<-inverseA(phylo,nodes="TIPS",scale=TRUE)
 ########### MCMCglmm
 
 ### Full model
-prior2.2 <- list(G = list(G1 = list(V = diag(7), n = 6.002)), 
-                 R = list(V = diag(7), n = 6.002))
+prior2.2 <- list(G = list(G1 = list(V = diag(10), n = 9.002)), 
+                 R = list(V = diag(10), n = 9.002))
 
-model2.2<-MCMCglmm(cbind(PC1, PC2, PC3, PC4, PC5, PC6, PC7)~trait-1 + trait:SexD.sex,
+model2.2<-MCMCglmm(cbind(PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10)~trait-1 + trait:SexD.sex,
                                   random=~us(trait):phylo,
-                                  rcov=~us(trait):units,family=c("gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian"),
+                                  rcov=~us(trait):units,family=c("gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian"),
                                   ginverse=list(phylo=inv.phylo$Ainv),
                                   data=final.df, 
                                   prior = prior2.2,
-                                  nitt=5000000,burnin=1000,thin=500)
+                                  nitt=2000000,burnin=1000,thin=500)
 
 # Output assesment
 
@@ -107,14 +107,15 @@ plot(model2.2$VCV)
 summary(model2.2)
 autocorr(model2.2$VCV)
 
-posterior.mode(model2.2$VCV)
-HPDinterval(model2.2$VCV)
-
+# Test effect of sex*sex determination system on transcriptome composition
+posterior.mode(model2.2$Sol)
+HPDinterval(model2.2$Sol)
+ 
 # Testing phylogenetic effect via deviance information criterion
 
 model2.2.no.phy <- MCMCglmm(cbind(PC1, PC2, PC3, PC4, PC5, PC6, PC7)~trait-1 + trait:SexD.sex,
                    data=final.df, 
-                   nitt=5000000,burnin=1000,thin=500)
+                   nitt=500000,burnin=1000,thin=500)
 
 
 summary(model2.2.no.phy)

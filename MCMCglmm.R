@@ -4,6 +4,9 @@ library(ggbiplot)
 library(dplyr)
 library(data.table)
 library(tidyverse)
+library(grid)
+library(gridExtra)
+library(ggplot2)
 
 ########### Load data
 # Load phylogentic tree
@@ -19,6 +22,7 @@ rownames(dat) <- NULL
 
 non_gene_dat <- subset(dat, select = c(SRR, species, SexDeterm, sex))
 gene_dat <- subset(dat, select = -c(SRR, species, SexDeterm, sex))
+#gene_dat$SexD.sex <- paste(dat$SexDeterm,dat$sex)
 
 # Transform gene tmp values from factor to numeric
 gene_dat[] <- lapply(gene_dat, function(x) {
@@ -29,39 +33,42 @@ sapply(gene_dat, class  )
 # Remove genes with var = 0
 gene_dat <- gene_dat[,apply(gene_dat, 2, var, na.rm=TRUE) != 0]
 
-# Histogram of gene data
-hist(gene_dat)
 
 ################ Reduce dimentionality of gene transcriptiion data via principal component analysis
 # Run PCA
 prin_comp <- prcomp(t(gene_dat), scale. = T)
 
 # Asses first n principal components
-principal.components <- prin_comp$rotation[,1:10]
-prin_comp$rotation[,1:10]
+principal.components <- prin_comp$rotation
+prin_comp$rotation[,1:7]
+
 
 # Standard deviation and variance of PCs
 std_dev <- prin_comp$sdev
 pr_var <- std_dev^2
+
+# Scree plot
+plot(prop_varex, xlab = "Principal Component",
+     ylab = "Proportion of Variance Explained",
+     type = "b")
 
 #Total var explained/PC
 pr_var[1:10]
 
 # % var explained by first n PCs
 prop_varex <- pr_var/sum(pr_var)
-prop_varex[1:10]
-sum(prop_varex[1:7])
+prop_varex[1:6]
+sum(prop_varex[1:6])
+
+principal.components <- prin_comp$rotation[,1:6]
 
 # Plot first two principal comonenets
-ggbiplot(prin_comp, scale = 0, pc.biplot = TRUE, labels = row.names(t(clean_gene_dat)), varname.size = 0)
+#ggbiplot(prin_comp, scale = 0, pc.biplot = TRUE, labels = row.names(t(clean_gene_dat)), varname.size = 0)
 
-ggbiplot(prin_comp, scale = 0, pc.biplot = TRUE, labels = final.df['SexD.sex'] , varname.size = 0)
+#ggbiplot(prin_comp, scale = 0, pc.biplot = TRUE, labels = final.df ['SexD.sex'] , varname.size = 0)
 
 
-# Scree plot
-plot(prop_varex, xlab = "Principal Component",
-     ylab = "Proportion of Variance Explained",
-     type = "b")
+
 
 ######## Preparing final data frame for MCMCglmm
 
@@ -86,6 +93,64 @@ colnames(final.df)[2] <- 'phylo'
 final.df$sex <- as.factor(final.df$sex)
 final.df$SexDeterm <- as.factor(final.df$SexDeterm)
 final.df$SexD.sex <- paste(final.df$SexDeterm,final.df$sex)
+
+#################################################################################################
+# Sex determ * sex
+
+p1.1.2 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC2^2), color = SexD.sex)) + xlab("PC1") + ylab("PC2") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p1.1.3 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC3^2), color = SexD.sex)) + xlab("PC1") + ylab("PC3") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p1.1.4 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC4^2), color = SexD.sex)) + xlab("PC1") + ylab("PC4") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p1.1.5 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC5^2), color = SexD.sex)) + xlab("PC1") + ylab("PC5") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p1.2.3 <- ggplot(final.df, aes(x=log(PC2^2), y=log(PC3^2), color = SexD.sex)) + xlab("PC2") + ylab("PC3") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p1.2.4 <- ggplot(final.df, aes(x=log(PC2^2), y=log(PC4^2), color = SexD.sex)) + xlab("PC2") + ylab("PC4") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p1.2.5 <- ggplot(final.df, aes(x=log(PC2^2), y=log(PC5^2), color = SexD.sex)) + xlab("PC2") + ylab("PC5") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p1.3.4 <- ggplot(final.df, aes(x=log(PC3^2), y=log(PC4^2), color = SexD.sex)) + xlab("PC3") + ylab("PC4") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+  
+
+p1.3.5 <- ggplot(final.df, aes(x=log(PC3^2), y=log(PC5^2), color = SexD.sex)) + xlab("PC3") + ylab("PC5") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") +
+  theme(legend.text=element_text(size=17)) + theme(legend.title = element_blank())
+
+g_legend <- function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
+
+mylegend <- g_legend(p1.3.5)
+
+plot1 <- grid.arrange(p1.1.2,p1.1.3,p1.1.4,p1.1.5,p1.2.3,p1.2.4,p1.2.5,p1.3.4,mylegend, ncol = 3, nrow = 3)
+
+
+#################################################################################################
+# Sex determ
+p2.1.2 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC2^2), color = SexDeterm)) + xlab("PC1") + ylab("PC2") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p2.1.3 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC3^2), color = SexDeterm)) + xlab("PC1") + ylab("PC3") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p2.1.4 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC4^2), color = SexDeterm)) + xlab("PC1") + ylab("PC4") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p2.1.5 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC5^2), color = SexDeterm)) + xlab("PC1") + ylab("PC5") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p2.2.3 <- ggplot(final.df, aes(x=log(PC2^2), y=log(PC3^2), color = SexDeterm)) + xlab("PC2") + ylab("PC3") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p2.2.4 <- ggplot(final.df, aes(x=log(PC2^2), y=log(PC4^2), color = SexDeterm)) + xlab("PC2") + ylab("PC4") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p2.2.5 <- ggplot(final.df, aes(x=log(PC2^2), y=log(PC5^2), color = SexDeterm)) + xlab("PC2") + ylab("PC5") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p2.3.4 <- ggplot(final.df, aes(x=log(PC3^2), y=log(PC4^2), color = SexDeterm)) + xlab("PC3") + ylab("PC4") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p2.3.5 <- ggplot(final.df, aes(x=log(PC3^2), y=log(PC5^2), color = SexDeterm)) + xlab("PC3") + ylab("PC5") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm")
+
+#################################################################################################
+# sex
+
+p3.1.2 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC2^2), color = sex)) + xlab("PC1") + ylab("PC2") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p3.1.3 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC3^2), color = sex)) + xlab("PC1") + ylab("PC3") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p3.1.4 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC4^2), color = sex)) + xlab("PC1") + ylab("PC4") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p3.1.5 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC5^2), color = sex)) + xlab("PC1") + ylab("PC5") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p3.2.3 <- ggplot(final.df, aes(x=log(PC2^2), y=log(PC3^2), color = sex)) + xlab("PC2") + ylab("PC3") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p3.2.4 <- ggplot(final.df, aes(x=log(PC2^2), y=log(PC4^2), color = sex)) + xlab("PC2") + ylab("PC4") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p3.2.5 <- ggplot(final.df, aes(x=log(PC2^2), y=log(PC5^2), color = sex)) + xlab("PC2") + ylab("PC5") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p3.3.4 <- ggplot(final.df, aes(x=log(PC3^2), y=log(PC4^2), color = sex)) + xlab("PC3") + ylab("PC4") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
+p3.3.5 <- ggplot(final.df, aes(x=log(PC3^2), y=log(PC5^2), color = sex)) + xlab("PC3") + ylab("PC5") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm")
+
+plot2 <- grid.arrange(p2.1.2,p2.1.3,p2.1.4,p2.1.5,p2.2.3,p2.2.4,p2.2.5,p2.3.4,p2.3.5, ncol = 3, nrow = 3)
+plot3 <- grid.arrange(p3.1.2,p3.1.3,p3.1.4,p3.1.5,p3.2.3,p3.2.4,p3.2.5,p3.3.4,p3.3.5, ncol = 3, nrow = 3)
+
+#################################################################################################
 
 # Create inverse matrix of phylogenetic correlation data from phylo object
 inv.phylo<-inverseA(phylo,nodes="TIPS",scale=TRUE)  

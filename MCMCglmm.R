@@ -29,6 +29,9 @@ sapply(gene_dat, class  )
 # Remove genes with var = 0
 gene_dat <- gene_dat[,apply(gene_dat, 2, var, na.rm=TRUE) != 0]
 
+# Histogram of gene data
+hist(gene_dat)
+
 ################ Reduce dimentionality of gene transcriptiion data via principal component analysis
 # Run PCA
 prin_comp <- prcomp(t(gene_dat), scale. = T)
@@ -52,12 +55,15 @@ sum(prop_varex[1:7])
 # Plot first two principal comonenets
 ggbiplot(prin_comp, scale = 0, pc.biplot = TRUE, labels = row.names(t(clean_gene_dat)), varname.size = 0)
 
+ggbiplot(prin_comp, scale = 0, pc.biplot = TRUE, labels = final.df['SexD.sex'] , varname.size = 0)
+
+
 # Scree plot
 plot(prop_varex, xlab = "Principal Component",
      ylab = "Proportion of Variance Explained",
      type = "b")
 
-######## Preping final data frame for MCMCglmm
+######## Preparing final data frame for MCMCglmm
 
 # Convert principal component values to numeric
 pc.matrix <- data.matrix(principal.components)
@@ -87,6 +93,7 @@ inv.phylo<-inverseA(phylo,nodes="TIPS",scale=TRUE)
 ########### MCMCglmm
 
 ### Full model
+# Runs
 prior2.2 <- list(G = list(G1 = list(V = diag(10), n = 9.002)), 
                  R = list(V = diag(10), n = 9.002))
 
@@ -98,7 +105,7 @@ model2.2<-MCMCglmm(cbind(PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10)~trai
                                   prior = prior2.2,
                                   nitt=2000000,burnin=1000,thin=500)
 
-# Output assesment
+ # Output assesment
 
 par(mar=c(1,1,1,1))
 plot(model2.2$Sol)
@@ -110,7 +117,37 @@ autocorr(model2.2$VCV)
 # Test effect of sex*sex determination system on transcriptome composition
 posterior.mode(model2.2$Sol)
 HPDinterval(model2.2$Sol)
- 
+
+############################################################################3
+# Sex determ + sex
+
+prior2.3 <- list(G = list(G1 = list(V = diag(10), n = 9.002)), 
+                 R = list(V = diag(10), n = 9.002))
+
+model2.3<-MCMCglmm(cbind(PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10)~
+                   trait-1 + trait:SexDeterm + trait:sex,
+                   random=~us(trait):phylo,
+                   rcov=~us(trait):units,family=c("gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian"),
+                   ginverse=list(phylo=inv.phylo$Ainv),
+                   data=final.df, 
+                   prior = prior2.3
+                   ,nitt=2000000,burnin=1000,thin=500)
+
+# Output assesment
+
+par(mar=c(1,1,1,1))
+plot(model2.3$Sol)
+plot(model2.3$VCV)
+
+summary(model2.3)
+autocorr(model2.3$VCV)
+
+# Test effect of sex*sex determination system on transcriptome composition
+posterior.mode(model2.3$Sol)
+HPDinterval(model2.3$Sol)
+
+#########################################################################
+#Runs
 # Testing phylogenetic effect via deviance information criterion
 
 model2.2.no.phy <- MCMCglmm(cbind(PC1, PC2, PC3, PC4, PC5, PC6, PC7)~trait-1 + trait:SexD.sex,

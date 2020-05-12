@@ -1,12 +1,13 @@
 #!/bin/bash
 #SBATCH --partition=long
-#SBATCH --time=8-00:00:00
+#SBATCH --time=20-00:00:00
 #SBATCH --nodes=1
 #SBATCH --mem=100gb
 #SBATCH --ntasks=20
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-Trinity.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-Trinity.err
 
+20-00:00:00
 
 SPECIES=$1
 LAYOUT=$2

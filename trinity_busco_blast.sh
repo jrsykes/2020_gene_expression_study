@@ -7,7 +7,6 @@
 #SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-Trinity.out
 #SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-Trinity.err
 
-20-00:00:00
 
 SPECIES=$1
 LAYOUT=$2

@@ -94,6 +94,28 @@ final.df$sex <- as.factor(final.df$sex)
 final.df$SexDeterm <- as.factor(final.df$SexDeterm)
 final.df$SexD.sex <- paste(final.df$SexDeterm,final.df$sex)
 
+
+############################################
+# Asses distributions of Principal Components
+
+hist(final.df$PC1)
+hist(log(final.df$PC1^2))
+
+shapiro.test(final.df$PC1)
+shapiro.test(log(final.df$PC1^2))
+
+hist(final.df$PC2)
+hist(log(final.df$PC2^2))
+
+shapiro.test(final.df$PC2)
+shapiro.test(log(final.df$PC2^2))
+
+hist(final.df$PC3)
+hist(log(final.df$PC3^2))
+
+shapiro.test(final.df$PC3)
+shapiro.test(log(final.df$PC3^2))
+
 #################################################################################################
 # Sex determ * sex
 

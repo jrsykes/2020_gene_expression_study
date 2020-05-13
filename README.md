@@ -79,9 +79,7 @@ If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch
 
     	pyhton3 hoonah.py DATA_FILE WORKING_DIRECTORY hoonah_DIR USER_NAME
 
-_e.g._
-
-		pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD ~/software/hoonah fryphilipj
+_e.g._ pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD ~/software/hoonah fryphilipj
 
 If you have large data set, you can run as many instances of hoonah as you like and they will not interfere with each other. Multiple instances will never download more that three libraries simultaneously or run more than two transcriptome assemblers (usually one) at a time. There are two good reasons for this. A) You won't use up all of the band width or compute resources on a shared cluster. _Being a good neighbour!_ and B) When analysing both paired and single end sequences for one species, this means that hoonah can choose the best transcriptome before progressing.
 

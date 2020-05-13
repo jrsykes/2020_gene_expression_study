@@ -1,8 +1,7 @@
 # Hoonah
 
-#######################
-######## About hoonah 
-#######################
+
+### About hoonah 
 
 
 This pipeline is made up of three distinct stages. 1. Quantifying transcriptome data with the hoonah bioinformatics peipline, 2. Cleaning and organising that data with cali.py and 3. Analysing that data with a Baysian phylogenetic mixed model using principal componenet analysis for dimensionality reeduction and then MCMCglmm.

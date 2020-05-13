@@ -55,22 +55,22 @@ If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch
 
 5. Edit the beginning of all .sh scripts and cali.py to match your cluster. e.g.:
 
-#!/bin/bash
-#SBATCH --partition=medium
-#SBATCH --time=1-00:00:00
-#SBATCH --nodes=1
-#SBATCH --mem=100gb
-#SBATCH --ntasks=6
-#SBATCH --output=/home/<USER>/scripts/StdOut/R-%x.%j-download.out
-#SBATCH --error=/home/<USER>/scripts/StdOut/R-%x.%j-download.err
+		#!/bin/bash
+		#SBATCH --partition=medium
+		#SBATCH --time=1-00:00:00
+		#SBATCH --nodes=1
+		#SBATCH --mem=100gb
+		#SBATCH --ntasks=6
+		#SBATCH --output=/home/<USER>/scripts/StdOut/R-%x.%j-download.out
+		#SBATCH --error=/home/<USER>/scripts/StdOut/R-%x.%j-download.err
 
 6. Run hoonah.py as follows:
 
-    	pyhton3 hoonah.py PATH_TO_DATA_FILE WORKING_DIRECTORY PATH_TO_hoonah_DIR USER_NAME
+    	pyhton3 hoonah.py DATA_FILE WORKING_DIRECTORY hoonah_DIR USER_NAME
 
 _e.g._
 
-	pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD/ ~/software/hoonah fryphilipj
+		pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD ~/software/hoonah fryphilipj
 
 7. Once the above analysis is complete, which may atke several weeks depending on your resources and the number of libraries that you include, it is time to run cali.py
 	1. Create a working directory (call it what you like) and within it, two subdirectories names 'in' and 'out'.

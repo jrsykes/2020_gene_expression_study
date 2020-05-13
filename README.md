@@ -3,11 +3,20 @@
 
 ### About hoonah 
 
+Given a collection of RNA-seq libraries, this pipline will analyse the effect one or two conditions and their interaction on whole transcriptome data across a diversity of species simultainously, while controlling for the non-independance of those species. For each species, at least one library of both the first condition (_e.g._ sex) must be supplied as well as a roughly even number of libraries of the second condition (_e.g._ sex determination system).
+A combination of paired and single end layout libraries can be submitted. In this this case, a single end- and paired end- transcriptome will be assembled and all libraries for that species will be mapped to the more complete of those two transcriptomes.
 
-This pipeline is made up of three distinct stages. 1. Quantifying transcriptome data with the hoonah bioinformatics peipline, 2. Cleaning and organising that data with cali.py and 3. Analysing that data with a Baysian phylogenetic mixed model using principal componenet analysis for dimensionality reeduction and then MCMCglmm.
+#####This pipline was writen to answer the question:
+Can distinct patterns of sexually antagonistic selection be diserned from the transcriptomes of haplodiploid and diplodiploid arthropods? Paper not yet published.
+
+
+This pipeline is made up of three distinct stages. 
+1. Quantifying transcriptome data with the hoonah bioinformatics peipline 
+2. Cleaning and organising that data with cali.py
+3. Analysing that data with a Baysian phylogenetic mixed model using principal componenet analysis for dimensionality reeduction and then MCMCglmm.
 
 ### Input
-1.A csv file, of any length, containg RNA-seq library acession numbers and library meta-data in the following format:
+1. A csv file, of any length, containg RNA-seq library acession numbers and library meta-data in the following format:
 	species(genus_species),NCBI library acession number,condition 1,library layout,condition 2
 	_e.g._
 	diachasma_alloeum,SRR2041626,female,PAIRED,haplodiploid 
@@ -30,7 +39,7 @@ This pipeline is made up of three distinct stages. 1. Quantifying transcriptome 
 ### Running hoonah 
 
 
-1. Install all dependancies such as fastq-bump, fastQC, trimmomatic, trinity etc.. This may take a while.
+1. Install all dependancies such as fastq-dump, fastQC, trimmomatic, trinity, kalisto, python3, blobtools, blast, R (I think that's everything).. This may take a while.
 
 2. Create a working directory and in that directory create two subdirectories names 'raw' and 'analyses' Also create an empty working directory by the same name on your scratch drive. e.g. /scratch/WD
 
@@ -71,6 +80,8 @@ If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch
 _e.g._
 
 		pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD ~/software/hoonah fryphilipj
+
+If you have large data set, you can run as many instances of hoonah as you like and they will not interfear with each other. Multiple instances will also never download more that three libraries simultainiously or run more than two transcriptome assemblers (usually one) at a time. There are two good reasons for this. A. You won't use up all of the band width or compute resources on a shared cluster. _Being a good neighbour!_ and B. When analysing both paired and single end sequences for one species, this means that hoonah can choose the best transcriptome before progressing.
 
 7. Once the above analysis is complete, which may atke several weeks depending on your resources and the number of libraries that you include, it is time to run cali.py
 	1. Create a working directory (call it what you like) and within it, two subdirectories names 'in' and 'out'.

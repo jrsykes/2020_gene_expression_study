@@ -44,8 +44,8 @@ This file should contain all libraries that you with to analyses
 
 4. This pipeline was writen to run on with SLURM queing system and makes heavy use of the commands 'sbatch' and 'squeue'. If, for example, your cluser uses an SGE queing system where jobs are submited with qsub instead of sbatch, you will need to edit two lines in the hoonah.py file as follows, ensureing that a smapce is left between the end of the command on the second apostrophy:
 
-squeue = 'qstat '
-sbatch = 'qsub '
+		squeue = 'qstat '
+		sbatch = 'qsub '
 
 
 If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch' in the hoonah.py file acordingly... not the end of the world!
@@ -66,7 +66,7 @@ If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch
 
 e.g.
 
-				pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD/ ~/software/hoonah fryphilipj
+			pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD/ ~/software/hoonah fryphilipj
 
 7. Once the above analysis is complete, which may atke several weeks depending on your resources and the number of libraries that you include, it is time to run cali.py
 	1. Create a working directory (call it what you like) and within it, two subdirectories names 'in' and 'out'.
@@ -74,7 +74,7 @@ e.g.
 		These files can be found in: <hoonah WD>/analyses/<species>/kallisto/
 									 <hoonsh WD>/analyses/<species>/blast/
 		Where both paired end and single end libraries have been given to hoonah.py for a single species, be carful to give cali.py the correct blast file.
-		In the cases, look in <hoonah WD>/analyses/<species>/kallisto/ where you will see either 'mapped_to_SINGLE_idx' or 'mapped_to_SINGLE_idx'
+		In the cases, look in hoonah WD/analyses/species/kallisto/ where you will see either 'mapped_to_SINGLE_idx' or 'mapped_to_SINGLE_idx'
 			This is your indication as weather the paired or single end libraries performed better in trascriptome assembly and were thus mapped to and so which blast file should be given to cali.py
 	3. Edit the beginig of cali.py to best suit your cluster.
 		e.g.:
@@ -99,7 +99,7 @@ e.g.
 FAQs
 
 Q. 	What to do if the pipline is terminated before it is finished?
-A. 	Find out which species it was working on as the time, delete all data for these species from <WD/analyses>, <WD/raw> and </scratch/WD> and relaunch. 
+A. 	Find out which species it was working on as the time, delete all data for these species from WD/analyses, WD/raw and /scratch/WD and relaunch. 
 	This will work for hoonah.py and cali.py. Both programs will pick up where they left off. 
 
 

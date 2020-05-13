@@ -26,9 +26,9 @@ This pipeline is made up of three distinct stages. 1. Quantifying transcriptome 
 6.	Principal component plots showing the effect of two conditions on whole transcriptome gene expression. e.g. Sex determiantion system and sex.
 7.	MCMCglmm output showing the relationship between the specfied conditions and whole transcriptome gene expression, controlled for non-independance of species.  
 
-#######################
-######## Running hoonah 
-#######################
+
+# Running hoonah 
+
 
 1. Install all dependancies such as fastq-bump, fastQC, trimmomatic, trinity etc.. This may take a while.
 
@@ -44,10 +44,9 @@ This file should contain all libraries that you with to analyses
 
 4. This pipeline was writen to run on with SLURM queing system and makes heavy use of the commands 'sbatch' and 'squeue'. If, for example, your cluser uses an SGE queing system where jobs are submited with qsub instead of sbatch, you will need to edit two lines in the hoonah.py file as follows, ensureing that a smapce is left between the end of the command on the second apostrophy:
 
-#################################
 squeue = 'qstat '
 sbatch = 'qsub '
-################################ 
+
 
 If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch' in the hoonah.py file acordingly... not the end of the world!
 
@@ -55,13 +54,13 @@ If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch
 5. Edit the beginning of all .sh scripts and cali.py to match your cluster. e.g.:
 
 #!/bin/bash
-\#SBATCH --partition=medium
-\#SBATCH --time=1-00:00:00
-\#SBATCH --nodes=1
-\#SBATCH --mem=100gb
-\#SBATCH --ntasks=6
-\#SBATCH --output=/home/<USER>/scripts/StdOut/R-%x.%j-download.out
-\#SBATCH --error=/home/<USER>/scripts/StdOut/R-%x.%j-download.err
+#SBATCH --partition=medium
+#SBATCH --time=1-00:00:00
+#SBATCH --nodes=1
+#SBATCH --mem=100gb
+#SBATCH --ntasks=6
+#SBATCH --output=/home/<USER>/scripts/StdOut/R-%x.%j-download.out
+#SBATCH --error=/home/<USER>/scripts/StdOut/R-%x.%j-download.err
 
 6. Run hoonah.py as follows: pyhton3 hoonah.py <PATH TO DATA FILE> <WORKING DIRECTORY> <PATH TO hoonah DIR> <USER NAME>
 

@@ -6,14 +6,14 @@
 
 This pipeline is made up of three distinct stages. 1. Quantifying transcriptome data with the hoonah bioinformatics peipline, 2. Cleaning and organising that data with cali.py and 3. Analysing that data with a Baysian phylogenetic mixed model using principal componenet analysis for dimensionality reeduction and then MCMCglmm.
 
-# Input
+### Input
 1.A csv file, of any length, containg RNA-seq library acession numbers and library meta-data in the following format:
 	species(genus_species),NCBI library acession number,condition 1,library layout,condition 2
 	e.g.
 	diachasma_alloeum,SRR2041626,female,PAIRED,haplodiploid 
 2. An ultrametric clodogram, in nexus format, containg all species to be analysed. (Only necessary for MCMCglmm analysis)
 
-# Output
+### Output
 1. 	Two multiQC files for each species (before and after trimming of reads). 					<WD>/analyses/<species>/fastqc & <WD>/analyses/<species>/fastqc2
 2.	BUSCO results for the completeness of the de novo assembled transcriptome.					<WD>/analyses/<species>/busco
 3.	Lists of all viral and streptophye reads removed form the transcriptomes. 					<WD>/analyses/<species>/blobtools/<SRR>/contig_ids.txt
@@ -27,7 +27,7 @@ This pipeline is made up of three distinct stages. 1. Quantifying transcriptome 
 7.	MCMCglmm output showing the relationship between the specfied conditions and whole transcriptome gene expression, controlled for non-independance of species.  
 
 
-# Running hoonah 
+### Running hoonah 
 
 
 1. Install all dependancies such as fastq-bump, fastQC, trimmomatic, trinity etc.. This may take a while.

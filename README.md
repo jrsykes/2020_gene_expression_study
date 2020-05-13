@@ -66,7 +66,7 @@ If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch
 
 e.g.
 
-			pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD/ ~/software/hoonah fryphilipj
+	pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD/ ~/software/hoonah fryphilipj
 
 7. Once the above analysis is complete, which may atke several weeks depending on your resources and the number of libraries that you include, it is time to run cali.py
 	1. Create a working directory (call it what you like) and within it, two subdirectories names 'in' and 'out'.
@@ -78,14 +78,14 @@ e.g.
 			This is your indication as weather the paired or single end libraries performed better in trascriptome assembly and were thus mapped to and so which blast file should be given to cali.py
 	3. Edit the beginig of cali.py to best suit your cluster.
 		e.g.:
-			#!miniconda3/bin/python3
+			'''#!miniconda3/bin/python3
 			#SBATCH --partition=long
 			#SBATCH --time=UNLIMITED
 			#SBATCH --nodes=1
 			#SBATCH --mem=200gb
 			#SBATCH --ntasks=2
 			#SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-cali.out
-			#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err
+			#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err'''
 
 	4. Run cali.py with the following command:	sbatch cali.py 				"PATH TO DATA FILE"/data.csv "path to"/CaliWD "n CPUs"
 			**IMPORTANT. _cali.py is writen to use multiprocessing. Do not give cali.py more CPUs than there are libraries in you data.csv file. It won't run._**

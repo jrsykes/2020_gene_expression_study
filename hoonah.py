@@ -2,20 +2,25 @@ import pandas as pd
 import os
 import time
 import subprocess
+import sys
 
 class bcolors:
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
 
 
-dat = pd.read_csv("/home/sykesj/dat/SRA_list_refined.csv", header=None)
+dat_file = sys.argv[1]
+WD = sys.argv[3]
+scripts = sys.argv[3]
+
+dat = pd.read_csv(dat_file, header=None)
 
 species_list = []
 for index, row in dat.iterrows():
 	species_list.append(row[0])
 
 for i in (list(dict.fromkeys(species_list))):
-	SpeciesCheck = str(subprocess.check_output('ls /projects/sykesj/raw/', shell=True))
+	SpeciesCheck = str(subprocess.check_output('ls' +  WD + '/raw/', shell=True))
 	if i not in SpeciesCheck:
 		species = i
 
@@ -38,7 +43,7 @@ for i in (list(dict.fromkeys(species_list))):
 					SRR = row[1]
 					sex = row[2]
 					layout = row[3]
-					command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+					command = 'sbatch ' + scripts + '/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
 					subprocess.Popen([command], shell=True)
 					time.sleep(5)
 					check = int(subprocess.check_output('squeue --user=sykesj | grep new_ | wc -l', shell=True))

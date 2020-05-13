@@ -6,7 +6,7 @@
 Given a collection of RNA-seq libraries, this pipline will analyse the effect one or two conditions and their interaction on whole transcriptome data across a diversity of species simultainously, while controlling for the non-independance of those species. For each species, at least one library of both the first condition (_e.g._ sex) must be supplied as well as a roughly even number of libraries of the second condition (_e.g._ sex determination system).
 A combination of paired and single end layout libraries can be submitted. In this this case, a single end- and paired end- transcriptome will be assembled and all libraries for that species will be mapped to the more complete of those two transcriptomes.
 
-#####This pipline was writen to answer the question:
+######This pipline was writen to answer the question:
 Can distinct patterns of sexually antagonistic selection be diserned from the transcriptomes of haplodiploid and diplodiploid arthropods? Paper not yet published.
 
 

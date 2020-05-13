@@ -9,18 +9,18 @@ This pipeline is made up of three distinct stages. 1. Quantifying transcriptome 
 ### Input
 1.A csv file, of any length, containg RNA-seq library acession numbers and library meta-data in the following format:
 	species(genus_species),NCBI library acession number,condition 1,library layout,condition 2
-	e.g.
+	_e.g._
 	diachasma_alloeum,SRR2041626,female,PAIRED,haplodiploid 
 2. An ultrametric clodogram, in nexus format, containg all species to be analysed. (Only necessary for MCMCglmm analysis)
 
 ### Output
-1. 	Two multiQC files for each species (before and after trimming of reads). 					<WD>/analyses/<species>/fastqc & <WD>/analyses/<species>/fastqc2
-2.	BUSCO results for the completeness of the de novo assembled transcriptome.					<WD>/analyses/<species>/busco
-3.	Lists of all viral and streptophye reads removed form the transcriptomes. 					<WD>/analyses/<species>/blobtools/<SRR>/contig_ids.txt
+1. 	Two multiQC files for each species (before and after trimming of reads). 					"WD"/analyses/"species"/fastqc & "WD"/analyses/"species"/fastqc2
+2.	BUSCO results for the completeness of the de novo assembled transcriptome.					"WD"/analyses/"species"/busco
+3.	Lists of all viral and streptophye reads removed form the transcriptomes. 					"WD"/analyses/"species"/blobtools/"SRR"/contig_ids.txt
 		If you are curious what reads were found, these can be searched againsed 
-		the blast output where you will find a blast acsession number. 							<WD>/analyses/<species>/blast/<species>_blastn_<layout>_sorted.out
+		the blast output where you will find a blast acsession number. 							"WD"/analyses/"species"/blast/"species"_blastn_"layout"_sorted.out
 		You can that search via NCBI. 
-4. 	Files containing Kalisto tpm counts for all filtered reads from every input SRA library. 	<WD>/analyses/<species>/kallisto/<SRR>_abundance.filtered.tsv 
+4. 	Files containing Kalisto tpm counts for all filtered reads from every input SRA library. 	"WD"/analyses/"species"/kallisto/"SRR"_abundance.filtered.tsv 
 	At this point, you may want my to depart from this analysis as use other tools such as sleauth or Gfold to analyse this data, though these methods have problems with arbitrary definitions of biased gene expression and do not allow for within-gene expression varyance. These methods also treat isoforms as different genes.
 5.	A single file from cali.py which contains metadata and transcript counts for all librarties in the analysis. These transcripts are named by a NCBI acession IDs and all isoforms have been pooled.
 6.	Principal component plots showing the effect of two conditions on whole transcriptome gene expression. e.g. Sex determiantion system and sex.
@@ -37,7 +37,9 @@ This pipeline is made up of three distinct stages. 1. Quantifying transcriptome 
 3. Create a csv data file with the following format:
 
 species(genus_species),NCBI library acession number,sex,library layout,condition
-e.g.
+
+_e.g._
+
 diachasma_alloeum,SRR2041626,female,PAIRED,haplo 
 
 This file should contain all libraries that you with to analyses
@@ -66,7 +68,7 @@ If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch
 
     	pyhton3 hoonah.py PATH_TO_DATA_FILE WORKING_DIRECTORY PATH_TO_hoonah_DIR USER_NAME
 
-e.g.
+_e.g._
 
 	pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD/ ~/software/hoonah fryphilipj
 
@@ -79,7 +81,7 @@ e.g.
 		In the cases, look in hoonah WD/analyses/species/kallisto/ where you will see either 'mapped_to_SINGLE_idx' or 'mapped_to_SINGLE_idx'
 			This is your indication as weather the paired or single end libraries performed better in trascriptome assembly and were thus mapped to and so which blast file should be given to cali.py
 	3. Edit the beginig of cali.py to best suit your cluster.
-		e.g.:
+		_e.g.:_
 			
 			#!miniconda3/bin/python3
 			#SBATCH --partition=long

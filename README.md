@@ -62,7 +62,9 @@ If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch
 #SBATCH --output=/home/<USER>/scripts/StdOut/R-%x.%j-download.out
 #SBATCH --error=/home/<USER>/scripts/StdOut/R-%x.%j-download.err
 
-6. Run hoonah.py as follows: pyhton3 hoonah.py <PATH TO DATA FILE> <WORKING DIRECTORY> <PATH TO hoonah DIR> <USER NAME>
+6. Run hoonah.py as follows:
+
+    	pyhton3 hoonah.py PATH_TO_DATA_FILE WORKING_DIRECTORY PATH_TO_hoonah_DIR USER_NAME
 
 e.g.
 
@@ -78,14 +80,15 @@ e.g.
 			This is your indication as weather the paired or single end libraries performed better in trascriptome assembly and were thus mapped to and so which blast file should be given to cali.py
 	3. Edit the beginig of cali.py to best suit your cluster.
 		e.g.:
-			'''#!miniconda3/bin/python3
+			
+			#!miniconda3/bin/python3
 			#SBATCH --partition=long
 			#SBATCH --time=UNLIMITED
 			#SBATCH --nodes=1
 			#SBATCH --mem=200gb
 			#SBATCH --ntasks=2
 			#SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-cali.out
-			#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err'''
+			#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-cali.err
 
 	4. Run cali.py with the following command:	sbatch cali.py 				"PATH TO DATA FILE"/data.csv "path to"/CaliWD "n CPUs"
 			**IMPORTANT. _cali.py is writen to use multiprocessing. Do not give cali.py more CPUs than there are libraries in you data.csv file. It won't run._**

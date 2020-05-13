@@ -1,6 +1,6 @@
 #!miniconda3/bin/python3
 #SBATCH --partition=long
-#SBATCH --time=5-00:00:00
+#SBATCH --time=UNLIMITED
 #SBATCH --nodes=1
 #SBATCH --mem=200gb
 #SBATCH --ntasks=2

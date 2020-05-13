@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --partition=long
-#SBATCH --time=20-00:00:00
+#SBATCH --time=UNLIMITED
 #SBATCH --nodes=1
 #SBATCH --mem=100gb
 #SBATCH --ntasks=20

@@ -8,10 +8,16 @@ class bcolors:
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
 
+#################################
+squeue = 'squeue '
+sbatch = 'sbatch '
+################################
 
 dat_file = sys.argv[1]
-WD = sys.argv[3]
+WD = sys.argv[2]
 scripts = sys.argv[3]
+user = sys.argv[4]
+
 
 dat = pd.read_csv(dat_file, header=None)
 
@@ -20,16 +26,9 @@ for index, row in dat.iterrows():
 	species_list.append(row[0])
 
 for i in (list(dict.fromkeys(species_list))):
-	SpeciesCheck = str(subprocess.check_output('ls' +  WD + '/raw/', shell=True))
+	SpeciesCheck = str(subprocess.check_output('ls ' +  WD + '/raw/', shell=True))
 	if i not in SpeciesCheck:
 		species = i
-
-#		print(f"{bcolors.OKBLUE}######################")
-#		print(f"{bcolors.OKGREEN}Clearing species data and preparing files")
-#		print(f"{bcolors.OKBLUE}######################")
-
-		#command = 'rm -rf /home/sykesj/busco_*.log ; rm -rf /projects/sykesj/raw/*' + species + '* ; rm -rf /projects/sykesj/analyses/*' + species + '* ; rm -rf /scratch/projects/sykesj/*' + species + '*'
-		#subprocess.Popen([command], shell=True)
 
 
 		print(f"{bcolors.OKBLUE}################################")
@@ -43,19 +42,19 @@ for i in (list(dict.fromkeys(species_list))):
 					SRR = row[1]
 					sex = row[2]
 					layout = row[3]
-					command = 'sbatch ' + scripts + '/new_download.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout
+					command = sbatch + scripts + '/download_trim_qc.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + WD
 					subprocess.Popen([command], shell=True)
 					time.sleep(5)
-					check = int(subprocess.check_output('squeue --user=sykesj | grep new_ | wc -l', shell=True))
+					check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep new_ | wc -l', shell=True))
 					while check > 1:
 						time.sleep(10)
-						check = int(subprocess.check_output('squeue --user=sykesj | grep new_ | wc -l', shell=True))
+						check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep new_ | wc -l', shell=True))
 			except:
 				pass
-		check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
-		while 'new_' in check2:
+		check2 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+		while 'download' in check2:
 						time.sleep(10)
-						check2 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+						check2 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
 
 
 		print(f"{bcolors.OKBLUE}################################")
@@ -76,27 +75,27 @@ for i in (list(dict.fromkeys(species_list))):
 ##############################################################################################################################
 # Trinity paired
 
-		check3 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
+		check3 = int(subprocess.check_output(squeue + '--user=' + user ' | grep trinity | wc -l', shell=True))
 		while check3 > 2:
 			time.sleep(10)
-			check3 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
+			check3 = int(subprocess.check_output(squeue + '--user=' + user ' | grep trinity | wc -l', shell=True))
 
 
 		if df_paired.empty == False:
-			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' PAIRED'
+			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' PAIRED' + WD
 			subprocess.Popen([command], shell=True)
 
 ##############################################################################################################################
 # Trinity single 
 
-		check4 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
+		check4 = int(subprocess.check_output(squeue + '--user=' + user ' | grep trinity | wc -l', shell=True))
 		while check4 > 2:
 			time.sleep(10)
-			check4 = int(subprocess.check_output('squeue --user=sykesj | grep trinity | wc -l', shell=True))
+			check4 = int(subprocess.check_output(squeue + '--user=' + user ' | grep trinity | wc -l', shell=True))
 
 
 		if df_single.empty == False:
-			command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/trinity_busco_blast.sh ' + species + ' SINGLE'
+			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' SINGLE' + WD
 			subprocess.Popen([command], shell=True)
 
 ##############################################################################################################################
@@ -104,10 +103,10 @@ for i in (list(dict.fromkeys(species_list))):
 
 		time.sleep(10)
 
-		check5 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+		check5 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
 		while 'trinity' in check5:
 						time.sleep(10)
-						check5 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+						check5 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
 
 
 		print(f"{bcolors.OKBLUE}##############################################")
@@ -127,17 +126,17 @@ for i in (list(dict.fromkeys(species_list))):
 					sex = row[2]
 					layout = row[3]		
 
-					command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + DUEL_LAYOUT
+					command = sbatch + scripts + '/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + DUEL_LAYOUT + WD
 					subprocess.Popen([command], shell=True)
 			except:
 				pass
 
 		time.sleep(5)
 
-		check6 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+		check6 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
 		while 'map' in check6:
 						time.sleep(10)
-						check6 = str(subprocess.check_output('squeue --user=sykesj', shell=True))
+						check6 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
 
 
 		print(f"{bcolors.OKBLUE}################################")
@@ -153,7 +152,7 @@ for i in (list(dict.fromkeys(species_list))):
 					sex = row[2]
 					layout = row[3]		
 
-					command = 'sbatch /home/sykesj/scripts/2020_gene_expression_study/blob.sh ' + species + ' ' + SRR + ' ' + layout
+					command = sbatch + scripts + '/blob.sh ' + species + ' ' + SRR + ' ' + layout + WD
 					subprocess.Popen([command], shell=True)
 			except:
 				pass

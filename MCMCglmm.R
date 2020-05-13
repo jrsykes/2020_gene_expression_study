@@ -143,7 +143,7 @@ mylegend <- g_legend(p1.3.5)
 
 plot1 <- grid.arrange(p1.1.2,p1.1.3,p1.1.4,p1.1.5,p1.2.3,p1.2.4,p1.2.5,p1.3.4,mylegend, ncol = 3, nrow = 3)
 
-
+plot1
 #################################################################################################
 # Sex determ
 p2.1.2 <- ggplot(final.df, aes(x=log(PC1^2), y=log(PC2^2), color = SexDeterm)) + xlab("PC1") + ylab("PC2") + geom_point(, show.legend = FALSE) + stat_ellipse(type = "norm") + theme(legend.position = 'none')
@@ -181,12 +181,13 @@ inv.phylo<-inverseA(phylo,nodes="TIPS",scale=TRUE)
 
 ### Full model
 # Runs
-prior2.2 <- list(G = list(G1 = list(V = diag(10), n = 9.002)), 
-                 R = list(V = diag(10), n = 9.002))
+prior2.2 <- list(G = list(G1 = list(V = diag(6), n = 5.002)), 
+                 R = list(V = diag(6), n = 5.002))
 
-model2.2<-MCMCglmm(cbind(PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10)~trait-1 + trait:SexD.sex,
+model2.2<-MCMCglmm(cbind(log(PC1^2), log(PC2^2), log(PC3^2), log(PC4^2), log(PC5^2), log(PC6^2))
+                                  ~trait-1 + trait:SexD.sex,
                                   random=~us(trait):phylo,
-                                  rcov=~us(trait):units,family=c("gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian"),
+                                        rcov=~us(trait):units,family=c("gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian"),
                                   ginverse=list(phylo=inv.phylo$Ainv),
                                   data=final.df, 
                                   prior = prior2.2,
@@ -208,13 +209,13 @@ HPDinterval(model2.2$Sol)
 ############################################################################3
 # Sex determ + sex
 
-prior2.3 <- list(G = list(G1 = list(V = diag(10), n = 9.002)), 
-                 R = list(V = diag(10), n = 9.002))
+prior2.3 <- list(G = list(G1 = list(V = diag(6), n = 5.002)), 
+                 R = list(V = diag(6), n = 5.002))
 
-model2.3<-MCMCglmm(cbind(PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10)~
-                   trait-1 + trait:SexDeterm + trait:sex,
+model2.3<-MCMCglmm(cbind(log(PC1^2), log(PC2^2), log(PC3^2), log(PC4^2), log(PC5^2), log(PC6^2))
+                   ~trait-1 + trait:SexDeterm + trait:sex,
                    random=~us(trait):phylo,
-                   rcov=~us(trait):units,family=c("gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian"),
+                   rcov=~us(trait):units,family=c("gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian"),
                    ginverse=list(phylo=inv.phylo$Ainv),
                    data=final.df, 
                    prior = prior2.3

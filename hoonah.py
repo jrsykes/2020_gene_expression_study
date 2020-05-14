@@ -26,13 +26,11 @@ for index, row in dat.iterrows():
 	species_list.append(row[0])
 
 for i in (list(dict.fromkeys(species_list))):
-	print(i)
-
 	SpeciesCheck = str(subprocess.check_output('ls ' +  WD + '/raw/', shell=True))
 	i = 'liriomyza_trifolii'
 	if i in SpeciesCheck:
 		print (i)
-		exit()
+exit()
 
 #	if i not in SpeciesCheck:
 #		species = i#

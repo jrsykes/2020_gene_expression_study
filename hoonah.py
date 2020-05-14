@@ -82,7 +82,7 @@ for i in (list(dict.fromkeys(species_list))):
 
 
 		if df_paired.empty == False:
-			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' PAIRED' + WD
+			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' PAIRED ' + WD
 			subprocess.Popen([command], shell=True)
 
 ##############################################################################################################################
@@ -95,7 +95,7 @@ for i in (list(dict.fromkeys(species_list))):
 
 
 		if df_single.empty == False:
-			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' SINGLE' + WD
+			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' SINGLE ' + WD
 			subprocess.Popen([command], shell=True)
 
 ##############################################################################################################################

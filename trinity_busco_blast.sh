@@ -28,7 +28,7 @@ multi_qc () {
 
 trinity () {
 
-	mkdir -p /scratch/"$WD"/trinity_"$SPECIES"_"$LAYOUT"
+	mkdir -p /scratch"$WD"/trinity_"$SPECIES"_"$LAYOUT"
 
 
 	if [ "$LAYOUT" == 'PAIRED' ]

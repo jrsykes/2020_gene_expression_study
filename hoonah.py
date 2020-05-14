@@ -26,56 +26,58 @@ for index, row in dat.iterrows():
 	species_list.append(row[0])
 
 for i in (list(dict.fromkeys(species_list))):
+	print(i)
+
 	SpeciesCheck = str(subprocess.check_output('ls ' +  WD + '/raw/', shell=True))
 	i = 'liriomyza_trifolii'
 	if i in SpeciesCheck:
 		print (i)
 		exit()
 
-	if i not in SpeciesCheck:
-		species = i
+#	if i not in SpeciesCheck:
+#		species = i#
+#
 
+#		print(f"{bcolors.OKBLUE}################################")
+#		print(f"{bcolors.OKGREEN}Download SRR files, QC and trim")
+#		print(f"{bcolors.OKBLUE}################################")#
+#
 
-		print(f"{bcolors.OKBLUE}################################")
-		print(f"{bcolors.OKGREEN}Download SRR files, QC and trim")
-		print(f"{bcolors.OKBLUE}################################")
+#		for index, row in dat.iterrows():
+#			try:
+#				if row[0] == species:
+#					SRR = row[1]
+#					sex = row[2]
+#					layout = row[3]
+#					command = sbatch + scripts + '/download_trim_qc.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + WD
+#					subprocess.Popen([command], shell=True)
+#					time.sleep(5)
+#					check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep new_ | wc -l', shell=True))
+#					while check > 1:
+#						time.sleep(10)
+#						check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep new_ | wc -l', shell=True))
+#			except:
+#				pass
+#		check2 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+#		while 'download' in check2:
+#						time.sleep(10)
+#						check2 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))#
+#
 
+#		print(f"{bcolors.OKBLUE}################################")
+#		print(f"{bcolors.OKGREEN}Runing Trinity, BUSCO and Blast")
+#		print(f"{bcolors.OKBLUE}################################")#
 
-		for index, row in dat.iterrows():
-			try:
-				if row[0] == species:
-					SRR = row[1]
-					sex = row[2]
-					layout = row[3]
-					command = sbatch + scripts + '/download_trim_qc.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + WD
-					subprocess.Popen([command], shell=True)
-					time.sleep(5)
-					check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep new_ | wc -l', shell=True))
-					while check > 1:
-						time.sleep(10)
-						check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep new_ | wc -l', shell=True))
-			except:
-				pass
-		check2 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
-		while 'download' in check2:
-						time.sleep(10)
-						check2 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+#		df_paired = pd.DataFrame()
+#		df_single = pd.DataFrame()#
+#
 
-
-		print(f"{bcolors.OKBLUE}################################")
-		print(f"{bcolors.OKGREEN}Runing Trinity, BUSCO and Blast")
-		print(f"{bcolors.OKBLUE}################################")
-
-		df_paired = pd.DataFrame()
-		df_single = pd.DataFrame()
-
-
-		for index, row in dat.iterrows():
-			if row[0] == species:
-				if row[3] == 'PAIRED':
-					df_paired = df_paired.append(row[0:4], ignore_index=True)
-				if row[3] == 'SINGLE':
-					df_single = df_single.append(row[0:4], ignore_index=True)
+#		for index, row in dat.iterrows():
+#			if row[0] == species:
+#				if row[3] == 'PAIRED':
+#					df_paired = df_paired.append(row[0:4], ignore_index=True)
+#				if row[3] == 'SINGLE':
+#					df_single = df_single.append(row[0:4], ignore_index=True)
 
 ##############################################################################################################################
 # Trinity paired

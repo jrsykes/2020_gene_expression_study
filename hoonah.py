@@ -45,12 +45,12 @@ for i in (list(dict.fromkeys(species_list))):
 					command = sbatch + scripts + '/download_trim_qc.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + WD
 					subprocess.Popen([command], shell=True)
 					time.sleep(5)
-					check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep new_ | wc -l', shell=True))
+					check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep download | wc -l', shell=True))
 					print(check)
 					exit()
 					while check > 1:
 						time.sleep(10)
-						check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep new_ | wc -l', shell=True))
+						check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep download | wc -l', shell=True))
 			except:
 				pass
 		check2 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))

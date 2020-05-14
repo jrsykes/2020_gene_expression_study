@@ -3,7 +3,7 @@
 
 ### About hoonah 
 
-Given a collection of RNA-seq libraries, this pipeline will analyse the effect of one or two conditions and their interaction on whole transcriptome data across a diversity of species simultaenously, while controlling for the non-independance of those species. For each species, at least one library of both the first condition (_e.g._ sex) must be supplied as well as a roughly even number of libraries of the second condition (_e.g._ sex determination system).
+Given a collection of RNA-seq libraries, this pipeline will analyse the effect of one or two conditions and their interaction on RNA-seq data across a diversity of species simultaenously, while controlling for the non-independance of those species. For each species, at least one library of both the first condition (_e.g._ sex) must be supplied as well as a roughly even number of libraries of the second condition (_e.g._ sex determination system).
 A combination of paired and single end layout libraries can be input. In this this case, a single end- and paired end- transcriptome will be assembled and all libraries for that species will be mapped to the more complete of those two transcriptomes.
 
 A schematic of the pipeline can be seen at: https://github.com/jrsykes/hoonah/blob/master/pipeline_flow_chart.png

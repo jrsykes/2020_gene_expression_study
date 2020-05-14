@@ -3,7 +3,7 @@
 
 ### About hoonah 
 
-Given a collection of RNA-seq libraries, this pipeline will analyse the effect of one or two conditions and their interaction on RNA-seq data across a diversity of species simultaenously, while controlling for the non-independance of those species. Unlike some other methods, it makes to arbitrary definitions of differentially expressed genes, allows for within-gene variance and does not distinguish between isoforms.
+Given a collection of RNA-seq libraries, this pipeline will analyse the effect of one or two conditions and their interaction on RNA-seq data across a diversity of species simultaneously, while controlling for the non-independance of those species. Unlike some other methods, this pipeline does not use arbitrary definitions of differentially expressed genes, allows for within-gene variance and analyses isoforms together.
 
 This pipeline was written to answer the question:
 Can predicted patterns of sexually antagonistic selection be discerned from the transcriptomes of haplodiploid and diplodiploid arthropods? Paper not yet published.

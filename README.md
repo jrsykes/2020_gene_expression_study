@@ -3,15 +3,14 @@
 
 ### About hoonah 
 
-Given a collection of RNA-seq libraries, this pipeline will analyse the effect of one or two conditions and their interaction on RNA-seq data across a diversity of species simultaenously, while controlling for the non-independance of those species. For each species, at least one library of both the first condition (_e.g._ sex) must be supplied as well as a roughly even number of libraries of the second condition (_e.g._ sex determination system).
-A combination of paired and single end layout libraries can be input. In this this case, a single end- and paired end- transcriptome will be assembled and all libraries for that species will be mapped to the more complete of those two transcriptomes.
-
-A schematic of the pipeline can be seen at: https://github.com/jrsykes/hoonah/blob/master/pipeline_flow_chart.png
+Given a collection of RNA-seq libraries, this pipeline will analyse the effect of one or two conditions and their interaction on RNA-seq data across a diversity of species simultaenously, while controlling for the non-independance of those species. Unlike some other methods, it makes to arbitrary definitions of differentially expressed genes, allows for within-gene variance and does not distinguish between isoforms.
 
 This pipeline was written to answer the question:
 Can predicted patterns of sexually antagonistic selection be discerned from the transcriptomes of haplodiploid and diplodiploid arthropods? Paper not yet published.
 
-This pipline can be run on oganisms other than arthropods, however the query data set for BUSCO will need to be changed acordingly and if your study concerns virual or streptophyte RNA, you will need to address this in the blob tools filtering step as these reads will e filtered out. 
+For each species, at least one library of both the first condition (_e.g._ sex) must be supplied as well as a roughly even number of libraries of the second condition (_e.g._ sex determination system). A combination of paired and single end layout libraries can be input. In this this case, a single end- and paired end- transcriptome will be assembled and all libraries for that species will be mapped to the more complete of those two transcriptomes.
+
+A schematic of the pipeline can be seen at: https://github.com/jrsykes/hoonah/blob/master/pipeline_flow_chart.png
 
 This pipeline is made up of three distinct stages. 
 1. Quantification of transcriptome data with the hoonah bioinformatics pipeline 
@@ -128,4 +127,6 @@ Q. What to do if the pipline is terminated before it is finished?
 A. Find out which species it was working on at the time, delete all data for those species from WD/analyses, WD/raw and /scratch/WD and relaunch. 
 	This will work for hoonah.py and cali.py. Both programs will pick up where they left off. 
 
+Q. Can this pipline can be run on oganisms other than arthropods? 
 
+A. Yes, however the query data set for BUSCO will need to be changed acordingly and if your study concerns virual or streptophyte RNA, you will need to address this in the blob tools filtering step as these reads will e filtered out. 

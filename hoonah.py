@@ -27,7 +27,6 @@ for index, row in dat.iterrows():
 
 for i in (list(dict.fromkeys(species_list))):
 	SpeciesCheck = str(subprocess.check_output('ls ' +  WD + '/raw/', shell=True))
-	i = 'liriomyza_trifolii'
 	if i in SpeciesCheck:
 		print (i)
 exit()#

@@ -29,7 +29,8 @@ for i in (list(dict.fromkeys(species_list))):
 	SpeciesCheck = str(subprocess.check_output('ls ' +  WD + '/raw/', shell=True))
 	if i not in SpeciesCheck:
 		species = i
-
+		print(species)
+		exit()
 
 		print(f"{bcolors.OKBLUE}################################")
 		print(f"{bcolors.OKGREEN}Download SRR files, QC and trim")

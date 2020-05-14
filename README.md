@@ -6,7 +6,7 @@
 Given a collection of RNA-seq libraries, this pipeline will analyse the effect of one or two conditions and their interaction on RNA-seq data across a diversity of species simultaneously, while controlling for the non-independance of those species. Unlike some other methods, this pipeline does not use arbitrary definitions of differentially expressed genes, allows for within-gene variance and analyses isoforms together.
 
 This pipeline was written to answer the question:
-Can predicted patterns of sexually antagonistic selection be discerned from the transcriptomes of haplodiploid and diplodiploid arthropods? Paper not yet published.
+Can predicted patterns of sexually antagonistic selection be discerned from the transcriptomes of haplodiploid and diplodiploid arthropods? Unpublished data.
 
 For each species, at least one library of both the first condition (_e.g._ sex) must be supplied as well as a roughly even number of libraries of the second condition (_e.g._ sex determination system). A combination of paired and single end layout libraries can be input. In this this case, a single end- and paired end- transcriptome will be assembled and all libraries for that species will be mapped to the more complete of those two transcriptomes.
 

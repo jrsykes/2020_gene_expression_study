@@ -83,8 +83,8 @@ trim_QC () {
 
 	rm -f "$WD"/analyses/$SPECIES/trimmomatic/$LAYOUT/$SEX/$SRR\_forward_unpaired.fq.gz ; rm -f "$WD"/analyses/$SPECIES/trimmomatic/$LAYOUT/$SEX/$SRR\_reverse_unpaired.fq.gz
 
-	sed 's/_F\/1/_1/g' "$WD"/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_1.fq | sed 's/_f\/1/_1/g' | sed 's/_forward\/1/_1/g' | sed 's/_Forward\/1/_1/g' 
-	sed 's/_R\/2/_2/g' "$WD"/analyses/$SPECIES/trimmomatic/$SEX/$SRR\_2.fq | sed 's/_r\/2/_2/g' | sed 's/_reverse\/2/_2/g' | sed 's/_Reverse\/2/_2/g' 
+	sed 's/_F\/1/_1/g' "$WD"/analyses/$SPECIES/trimmomatic/"$LAYOUT"/$SEX/$SRR\_1.fq | sed 's/_f\/1/_1/g' | sed 's/_forward\/1/_1/g' | sed 's/_Forward\/1/_1/g' 
+	sed 's/_R\/2/_2/g' "$WD"/analyses/$SPECIES/trimmomatic/"$LAYOUT"/$SEX/$SRR\_2.fq | sed 's/_r\/2/_2/g' | sed 's/_reverse\/2/_2/g' | sed 's/_Reverse\/2/_2/g' 
 
 	else echo 'Error in mode selection at command line'
 	fi

@@ -30,7 +30,7 @@ for i in (list(dict.fromkeys(species_list))):
 	i = 'liriomyza_trifolii'
 	if i in SpeciesCheck:
 		print (i)
-exit()
+exit()#
 
 #	if i not in SpeciesCheck:
 #		species = i#
@@ -75,96 +75,96 @@ exit()
 #				if row[3] == 'PAIRED':
 #					df_paired = df_paired.append(row[0:4], ignore_index=True)
 #				if row[3] == 'SINGLE':
-#					df_single = df_single.append(row[0:4], ignore_index=True)
+#					df_single = df_single.append(row[0:4], ignore_index=True)#
 
-##############################################################################################################################
-# Trinity paired
+###############################################################################################################################
+## Trinity paired#
 
-		check3 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
-		while check3 > 2:
-			time.sleep(10)
-			check3 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
+#		check3 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
+#		while check3 > 2:
+#			time.sleep(10)
+#			check3 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))#
+#
 
+#		if df_paired.empty == False:
+#			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' PAIRED' + WD
+#			subprocess.Popen([command], shell=True)#
 
-		if df_paired.empty == False:
-			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' PAIRED' + WD
-			subprocess.Popen([command], shell=True)
+###############################################################################################################################
+## Trinity single #
 
-##############################################################################################################################
-# Trinity single 
+#		check4 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
+#		while check4 > 2:
+#			time.sleep(10)
+#			check4 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))#
+#
 
-		check4 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
-		while check4 > 2:
-			time.sleep(10)
-			check4 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
+#		if df_single.empty == False:
+#			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' SINGLE' + WD
+#			subprocess.Popen([command], shell=True)#
 
+################################################################################################################################
+#
 
-		if df_single.empty == False:
-			command = sbatch + scripts + '/trinity_busco_blast.sh ' + species + ' SINGLE' + WD
-			subprocess.Popen([command], shell=True)
+#		time.sleep(10)#
 
-##############################################################################################################################
+#		check5 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+#		while 'trinity' in check5:
+#						time.sleep(10)
+#						check5 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))#
+#
 
+#		print(f"{bcolors.OKBLUE}##############################################")
+#		print(f"{bcolors.OKGREEN}Maping SRA libraries to de novo transcriptome")
+#		print(f"{bcolors.OKBLUE}##############################################")#
 
-		time.sleep(10)
+#		if df_paired.empty == False and df_single.empty == False:
+#			DUEL_LAYOUT = 'YES'
+#		else:
+#			DUEL_LAYOUT = 'NO'#
+#
 
-		check5 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
-		while 'trinity' in check5:
-						time.sleep(10)
-						check5 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+#		for index, row in dat.iterrows():
+#			try:
+#				if row[0] == species:
+#					SRR = row[1]
+#					sex = row[2]
+#					layout = row[3]		#
 
+#					command = sbatch + scripts + '/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + DUEL_LAYOUT + WD
+#					subprocess.Popen([command], shell=True)
+#			except:
+#				pass#
 
-		print(f"{bcolors.OKBLUE}##############################################")
-		print(f"{bcolors.OKGREEN}Maping SRA libraries to de novo transcriptome")
-		print(f"{bcolors.OKBLUE}##############################################")
+#		time.sleep(5)#
 
-		if df_paired.empty == False and df_single.empty == False:
-			DUEL_LAYOUT = 'YES'
-		else:
-			DUEL_LAYOUT = 'NO'
+#		check6 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+#		while 'map' in check6:
+#						time.sleep(10)
+#						check6 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))#
+#
 
+#		print(f"{bcolors.OKBLUE}################################")
+#		print(f"{bcolors.OKGREEN}Filtering contaminant sequences")
+#		print(f"{bcolors.OKBLUE}################################")#
+#
+#
 
-		for index, row in dat.iterrows():
-			try:
-				if row[0] == species:
-					SRR = row[1]
-					sex = row[2]
-					layout = row[3]		
+#		for index, row in dat.iterrows():
+#			try:
+#				if row[0] == species:
+#					SRR = row[1]
+#					sex = row[2]
+#					layout = row[3]		#
 
-					command = sbatch + scripts + '/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + DUEL_LAYOUT + WD
-					subprocess.Popen([command], shell=True)
-			except:
-				pass
+#					command = sbatch + scripts + '/blob.sh ' + species + ' ' + SRR + ' ' + layout + WD
+#					subprocess.Popen([command], shell=True)
+#			except:
+#				pass#
+#
+#
+#
 
-		time.sleep(5)
-
-		check6 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
-		while 'map' in check6:
-						time.sleep(10)
-						check6 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
-
-
-		print(f"{bcolors.OKBLUE}################################")
-		print(f"{bcolors.OKGREEN}Filtering contaminant sequences")
-		print(f"{bcolors.OKBLUE}################################")
-
-
-
-		for index, row in dat.iterrows():
-			try:
-				if row[0] == species:
-					SRR = row[1]
-					sex = row[2]
-					layout = row[3]		
-
-					command = sbatch + scripts + '/blob.sh ' + species + ' ' + SRR + ' ' + layout + WD
-					subprocess.Popen([command], shell=True)
-			except:
-				pass
-
-
-
-
-		print(f"{bcolors.OKBLUE}##################")
-		print(f"{bcolors.OKGREEN}Pipeline complete")
-		print(f"{bcolors.OKBLUE}##################")
+#		print(f"{bcolors.OKBLUE}##################")
+#		print(f"{bcolors.OKGREEN}Pipeline complete")
+#		print(f"{bcolors.OKBLUE}##################")

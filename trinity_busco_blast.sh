@@ -13,16 +13,18 @@ LAYOUT=$2
 WD=$3
 
 multi_qc () {
+	if [ $LAYOUT == 'PAIRED' ]
+	then
+		TRIMMED_LIBS=$(for file in $(ls "$WD"/analyses/$SPECIES/trimmomatic/PAIRED/male/*.fq "$WD"/analyses/$SPECIES/trimmomatic/PAIRED/female/*.fq) ; do readlink -f $file; done | paste -sd " " - )
+	elif [ $LAYOUT == 'SINGLE' ]
+	then
+		TRIMMED_LIBS=$(for file in $(ls "$WD"/analyses/$SPECIES/trimmomatic/SINGLE/male/*.fq "$WD"/analyses/$SPECIES/trimmomatic/SINGLE/female/*.fq \
+			"$WD"/analyses/$SPECIES/trimmomatic/PAIRED/male/*.fq "$WD"/analyses/$SPECIES/trimmomatic/PAIRED/female/*.fq) ; do readlink -f $file; done | paste -sd " " - )
+	fi
 
-	FEMALE_LIBS=$(for file in $(ls "$WD"/analyses/$SPECIES/trimmomatic/$LAYOUT/female/*) ; do readlink -f $file; done | paste -sd " " - )
-	/home/sykesj/software/FastQC/fastqc --outdir "$WD"/analyses/"$SPECIES"/fastqc2 $FEMALE_LIBS
-
-	MALE_LIBS=$(for file in $(ls "$WD"/analyses/$SPECIES/trimmomatic/$LAYOUT/male/*) ; do readlink -f $file; done | paste -sd " " - )
-	/home/sykesj/software/FastQC/fastqc --outdir "$WD"/analyses/"$SPECIES"/fastqc2 $MALE_LIBS
-
-	multiqc "$WD"/analyses/"$SPECIES"/fastqc/ -o "$WD"/analyses/"$SPECIES"/fastqc/ && rm -f "$WD"/analyses/"$SPECIES"/fastqc/*RR*
-	multiqc "$WD"/analyses/"$SPECIES"/fastqc2/ -o "$WD"/analyses/"$SPECIES"/fastqc2/ && rm -f "$WD"/analyses/"$SPECIES"/fastqc2/*RR*
-	
+	/home/sykesj/software/FastQC/fastqc --outdir "$WD"/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
+		&& multiqc "$WD"/analyses/$SPECIES/fastqc/ -o "$WD"/analyses/$SPECIES/fastqc/ && rm -f "$WD"/analyses/$SPECIES/fastqc/SRR* \
+		&& multiqc "$WD"/analyses/$SPECIES/fastqc2/ -o "$WD"/analyses/$SPECIES/fastqc2/ && rm -f "$WD"/analyses/$SPECIES/fastqc2/SRR*
 }
 
 

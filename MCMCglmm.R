@@ -179,6 +179,41 @@ inv.phylo<-inverseA(phylo,nodes="TIPS",scale=TRUE)
 
 ########### MCMCglmm
 
+############################################################################3
+# Sex determ + sex
+
+prior2.1 <- list(G = list(G1 = list(V = diag(6), n = 5.002)), 
+                 R = list(V = diag(6), n = 5.002))
+
+model2.1<-MCMCglmm(cbind(log(PC1^2), log(PC2^2), log(PC3^2), log(PC4^2), log(PC5^2), log(PC6^2))
+                   ~trait-1 + trait:SexDeterm + trait:sex,
+                   random=~us(trait):phylo,
+                   rcov=~us(trait):units,family=c("gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian"),
+                   ginverse=list(phylo=inv.phylo$Ainv),
+                   data=final.df, 
+                   prior = prior2.1
+                   ,nitt=2000000,burnin=1000,thin=500)
+
+# Output assesment
+options(max.print = 99999)
+autocorr(model2.1$VCV)
+
+par(mar=c(1,1,1,1))
+plot(model2.1$Sol)
+plot(model2.1$VCV)
+
+summary(model2.1)
+
+# Addative genetic and residual variance
+posterior.mode(model2.1$VCV)
+HPDinterval(model2.1$VCV)
+
+# Test effect of sex*sex determination system on transcriptome composition
+posterior.mode(model2.1$Sol)
+HPDinterval(model2.1$Sol)
+
+###################################################################33
+
 ### Full model
 # Runs
 prior2.2 <- list(G = list(G1 = list(V = diag(6), n = 5.002)), 
@@ -206,33 +241,7 @@ autocorr(model2.2$VCV)
 posterior.mode(model2.2$Sol)
 HPDinterval(model2.2$Sol)
 
-############################################################################3
-# Sex determ + sex
 
-prior2.3 <- list(G = list(G1 = list(V = diag(6), n = 5.002)), 
-                 R = list(V = diag(6), n = 5.002))
-
-model2.3<-MCMCglmm(cbind(log(PC1^2), log(PC2^2), log(PC3^2), log(PC4^2), log(PC5^2), log(PC6^2))
-                   ~trait-1 + trait:SexDeterm + trait:sex,
-                   random=~us(trait):phylo,
-                   rcov=~us(trait):units,family=c("gaussian", "gaussian", "gaussian", "gaussian", "gaussian", "gaussian"),
-                   ginverse=list(phylo=inv.phylo$Ainv),
-                   data=final.df, 
-                   prior = prior2.3
-                   ,nitt=2000000,burnin=1000,thin=500)
-
-# Output assesment
-
-par(mar=c(1,1,1,1))
-plot(model2.3$Sol)
-plot(model2.3$VCV)
-
-summary(model2.3)
-autocorr(model2.3$VCV)
-
-# Test effect of sex*sex determination system on transcriptome composition
-posterior.mode(model2.3$Sol)
-HPDinterval(model2.3$Sol)
 
 #########################################################################
 #Runs

@@ -22,9 +22,9 @@ multi_qc () {
 			"$WD"/analyses/$SPECIES/trimmomatic/PAIRED/male/*.fq "$WD"/analyses/$SPECIES/trimmomatic/PAIRED/female/*.fq) ; do readlink -f $file; done | paste -sd " " - )
 	fi
 
-	/home/sykesj/software/FastQC/fastqc --outdir "$WD"/analyses/$SPECIES/fastqc2 $TRIMMED_LIBS \
-		&& multiqc "$WD"/analyses/$SPECIES/fastqc/ -o "$WD"/analyses/$SPECIES/fastqc/ && rm -f "$WD"/analyses/$SPECIES/fastqc/SRR* \
-		&& multiqc "$WD"/analyses/$SPECIES/fastqc2/ -o "$WD"/analyses/$SPECIES/fastqc2/ && rm -f "$WD"/analyses/$SPECIES/fastqc2/SRR*
+	/home/sykesj/software/FastQC/fastqc --outdir "$WD"/analyses/"$SPECIES"/fastqc2 "$TRIMMED_LIBS" \
+		; multiqc "$WD"/analyses/"$SPECIES"/fastqc/ -o "$WD"/analyses/"$SPECIES"/fastqc/ && rm -f "$WD"/analyses/"$SPECIES"/fastqc/SRR* \
+		; multiqc "$WD"/analyses/"$SPECIES"/fastqc2/ -o "$WD"/analyses/"$SPECIES"/fastqc2/ && rm -f "$WD"/analyses/"$SPECIES"/fastqc2/SRR*
 }
 
 

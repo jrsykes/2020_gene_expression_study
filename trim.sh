@@ -4,8 +4,8 @@
 #SBATCH --nodes=1
 #SBATCH --mem=40gb
 #SBATCH --ntasks=6
-#SBATCH --output=/scratch/projects/sykesj/StdOut/R-%x.%j-trim.out
-#SBATCH --error=/scratch/projects/sykesj/StdOut/R-%x.%j-trim.err
+#SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-trim.out
+#SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-trim.err
 
 species=$1
 SRR=$2

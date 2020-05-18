@@ -4,8 +4,8 @@
 #SBATCH --nodes=1
 #SBATCH --mem=100gb
 #SBATCH --ntasks=20
-#SBATCH --output=/scratch/projects/sykesj/StdOut/R-%x.%j-Trinity.out
-#SBATCH --error=/scratch/projects/sykesj/StdOut/R-%x.%j-Trinity.err
+#SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-Trinity.out
+#SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-Trinity.err
 
 
 SPECIES=$1
@@ -30,7 +30,7 @@ multi_qc () {
 
 trinity () {
 
-	mkdir -p /scratch"$WD"/trinity_"$SPECIES"_"$LAYOUT"
+	mkdir -p "$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT"
 
 
 	if [ "$LAYOUT" == 'PAIRED' ]
@@ -48,9 +48,9 @@ trinity () {
 
 	
 		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left "$LEFT" --right "$RIGHT" --CPU 20 --max_memory 100G --output \
-			/scratch/"$WD"/trinity_"$SPECIES"_"$LAYOUT" && \
-			mv /scratch/"$WD"/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta "$WD"/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
-			rm -rf /scratch/"$WD"/trinity_"$SPECIES"_"$LAYOUT"*
+			"$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT" && \
+			mv "$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta "$WD"/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
+			rm -rf "$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT"
 
 
 	elif [ "$LAYOUT" == 'SINGLE' ]
@@ -63,9 +63,10 @@ trinity () {
 		echo $INPUT > "$WD"/analyses/"$SPECIES"/trinity/"$LAYOUT"_path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single "$INPUT" --CPU 20 --max_memory 100G --output /scratch/"$WD"/trinity_"$SPECIES"_"$LAYOUT" && \
-			mv /scratch/"$WD"/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta "$WD"/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
-			rm -rf /scratch/"$WD"/trinity_"$SPECIES"_"$LAYOUT"*
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single "$INPUT" --CPU 20 --max_memory 100G --output \
+			"$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT" && \
+			mv "$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta "$WD"/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
+			rm -rf "$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT"
 
 
 	fi
@@ -86,9 +87,9 @@ filter_busco_blast_index () {
 	python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
 		"$WD"/analyses/"$SPECIES"/trinity/"$SPECIES"_"$LAYOUT"_assembly_1k.fa -o busco_"$LAYOUT"_"$SPECIES" \
 		-l arthropoda_odb10 -m tran -c 16 \
-		&& mv /scratch/"$WD"/BUSCO_tmp/busco_"$LAYOUT"_"$SPECIES"/short_summary.specific.arthropoda_odb10.busco_"$LAYOUT"_"$SPECIES".txt \
+		&& mv /projects/sykesj/BUSCO_tmp/busco_"$LAYOUT"_"$SPECIES"/short_summary.specific.arthropoda_odb10.busco_"$LAYOUT"_"$SPECIES".txt \
 		"$WD"/analyses/"$SPECIES"/busco/BUSCO_out_"$SPECIES"_"$LAYOUT".txt \
-		&& rm -rf /scratch/"$WD"/BUSCO_tmp/busco_"$LAYOUT"_"$SPECIES"
+		&& rm -rf /projects/sykesj/BUSCO_tmp/busco_"$LAYOUT"_"$SPECIES"
 
 			
 			
@@ -96,8 +97,7 @@ filter_busco_blast_index () {
 
 	export BLASTDB=:/home/sykesj/software/blastdb/nt/
 	/home/sykesj/software/ncbi-blast-2.10.0+/bin/blastn -task megablast -query "$WD"/analyses/"$SPECIES"/trinity/"$SPECIES"_"$LAYOUT"_assembly_1k.fa -db nt -outfmt '6 qseqid staxids bitscore std' \
-		-culling_limit 5 -num_threads 20 -evalue 1e-25 -out /scratch/"$WD"/blastn_"$LAYOUT"_"$SPECIES".out \
-		&& mv /scratch/"$WD"/blastn_"$LAYOUT"_"$SPECIES".out "$WD"/analyses/"$SPECIES"/blast/ \
+		-culling_limit 5 -num_threads 20 -evalue 1e-25 -out "$WD"/analyses/"$SPECIES"/blast/blastn_"$LAYOUT"_"$SPECIES".out \
 		&& sort -k 13,13 -n "$WD"/analyses/"$SPECIES"/blast/blastn_"$LAYOUT"_"$SPECIES".out > "$WD"/analyses/"$SPECIES"/blast/"$SPECIES"_blastn_"$LAYOUT"_sorted.out \
 		&& rm -f "$WD"/analyses/"$SPECIES"/blast/blastn_"$LAYOUT"_"$SPECIES".out
 

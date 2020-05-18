@@ -4,8 +4,8 @@
 #SBATCH --nodes=1
 #SBATCH --mem=200gb
 #SBATCH --ntasks=2
-#SBATCH --output=/scratch/projects/sykesj/StdOut/R-%x.%j-cali.out
-#SBATCH --error=/scratch/projects/sykesj/StdOut/R-%x.%j-cali.err
+#SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-cali.out
+#SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-cali.err
 
 n_processes = str(sys.argv[3])
 

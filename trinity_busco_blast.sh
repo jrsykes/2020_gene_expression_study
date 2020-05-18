@@ -86,7 +86,7 @@ filter_busco_blast_index () {
 
 	python /home/sykesj/software/busco-master/src/busco/run_BUSCO.py -f --config /home/sykesj/software/busco-master/config/config.ini -i \
 		"$WD"/analyses/"$SPECIES"/trinity/"$SPECIES"_"$LAYOUT"_assembly_1k.fa -o busco_"$LAYOUT"_"$SPECIES" \
-		-l arthropoda_odb10 -m tran -c 16 \
+		-l arthropoda_odb10 -m tran -c 20 \
 		&& mv /projects/sykesj/BUSCO_tmp/busco_"$LAYOUT"_"$SPECIES"/short_summary.specific.arthropoda_odb10.busco_"$LAYOUT"_"$SPECIES".txt \
 		"$WD"/analyses/"$SPECIES"/busco/BUSCO_out_"$SPECIES"_"$LAYOUT".txt \
 		&& rm -rf /projects/sykesj/BUSCO_tmp/busco_"$LAYOUT"_"$SPECIES"

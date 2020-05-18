@@ -69,7 +69,7 @@ principal.components <- prin_comp$rotation[,1:6]
 
 
 
-######## Preparing final data frame for MCMCglmm
+######## Preparing final data frame for MCMCglmm  
 
 # Convert principal component values to numeric
 pc.matrix <- data.matrix(principal.components)
@@ -92,18 +92,6 @@ colnames(final.df)[2] <- 'phylo'
 final.df$sex <- as.factor(final.df$sex)
 final.df$SexDeterm <- as.factor(final.df$SexDeterm)
 final.df$SexD.sex <- paste(final.df$SexDeterm,final.df$sex)
-
-
-############################################
-# Asses distributions of Principal Components
-hist(final.df$PC1)
-shapiro.test(final.df$PC1)
-
-hist(final.df$PC2)
-shapiro.test(final.df$PC2)
-
-hist(final.df$PC3)
-shapiro.test(final.df$PC3)
 
 
 #################################################################################################
@@ -165,9 +153,9 @@ plot3 <- grid.arrange(p3.1.2,p3.1.3,p3.1.4,p3.1.5,p3.2.3,p3.2.4,p3.2.5,p3.3.4,p3
 #################################################################################################
 
 # Create inverse matrix of phylogenetic correlation data from phylo object
-inv.phylo<-inverseA(phylo,nodes="TIPS",scale=TRUE)  
-inv.phylo
-    ########### MCMCglmm
+inv.phylo<-inverseA(phylo)  
+
+########### MCMCglmm
 
 ############################################################################3
 # Sex determ + sex

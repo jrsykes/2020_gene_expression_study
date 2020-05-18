@@ -43,7 +43,7 @@ fi
 kallisto_map () {
 
 	mkdir "$WD"/analyses/"$SPECIES"/kallisto/"$SRR"
-	mkdir /scratch/"$WD"/map_"$SRR"
+	#mkdir /scratch/"$WD"/map_"$SRR"
 
 	if [ $LAYOUT == 'PAIRED' ]
 	then
@@ -54,7 +54,7 @@ kallisto_map () {
 			TRANS_IDX=PAIRED_"$SPECIES".idx
 		fi
 
-		kallisto quant -t 16 -i "$WD"/analyses/"$SPECIES"/kallisto/"$TRANS_IDX" -o /scratch/"$WD"/map_"$SRR"/"$SRR" \
+		kallisto quant -t 16 -i "$WD"/analyses/"$SPECIES"/kallisto/"$TRANS_IDX" -o "$WD"/analyses/"$SPECIES"/kallisto/map_"$SRR"/"$SRR" \
 			-b 100 "$WD"/analyses/"$SPECIES"/trimmomatic/"$LAYOUT"/"$SEX"/"$SRR"\_1.fq "$WD"/analyses/"$SPECIES"/trimmomatic/"$LAYOUT"/"$SEX"/"$SRR"\_2.fq
 
 
@@ -70,17 +70,17 @@ kallisto_map () {
 		READ_LENGTH=$(awk 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("%f\n",m);}'  "$WD"/analyses/$SPECIES/trimmomatic/$LAYOUT/$SEX/$SRR\_s.fq)
 		SD=$(awk 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("%f\n",sq/n-m*m);}' "$WD"/analyses/$SPECIES/trimmomatic/$LAYOUT/$SEX/$SRR\_s.fq)
 
-		kallisto quant -t 16 -i "$WD"/analyses/"$SPECIES"/kallisto/"$TRANS_IDX" -o /scratch/"$WD"/map_"$SRR"/"$SRR" -b 100 \
+		kallisto quant -t 16 -i "$WD"/analyses/"$SPECIES"/kallisto/"$TRANS_IDX" -o "$WD"/analyses/"$SPECIES"/kallisto/map_"$SRR"/"$SRR" -b 100 \
 			--single -l "$READ_LENGTH" -s "$SD" "$WD"/analyses/"$SPECIES"/trimmomatic/"$LAYOUT"/"$SEX"/"$SRR"\_s.fq
 
 	fi
 
-	rsync -a /scratch/"$WD"/map_"$SRR"/"$SRR" "$WD"/analyses/"$SPECIES"/kallisto && rm -rf /scratch/"$WD"/map_"$SRR"
+	#rsync -a /scratch/"$WD"/map_"$SRR"/"$SRR" "$WD"/analyses/"$SPECIES"/kallisto && rm -rf /scratch/"$WD"/map_"$SRR"
 
-####### setting up files for sleuth #########
+
 
 	#ln -s "$WD"/analyses/"$SPECIES"/kallisto/"$SRR" "$WD"/analyses/"$SPECIES"/kallisto/kal_results/kal_files/
-	rm -rf "$WD"/analyses/"$SPECIES"/kallisto/"$SRR"/"$SRR"
+	#rm -rf "$WD"/analyses/"$SPECIES"/kallisto/"$SRR"/"$SRR"
 
 }
 

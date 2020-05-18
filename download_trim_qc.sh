@@ -39,8 +39,8 @@ make_dirs () {
 	
 	mkdir "$WD"/analyses/$SPECIES/trimmomatic
 	
-	mkdir /scratch/"$WD"/BUSCO_tmp
-	mkdir /scratch/"$WD"/kalisto_tmp
+	mkdir "$WD"/BUSCO_tmp
+	#mkdir /scratch/"$WD"/kalisto_tmp
 
 
 }

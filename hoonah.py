@@ -45,16 +45,16 @@ for i in (list(dict.fromkeys(species_list))):
 					command = sbatch + scripts + '/download_trim_qc.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + WD
 					subprocess.Popen([command], shell=True)
 					time.sleep(5)
-					check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep download | wc -l', shell=True))
+					check = int(subprocess.check_output(squeue + ' --user=' + user + ' | grep download | wc -l', shell=True))
 					while check > 1:
 						time.sleep(10)
-						check = int(subprocess.check_output(squeue + '--user=' + user + ' | grep download | wc -l', shell=True))
+						check = int(subprocess.check_output(squeue + ' --user=' + user + ' | grep download | wc -l', shell=True))
 			except:
 				pass
-		check2 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+		check2 = str(subprocess.check_output(squeue + ' --user=' + user, shell=True))
 		while 'download' in check2:
 						time.sleep(10)
-						check2 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+						check2 = str(subprocess.check_output(squeue + ' --user=' + user, shell=True))
 
 
 		print(f"{bcolors.OKBLUE}################################")
@@ -75,10 +75,10 @@ for i in (list(dict.fromkeys(species_list))):
 ##############################################################################################################################
 # Trinity paired
 
-		check3 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
+		check3 = int(subprocess.check_output(squeue + ' --user=' + user + ' | grep trinity | wc -l', shell=True))
 		while check3 > 2:
 			time.sleep(10)
-			check3 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
+			check3 = int(subprocess.check_output(squeue + ' --user=' + user + ' | grep trinity | wc -l', shell=True))
 
 
 		if df_paired.empty == False:
@@ -88,10 +88,10 @@ for i in (list(dict.fromkeys(species_list))):
 ##############################################################################################################################
 # Trinity single 
 
-		check4 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
+		check4 = int(subprocess.check_output(squeue + ' --user=' + user + ' | grep trinity | wc -l', shell=True))
 		while check4 > 2:
 			time.sleep(10)
-			check4 = int(subprocess.check_output(squeue + '--user=' + user + ' | grep trinity | wc -l', shell=True))
+			check4 = int(subprocess.check_output(squeue + ' --user=' + user + ' | grep trinity | wc -l', shell=True))
 
 
 		if df_single.empty == False:
@@ -103,10 +103,10 @@ for i in (list(dict.fromkeys(species_list))):
 
 		time.sleep(10)
 
-		check5 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+		check5 = str(subprocess.check_output(squeue + ' --user=' + user, shell=True))
 		while 'trinity' in check5:
 						time.sleep(10)
-						check5 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+						check5 = str(subprocess.check_output(squeue + ' --user=' + user, shell=True))
 
 
 		print(f"{bcolors.OKBLUE}##############################################")
@@ -133,10 +133,10 @@ for i in (list(dict.fromkeys(species_list))):
 
 		time.sleep(5)
 
-		check6 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+		check6 = str(subprocess.check_output(squeue + ' --user=' + user, shell=True))
 		while 'map' in check6:
 						time.sleep(10)
-						check6 = str(subprocess.check_output(squeue + '--user=' + user, shell=True))
+						check6 = str(subprocess.check_output(squeue + ' --user=' + user, shell=True))
 
 
 		print(f"{bcolors.OKBLUE}################################")

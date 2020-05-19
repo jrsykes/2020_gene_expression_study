@@ -4,6 +4,7 @@
 #SBATCH --nodes=1
 #SBATCH --mem=100gb
 #SBATCH --ntasks=6
+#SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-download.out
 #SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-download.err
 
 

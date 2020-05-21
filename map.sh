@@ -46,7 +46,7 @@ kallisto_map () {
 	#mkdir /scratch/"$WD"/map_"$SRR"
 
 	if [ $LAYOUT == 'PAIRED' ]
-	thenq
+	then
 		if [ $DUEL_LAYOUT == 'YES' ]
 		then
 			TRANS_IDX="$BEST_TRANS_IDX"

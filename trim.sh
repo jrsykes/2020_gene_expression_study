@@ -35,4 +35,4 @@ else echo 'Error in mode selection at command line'
 fi
 
 
-
+multiqc $SPECIES $LAYOUT

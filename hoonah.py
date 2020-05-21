@@ -126,7 +126,7 @@ for i in (list(dict.fromkeys(species_list))):
 					sex = row[2]
 					layout = row[3]		
 
-					command = sbatch + scripts + '/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + DUEL_LAYOUT + WD
+					command = sbatch + scripts + '/map.sh ' + species + ' ' + SRR + ' ' + sex + ' ' + layout + ' ' + DUEL_LAYOUT + ' ' + WD
 					subprocess.Popen([command], shell=True)
 			except:
 				pass
@@ -152,7 +152,7 @@ for i in (list(dict.fromkeys(species_list))):
 					sex = row[2]
 					layout = row[3]		
 
-					command = sbatch + scripts + '/blob.sh ' + species + ' ' + SRR + ' ' + layout + WD
+					command = sbatch + scripts + '/blob.sh ' + species + ' ' + SRR + ' ' + layout + ' ' + WD
 					subprocess.Popen([command], shell=True)
 			except:
 				pass

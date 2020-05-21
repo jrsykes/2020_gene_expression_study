@@ -4,8 +4,8 @@
 #SBATCH --nodes=1
 #SBATCH --mem=50gb
 #SBATCH --ntasks=1
-#SBATCH --output=/home/sykesj/scripts/StdOut/R-%x.%j-blob.out
-#SBATCH --error=/home/sykesj/scripts/StdOut/R-%x.%j-blob.err
+#SBATCH --output=/projects/sykesj/StdOutR-%x.%j-blob.out
+#SBATCH --error=/projects/sykesj/StdOutR-%x.%j-blob.err
 
 
 SPECIES=$1

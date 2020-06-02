@@ -2,7 +2,7 @@
 #SBATCH --partition=long
 #SBATCH --time=UNLIMITED
 #SBATCH --nodes=1
-#SBATCH --mem=150gb
+#SBATCH --mem=125gb
 #SBATCH --ntasks=20
 #SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-Trinity.out
 #SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-Trinity.err
@@ -48,7 +48,7 @@ trinity () {
 		echo $RIGHT >> "$WD"/analyses/"$SPECIES"/trinity/"$LAYOUT"_path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left "$LEFT" --right "$RIGHT" --CPU 20 --max_memory 150G --output \
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --SS_lib_type RF --seqType fq --left "$LEFT" --right "$RIGHT" --CPU 20 --max_memory 125G --output \
 			"$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT" && \
 			mv "$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta "$WD"/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
 			rm -rf "$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT"
@@ -64,7 +64,7 @@ trinity () {
 		echo $INPUT > "$WD"/analyses/"$SPECIES"/trinity/"$LAYOUT"_path.txt
 
 	
-		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single "$INPUT" --CPU 20 --max_memory 150G --output \
+		/home/sykesj/software/trinityrnaseq-v2.9.1/Trinity --seqType fq --single "$INPUT" --CPU 20 --max_memory 125G --output \
 			"$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT" && \
 			mv "$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT"/Trinity.fasta "$WD"/analyses/"$SPECIES"/trinity/"$LAYOUT"_assembly.fa && \
 			rm -rf "$WD"/analyses/"$SPECIES"/trinity/trinity_"$SPECIES"_"$LAYOUT"

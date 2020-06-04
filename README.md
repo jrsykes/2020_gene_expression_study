@@ -82,7 +82,7 @@ If this patch fails, you will have to edit all instances of 'squeue' and 'sbatch
     	pyhton3 hoonah.py DATA_FILE WORKING_DIRECTORY hoonah_DIR USER_NAME
 		pyhton3 hoonah.py ~/dat/data.csv ~/hoonah_WD ~/software/hoonah fryphilipj
 
-If you have large data set, you can run as many instances of hoonah as you like and they will not interfere with each other. Multiple instances will never download more that three libraries simultaneously or run more than two transcriptome assemblers (usually one) at a time. There are two good reasons for this. A) You won't use up all of the band width or compute resources on a shared cluster. _Being a good neighbour!_ and B) When analysing both paired and single end sequences for one species, this means that hoonah can choose the best transcriptome before progressing.
+If you have large data set, you can run as many instances of hoonah as you like and they will not interfere with each other. Multiple instances will never download more that three libraries simultaneously or run more than three transcriptome assemblers at a time. This means that you won't use up all of the band width or compute resources on a shared cluster. _Being a good neighbour!_ . When analysing both paired and single end sequences for one species, hoonah will pause after the fist of the two transcriptomes is assembled so that it can choose the best transcriptome before progressing, discarding the worst of the two.
 
 7. Once the above analysis is complete, which may take several weeks depending on your resources and the number of libraries that you include, it is time to run cali.py
 	1. Create a working directory (call it what you like) and within it, two subdirectories named 'in' and 'out'.

@@ -111,8 +111,8 @@ for i in (list(dict.fromkeys(species_list))):
 			duel_check = 'yes'
 			while duel_check == 'yes':
 				check5 = str(subprocess.check_output(squeue + ' --user=' + user + ' -h', shell=True))
-		      	for i in check5.split():
-					try:
+				for i in check5.split():
+				try:
 						file = '/projects/sykesj/StdOut/R-%x.' + i + '-Trinity.out'
 						with open(file, 'r') as f:
 							if species in f.read():

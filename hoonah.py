@@ -33,9 +33,9 @@ for i in (list(dict.fromkeys(species_list))):
 		species = i
 
 
-		print(f"{bcolors.OKBLUE}################################")
+		print(f"{bcolors.OKBLUE}")
 		print(f"{bcolors.OKGREEN}Download SRR files, QC and trim")
-		print(f"{bcolors.OKBLUE}################################")
+		print(f"{bcolors.OKBLUE}")
 
 
 		for index, row in dat.iterrows():
@@ -59,9 +59,9 @@ for i in (list(dict.fromkeys(species_list))):
 						check2 = str(subprocess.check_output(squeue + ' --user=' + user, shell=True))
 
 
-		print(f"{bcolors.OKBLUE}################################")
+		print(f"{bcolors.OKBLUE}")
 		print(f"{bcolors.OKGREEN}Runing Trinity, BUSCO and Blast")
-		print(f"{bcolors.OKBLUE}################################")
+		print(f"{bcolors.OKBLUE}")
 
 		df_paired = pd.DataFrame()
 		df_single = pd.DataFrame()
@@ -128,9 +128,9 @@ for i in (list(dict.fromkeys(species_list))):
 
 ##########################################################
 
-		print(f"{bcolors.OKBLUE}##############################################")
+		print(f"{bcolors.OKBLUE}")
 		print(f"{bcolors.OKGREEN}Maping SRA libraries to de novo transcriptome")
-		print(f"{bcolors.OKBLUE}##############################################")
+		print(f"{bcolors.OKBLUE}")
 
 
 		for index, row in dat.iterrows():
@@ -153,9 +153,9 @@ for i in (list(dict.fromkeys(species_list))):
 						check6 = str(subprocess.check_output(squeue + ' --user=' + user, shell=True))
 
 
-		print(f"{bcolors.OKBLUE}################################")
+		print(f"{bcolors.OKBLUE}")
 		print(f"{bcolors.OKGREEN}Filtering contaminant sequences")
-		print(f"{bcolors.OKBLUE}################################")
+		print(f"{bcolors.OKBLUE}")
 
 
 
@@ -174,6 +174,6 @@ for i in (list(dict.fromkeys(species_list))):
 
 
 
-		print(f"{bcolors.OKBLUE}##################")
-		print(f"{bcolors.OKGREEN}Pipeline complete")
-		print(f"{bcolors.OKBLUE}##################")
+		print(f"{bcolors.OKBLUE}")
+		print(f"{bcolors.OKGREEN}Pipeline complete for " + species)
+		print(f"{bcolors.OKBLUE}")

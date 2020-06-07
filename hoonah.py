@@ -101,21 +101,26 @@ for i in (list(dict.fromkeys(species_list))):
 
 ##############################################################################################################################
 # Pause pipeline for both transcriptomes to be assembled and compared if both paired and single end layout libraries are used
-
+		
+		print(f"{bcolors.OKWARNING}Paused for completion of transcriptome assembly(s)")
 		trinity_check = 'yes'
 		while trinity_check == 'yes':
-			check5 = str(subprocess.check_output(squeue + ' --user=' + user + ' -h', shell=True))
-			for i in check5.split():
+			
+			command = squeue + '--user=' + user + ' -h | awk \'{print $1}\''
+			check5 = str(subprocess.check_output(command, shell=True))
+			result = re.sub('[^0-9]',' ', check5)
+			for i in result.split():
 				try:
 					file = '/projects/sykesj/StdOut/R-%x.' + i + '-Trinity.out'
 					with open(file, 'r') as f:
 						if species in f.read():
 							trinity_check = 'yes'
+							break
 						else:
 							trinity_check = 'no'
 				except:
 					pass
-			print(f"{bcolors.OKWARNING}Paused for completion of transcriptome assembly(s)")
+			
 			time.sleep(1800)
 
 ##########################################################

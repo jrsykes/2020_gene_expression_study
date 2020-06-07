@@ -102,27 +102,21 @@ for i in (list(dict.fromkeys(species_list))):
 ##############################################################################################################################
 # Pause pipeline for both transcriptomes to be assembled and compared if both paired and single end layout libraries are used
 
-		if df_paired.empty == False and df_single.empty == False:
-			DUEL_LAYOUT = 'YES'
-		else:
-			DUEL_LAYOUT = 'NO'
-
-		if DUEL_LAYOUT =='YES':
-			duel_check = 'yes'
-			while duel_check == 'yes':
-				check5 = str(subprocess.check_output(squeue + ' --user=' + user + ' -h', shell=True))
-				for i in check5.split():
-					try:
-						file = '/projects/sykesj/StdOut/R-%x.' + i + '-Trinity.out'
-						with open(file, 'r') as f:
-							if species in f.read():
-								duel_check = 'yes'
-							else:
-								duel_check = 'no'
-					except:
-						pass
-				print(f"{bcolors.OKWARNING}Paused for assembly of second species transcriptome")
-				time.sleep(1800)
+		trinity_check = 'yes'
+		while trinity_check == 'yes':
+			check5 = str(subprocess.check_output(squeue + ' --user=' + user + ' -h', shell=True))
+			for i in check5.split():
+				try:
+					file = '/projects/sykesj/StdOut/R-%x.' + i + '-Trinity.out'
+					with open(file, 'r') as f:
+						if species in f.read():
+							trinity_check = 'yes'
+						else:
+							trinity_check = 'no'
+				except:
+					pass
+			print(f"{bcolors.OKWARNING}Paused for completion of transcriptome assembly(s)")
+			time.sleep(1800)
 
 ##########################################################
 

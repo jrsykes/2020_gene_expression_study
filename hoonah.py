@@ -103,7 +103,9 @@ for i in (list(dict.fromkeys(species_list))):
 ##############################################################################################################################
 # Pause pipeline for both transcriptomes to be assembled and compared if both paired and single end layout libraries are used
 		
+		time.sleep(30)
 		print(f"{bcolors.OKWARNING}Paused for completion of transcriptome assembly(s)")
+		print(f"{bcolors.OKBLUE}")
 		trinity_check = 'yes'
 		while trinity_check == 'yes':
 			

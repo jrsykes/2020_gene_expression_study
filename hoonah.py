@@ -116,10 +116,7 @@ for i in (list(dict.fromkeys(species_list))):
 				try:
 					file = '/projects/sykesj/StdOut/R-%x.' + i + '-Trinity.out'
 					with open(file, 'r') as f:
-						if species in f.read():
-							trinity_check = 'yes'
-							break
-						else:
+						if species not in f.read():
 							trinity_check = 'no'
 				except:
 					pass

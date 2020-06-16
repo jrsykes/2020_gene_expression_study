@@ -7,9 +7,6 @@
 #SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-cali.err
 
-n_processes = str(sys.argv[3])
-
-
 import pandas as pd
 import subprocess
 import sys
@@ -31,6 +28,7 @@ abundace_list= []
 CaliWDin = str(sys.argv[2]) + '/in/'
 CaliWDout = str(sys.argv[2]) + '/out/'
 
+n_processes = str(sys.argv[3])
 
 for i in os.listdir(CaliWDin):
 	if 'blastn' in i:

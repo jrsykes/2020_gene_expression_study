@@ -3,7 +3,7 @@
 #SBATCH --time=UNLIMITED
 #SBATCH --nodes=1
 #SBATCH --mem=200gb
-#SBATCH --ntasks=2
+#SBATCH --ntasks=40
 #SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-cali.err
 

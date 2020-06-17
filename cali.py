@@ -28,7 +28,7 @@ abundace_list= []
 CaliWDin = str(sys.argv[2]) + '/in/'
 CaliWDout = str(sys.argv[2]) + '/out/'
 
-n_processes = str(sys.argv[3])
+n_processes = int(sys.argv[3])
 
 for i in os.listdir(CaliWDin):
 	if 'blastn' in i:
@@ -178,7 +178,7 @@ def ID_tpm_combiner(chunk):
 
 
 
-chunk_size = int(dat.shape[0]/int(n_processes))
+chunk_size = int(dat.shape[0]/n_processes)
 chunks = [dat.iloc[dat.index[i:i + chunk_size]] for i in range(0, dat.shape[0], chunk_size)]
 
 print('Compiling Trinity IDs, Blast IDs & TMP counts \n')

@@ -3,7 +3,7 @@
 #SBATCH --time=UNLIMITED
 #SBATCH --nodes=1
 #SBATCH --mem=200gb
-#SBATCH --ntasks=40
+#SBATCH --ntasks=39
 #SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-cali.err
 
@@ -184,7 +184,7 @@ chunks = [dat.iloc[dat.index[i:i + chunk_size]] for i in range(0, dat.shape[0], 
 print('Compiling Trinity IDs, Blast IDs & TMP counts \n')
 
 pool = mp.Pool(processes=n_processes)
-result = pool.map(compiler, chunks)
+#result = pool.map(compiler, chunks)
 pool.close() 
 
 print('Complilation complete \n')

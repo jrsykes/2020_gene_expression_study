@@ -184,7 +184,7 @@ chunks = [dat.iloc[dat.index[i:i + chunk_size]] for i in range(0, dat.shape[0], 
 print('Compiling Trinity IDs, Blast IDs & TMP counts \n')
 
 pool = mp.Pool(processes=n_processes)
-#result = pool.map(compiler, chunks)
+result = pool.map(compiler, chunks)
 pool.close() 
 
 print('Complilation complete \n')

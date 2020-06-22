@@ -112,7 +112,8 @@ def compiler(chunk):
 				blast_df = pd.read_csv(blast, sep='\t', header=None, usecols = [0, 4], dtype=str)
 			except:
 				blast = CaliWDin + row[0] + '_blastn_SINGLE_sorted.out'
-				blast_df = pd.read_csv(blast, sep='\t', header=None,  usecols = [0, 4], dtype=str)
+				#blast_df = pd.read_csv(blast, sep='\t', header=None,  usecols = [0, 4], dtype=str)
+				blast_df = pd.read_csv(blast, sep='\t', header=None, usecols = [0, 4, 13], dtype={0: str, 4: str, 13: float})
 			abundance_file = CaliWDin + SRR + '_abundance.filtered.tsv'
 			abundance_df = pd.read_csv(abundance_file, sep='\t', usecols = ['target_id', 'tpm'], header=0, dtype={"target_id": str, "tpm": float})
 						
@@ -121,8 +122,10 @@ def compiler(chunk):
 					trinity_id = row[0]
 					tpm = row[1]
 					try:
-						search_out = list(blast_df[blast_df[0].str.match(trinity_id)].iloc[0])
-						blast_id = search_out[1]
+						#search_out = list(blast_df[blast_df[0].str.match(trinity_id)].iloc[0])
+						search_out = blast_df[blast_df[0].str.match(trinity_id)].sort_values(by=[13], ascending = False)
+						#blast_id = search_out[1]
+						blast_id = search_out.iloc[0,1]
 						row = pd.Series([str(trinity_id), str(blast_id), str(tpm)])
 						df_append = pd.DataFrame([row])
 						df_to_write = pd.concat([df_to_write, df_append], ignore_index = True)

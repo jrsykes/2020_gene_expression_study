@@ -2,7 +2,7 @@
 #SBATCH --partition=long
 #SBATCH --time=UNLIMITED
 #SBATCH --nodes=1
-#SBATCH --mem=200gb
+#SBATCH --mem=60gb
 #SBATCH --ntasks=35
 #SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-cali.err

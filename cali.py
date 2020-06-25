@@ -109,7 +109,7 @@ def compiler(chunk):
 		if SRR not in check:
 			try:
 				blast = CaliWDin + row[0] + '_blastn_PAIRED_sorted.out'
-				blast_df = pd.read_csv(blast, sep='\t', header=None, usecols = [0, 4], dtype=str)
+				blast_df = pd.read_csv(blast, sep='\t', header=None, usecols = [0, 4, 13], dtype={0: str, 4: str, 13: float})
 			except:
 				blast = CaliWDin + row[0] + '_blastn_SINGLE_sorted.out'
 				#blast_df = pd.read_csv(blast, sep='\t', header=None,  usecols = [0, 4], dtype=str)

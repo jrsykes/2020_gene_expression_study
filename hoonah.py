@@ -5,6 +5,7 @@ import subprocess
 import sys
 import re
 
+
 class bcolors:
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'

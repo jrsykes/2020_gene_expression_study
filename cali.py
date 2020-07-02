@@ -3,9 +3,10 @@
 #SBATCH --time=UNLIMITED
 #SBATCH --nodes=1
 #SBATCH --mem=100gb
-#SBATCH --ntasks=35
+#SBATCH --ntasks=40
 #SBATCH --output=/projects/sykesj/StdOut/R-%x.%j-cali.out
 #SBATCH --error=/projects/sykesj/StdOut/R-%x.%j-cali.err
+
 
 import pandas as pd
 import subprocess
@@ -14,6 +15,7 @@ import os
 import multiprocessing as mp
 ####################################
 # Parsing input files
+
 
 
 SRAFile = sys.argv[1]
@@ -32,6 +34,9 @@ CaliWDout = str(sys.argv[2]) + '/out/'
 
 n_processes = int(sys.argv[3])
 
+
+
+
 #Create list of blast files
 
 for i in os.listdir(CaliWDin):
@@ -39,7 +44,6 @@ for i in os.listdir(CaliWDin):
 		blast_list.append(CaliWDin + i)
 	elif 'abundance.filtered.tsv' in i:
 		abundace_list.append(CaliWDin + i)
-
 
 ##################################
 
@@ -49,20 +53,24 @@ for i in os.listdir(CaliWDin):
 
 print('\nBuilding list of blast IDs \n')
 
+
 blast_out = CaliWDout + 'blast_id_list.csv'
 
 
 
 def blast_id_list_builder():
 	blast_id_list = []
+	counter = 0
 	for item in blast_list:
 		df = pd.read_csv(item, sep='\t', usecols = [0,4,13], dtype={0: str, 4: str, 13: float}, header=None)
 		trin_id_list = list(dict.fromkeys(df[0].tolist()))
 		for i in trin_id_list:
-			search_out = df[df[0].str.match(i)].sort_values(by=[13], ascending = False)
-			if search_out.iloc[0,1] not in blast_id_list:
+			search_out = df[df[0] == i].sort_values(by=[13], ascending = False)
+			if search_out.iloc[0,2] > 0:
 				blast_id_list.append(search_out.iloc[0,1])
-	#blast_id_list = list(dict.fromkeys(blast_id_list))
+		counter += 1
+		print('List', round(counter/len(blast_list)*100),'% complete')
+	blast_id_list = list(dict.fromkeys(blast_id_list))
 	blast_id_df = pd.DataFrame(blast_id_list)
 	blast_id_df.to_csv(blast_out, index=False)
 	
@@ -71,11 +79,13 @@ def blast_id_list_builder():
 command = 'ls ' + CaliWDout
 check = str(subprocess.check_output(command, shell=True))
 
+
+
 if 'blast_id_list.csv' not in check:
 	blast_id_list_builder()
-
-blast_id_list = pd.read_csv(blast_out, header=None, dtype = str).values.tolist()
-
+	blast_id_list = pd.read_csv(blast_out, header=None, dtype = str).values.tolist()
+else:
+	blast_id_list = pd.read_csv(blast_out, header=None, dtype = str).values.tolist()
 
 blast_id_list.remove(blast_id_list[0])
 blast_id_list = [item for sublist in blast_id_list for item in sublist]
@@ -86,7 +96,7 @@ for i in dot_lst:
 	blast_id_list.insert(0, i)
 
 
-print('Blast ID list built \n')
+print('\nBlast ID list built \n')
 
 ####################################################################
 
@@ -125,11 +135,12 @@ def compiler(chunk):
 					trinity_id = row[0]
 					tpm = row[1]
 					try:
-						search_out = blast_df[blast_df[0].str.match(trinity_id)].sort_values(by=[13], ascending = False)
-						blast_id = search_out.iloc[0,1]
-						row = pd.Series([str(trinity_id), str(blast_id), str(tpm)])
-						df_append = pd.DataFrame([row])
-						df_to_write = pd.concat([df_to_write, df_append], ignore_index = True)
+						search_out = blast_df[blast_df[0] == trinity_id].sort_values(by=[13], ascending = False)
+						if search_out.iloc[0,2] > 0:
+							blast_id = search_out.iloc[0,1]
+							row = pd.Series([str(trinity_id), str(blast_id), str(tpm)])
+							df_append = pd.DataFrame([row])
+							df_to_write = pd.concat([df_to_write, df_append], ignore_index = True)
 					except:
 						pass
 			out_file = CaliWDout + SRR + '_CaliOut.csv'
@@ -170,7 +181,7 @@ def ID_tpm_combiner(chunk):
 			cali_abundance_file = CaliWDout + SRR + '_CaliOut.csv'
 			cali_abundance_df = pd.read_csv(cali_abundance_file, header=None, dtype={0: str, 1: str, 2: float})
 			for i in blast_id_list[3:]:
-				search_out = cali_abundance_df[cali_abundance_df[1].str.match(str(i))]
+				search_out = cali_abundance_df[cali_abundance_df[1] == str(i)]
 				tpm = search_out[2].sum()
 				tpm_list.append(tpm)
 			file = CaliWDout + SRR + '_ID_tpm_combiner'

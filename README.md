@@ -115,7 +115,7 @@ If you have large data set, you can run as many instances of hoonah as you like 
 	**IMPORTANT. _cali.py is written to use multiprocessing. Do not give cali.py more CPUs than there are libraries in you data.csv file. It won't run._**
 	Depending you resources and number of libraries, cali.py will take several hours/days to run.
 
-8. Run the MCMCglmm.R script. This will need to be done interactively as you will need to adjust graphs, review statistics, select number of principal components, adjust priors for MCMCglmm and more throughout. This should be relatively self explanatory.
+8. Run the StatisticalAnalysis.R script. This will need to be done interactively as you will need to adjust graphs, review statistics, adjust priors for MCMCglmm and more throughout. This should be relatively self explanatory.
 
 9. Enjoy! Any questions or bug reports? Please contact me at jamie_r_sykes@outlook.com 
 
@@ -129,4 +129,4 @@ A. Find out which species it was working on at the time, delete all data for tho
 
 Q. Can this pipline can be run on oganisms other than arthropods? 
 
-A. Yes, however the query data set for BUSCO will need to be changed acordingly and if your study concerns virual or streptophyte RNA, you will need to address this in the blob tools filtering step as these reads will e filtered out. 
+A. Yes, however the query data set for BUSCO will need to be changed acordingly and if your study concerns virual or streptophyte RNA, you will need to address this in the blob tools filtering step as these reads will be filtered out. 
